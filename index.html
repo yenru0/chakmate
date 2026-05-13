@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chackly - 지능형 디지털 자산 관리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Color Palette - Soft & Approachable */
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --secondary: #f472b6;
+      --secondary-light: #f9a8d4;
+      --accent: #34d399;
+      --accent-warn: #fbbf24;
+      --accent-danger: #f87171;
+
+      /* Neutrals */
+      --bg-primary: #faf9fb;
+      --bg-secondary: #f3f2f7;
+      --bg-card: #ffffff;
+      --bg-overlay: rgba(99, 102, 241, 0.1);
+
+      /* Text */
+      --text-primary: #1e1b2e;
+      --text-secondary: #6b6880;
+      --text-muted: #9d99a8;
+
+      /* Shadows */
+      --shadow-sm: 0 2px 8px rgba(30, 27, 46, 0.06);
+      --shadow-md: 0 4px 20px rgba(30, 27, 46, 0.08);
+      --shadow-lg: 0 8px 40px rgba(30, 27, 46, 0.12);
+      --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+
+      /* Spacing */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 9999px;
+
+      /* Transitions */
+      --transition-fast: 150ms ease;
+      --transition-base: 250ms ease;
+      --transition-slow: 400ms ease;
+      --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0f0e17;
+      --bg-secondary: #1a1825;
+      --bg-card: #252336;
+      --bg-overlay: rgba(99, 102, 241, 0.15);
+      --text-primary: #f3f2f7;
+      --text-secondary: #a8a4b8;
+      --text-muted: #6b6880;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+    }
+
+    /* Screen Container */
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity var(--transition-slow), transform var(--transition-slow), visibility var(--transition-slow);
+      overflow-y: auto;
+    }
+
+    .screen.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* Onboarding Screen */
+    #onboarding {
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    }
+
+    .onboarding-container {
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: var(--radius-lg);
+      margin: 0 auto var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-glow);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .logo svg {
+      width: 48px;
+      height: 48px;
+      fill: white;
+    }
+
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-2);
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: var(--space-10);
+    }
+
+    /* Steps Indicator */
+    .steps-indicator {
+      display: flex;
+      gap: var(--space-2);
+      justify-content: center;
+      margin-bottom: var(--space-8);
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--text-muted);
+      transition: all var(--transition-base);
+    }
+
+    .step-dot.active {
+      width: 32px;
+      background: var(--primary);
+    }
+
+    /* Onboarding Steps */
+    .onboarding-step {
+      display: none;
+      animation: fadeSlideUp 0.5s ease forwards;
+    }
+
+    .onboarding-step.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-illustration {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto var(--space-8);
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-illustration::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--bg-overlay) 0%, transparent 100%);
+    }
+
+    .step-illustration svg {
+      width: 100px;
+      height: 100px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 1.5;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-3);
+      color: var(--text-primary);
+    }
+
+    .step-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-8);
+    }
+
+    .privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--accent);
+      color: white;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: var(--space-6);
+    }
+
+    .privacy-badge svg {
+      width: 16px;
+      height: 16px;
+      stroke: white;
+      fill: none;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-8);
+      border-radius: var(--radius-full);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition-base);
+      min-height: 56px;
+      min-width: 160px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-secondary);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      min-width: auto;
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .btn-icon {
+      width: 56px;
+      height: 56px;
+      padding: 0;
+      border-radius: var(--radius-lg);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      margin-top: var(--space-8);
+    }
+
+    /* Dashboard Screen */
+    #dashboard {
+      padding: 0;
+      justify-content: flex-start;
+    }
+
+    .dashboard-container {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-6);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .header-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-logo svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    .header-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    /* Streak Badge */
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: linear-gradient(135deg, var(--accent-warn) 0%, #f59e0b 100%);
+      color: white;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .streak-badge svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: var(--space-6);
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--space-6);
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-base);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-3);
+    }
+
+    .stat-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .stat-icon.purple { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+    .stat-icon.pink { background: rgba(244, 114, 182, 0.1); color: var(--secondary); }
+    .stat-icon.green { background: rgba(52, 211, 153, 0.1); color: var(--accent); }
+
+    .stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* File View */
+    .file-view {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-6);
+      min-height: 400px;
+    }
+
+    .file-view-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-5);
+    }
+
+    .file-view-title {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .file-view-title svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--primary);
+      fill: none;
+    }
+
+    /* Tree View */
+    .tree-view {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .tree-item:hover {
+      background: var(--bg-overlay);
+      transform: translateX(4px);
+    }
+
+    .tree-item.folder {
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    .tree-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tree-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .tree-icon.folder-icon { background: rgba(99, 102, 241, 0.15); color: var(--primary); }
+    .tree-icon.file-icon { background: rgba(52, 211, 153, 0.15); color: var(--accent); }
+    .tree-icon.image-icon { background: rgba(244, 114, 182, 0.15); color: var(--secondary); }
+    .tree-icon.doc-icon { background: rgba(251, 191, 36, 0.15); color: var(--accent-warn); }
+
+    .tree-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tree-item-name {
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tree-item-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .tree-children {
+      margin-left: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    /* AI Suggestions Panel */
+    .suggestions-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .panel-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-6);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+
+    .panel-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+
+    .panel-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: white;
+      fill: none;
+    }
+
+    .panel-title {
+      font-size: 1.1rem;
+    }
+
+    .panel-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Suggestion Items */
+    .suggestion-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: 2px solid transparent;
+    }
+
+    .suggestion-item:hover {
+      background: var(--bg-overlay);
+      border-color: var(--primary-light);
+    }
+
+    .suggestion-item.selected {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--primary);
+    }
+
+    .suggestion-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--text-muted);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .suggestion-item.selected .suggestion-checkbox {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .suggestion-checkbox svg {
+      width: 14px;
+      height: 14px;
+      stroke: white;
+      fill: none;
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+
+    .suggestion-item.selected .suggestion-checkbox svg {
+      opacity: 1;
+    }
+
+    .suggestion-content {
+      flex: 1;
+    }
+
+    .suggestion-name {
+      font-weight: 500;
+      margin-bottom: var(--space-1);
+    }
+
+    .suggestion-detail {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .suggestion-arrow {
+      color: var(--text-muted);
+    }
+
+    .suggestion-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .apply-btn {
+      width: 100%;
+      margin-top: var(--space-4);
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .quick-action-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+    }
+
+    .quick-action-btn:hover {
+      background: var(--bg-overlay);
+      transform: translateX(4px);
+    }
+
+    .quick-action-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .quick-action-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: white;
+      fill: none;
+    }
+
+    .quick-action-icon.swipe { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+    .quick-action-icon.ai { background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%); }
+    .quick-action-icon.folder { background: linear-gradient(135deg, var(--accent) 0%, #10b981 100%); }
+    .quick-action-icon.streak { background: linear-gradient(135deg, var(--accent-warn) 0%, #f59e0b 100%); }
+
+    .quick-action-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .quick-action-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .quick-action-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .quick-action-arrow {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+      fill: none;
+    }
+
+    /* Achievements */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+    }
+
+    .achievement {
+      aspect-ratio: 1;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      padding: var(--space-2);
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .achievement:hover {
+      transform: scale(1.05);
+    }
+
+    .achievement.locked {
+      opacity: 0.4;
+      filter: grayscale(1);
+    }
+
+    .achievement-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .achievement-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .achievement-icon.gold { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; }
+    .achievement-icon.silver { background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%); color: white; }
+    .achievement-icon.bronze { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; }
+    .achievement-icon.default { background: var(--bg-overlay); color: var(--primary); }
+
+    .achievement-name {
+      font-size: 0.7rem;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    /* Swipe Screen */
+    #swipe-screen {
+      background: var(--bg-primary);
+      padding: var(--space-6);
+    }
+
+    .swipe-container {
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .swipe-header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .swipe-title {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .swipe-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .swipe-progress {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+      width: 100%;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: var(--radius-full);
+      transition: width var(--transition-base);
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* Card Stack */
+    .card-stack {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      max-height: 400px;
+      margin-bottom: var(--space-8);
+    }
+
+    .swipe-card {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-6);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      cursor: grab;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .swipe-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(180deg, var(--bg-overlay) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .swipe-card.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+
+    .swipe-card.swiping-left {
+      background: linear-gradient(135deg, rgba(248, 113, 113, 0.1) 0%, var(--bg-card) 100%);
+    }
+
+    .swipe-card.swiping-right {
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.1) 0%, var(--bg-card) 100%);
+    }
+
+    .card-file-icon {
+      width: 80px;
+      height: 80px;
+      margin: var(--space-6) auto var(--space-4);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-file-icon svg {
+      width: 48px;
+      height: 48px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .card-file-icon.image { background: rgba(244, 114, 182, 0.15); color: var(--secondary); }
+    .card-file-icon.doc { background: rgba(99, 102, 241, 0.15); color: var(--primary); }
+    .card-file-icon.pdf { background: rgba(251, 191, 36, 0.15); color: var(--accent-warn); }
+    .card-file-icon.video { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+
+    .card-info {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-filename {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      word-break: break-word;
+    }
+
+    .card-meta {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .card-suggestion {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--bg-secondary);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin: 0 auto;
+    }
+
+    .card-suggestion svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--primary);
+      fill: none;
+    }
+
+    /* Swipe Labels */
+    .swipe-label {
+      position: absolute;
+      top: var(--space-6);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      pointer-events: none;
+    }
+
+    .swipe-label.delete {
+      right: var(--space-6);
+      background: rgba(248, 113, 113, 0.9);
+      color: white;
+      transform: rotate(12deg);
+    }
+
+    .swipe-label.keep {
+      left: var(--space-6);
+      background: rgba(52, 211, 153, 0.9);
+      color: white;
+      transform: rotate(-12deg);
+    }
+
+    .swipe-card.swiping-left .swipe-label.delete,
+    .swipe-card.swiping-right .swipe-label.keep {
+      opacity: 1;
+    }
+
+    /* Swipe Actions */
+    .swipe-actions {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-8);
+      margin-bottom: var(--space-6);
+    }
+
+    .swipe-action {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-bounce);
+      border: none;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-md);
+    }
+
+    .swipe-action:hover {
+      transform: scale(1.1);
+    }
+
+    .swipe-action:active {
+      transform: scale(0.95);
+    }
+
+    .swipe-action svg {
+      width: 32px;
+      height: 32px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .swipe-action.delete {
+      color: var(--accent-danger);
+    }
+
+    .swipe-action.keep {
+      color: var(--accent);
+    }
+
+    .swipe-action.undo {
+      color: var(--accent-warn);
+      width: 56px;
+      height: 56px;
+    }
+
+    .swipe-action.undo svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Swipe Indicators */
+    .swipe-hints {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 300px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .swipe-hint {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .swipe-hint svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* AI Suggestion Screen */
+    #ai-suggestion {
+      padding: var(--space-6);
+    }
+
+    .ai-container {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .ai-header {
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+
+    .ai-title {
+      font-size: 2rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .ai-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .comparison-view {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--space-6);
+      align-items: start;
+      margin-bottom: var(--space-8);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-view {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .comparison-panel {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-6);
+    }
+
+    .comparison-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .comparison-badge {
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .comparison-badge.before {
+      background: rgba(248, 113, 113, 0.15);
+      color: var(--accent-danger);
+    }
+
+    .comparison-badge.after {
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--accent);
+    }
+
+    .comparison-tree {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .comparison-folder {
+      padding: var(--space-3);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    .comparison-folder.new {
+      background: rgba(52, 211, 153, 0.1);
+      border: 2px dashed var(--accent);
+    }
+
+    .comparison-folder-name {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-weight: 500;
+      margin-bottom: var(--space-2);
+    }
+
+    .comparison-folder-name svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--primary);
+      fill: none;
+    }
+
+    .comparison-folder-files {
+      margin-left: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .comparison-file {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .comparison-file svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .comparison-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: var(--space-16);
+    }
+
+    .comparison-arrow svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--primary);
+      fill: none;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    /* AI Actions */
+    .ai-actions {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-4);
+    }
+
+    /* Settings Screen */
+    #settings {
+      padding: var(--space-6);
+    }
+
+    .settings-container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .settings-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .settings-title {
+      font-size: 2rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .settings-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .settings-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-6);
+      margin-bottom: var(--space-5);
+    }
+
+    .settings-section-title {
+      font-size: 1.1rem;
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+    .setting-info {
+      flex: 1;
+    }
+
+    .setting-name {
+      font-weight: 500;
+      margin-bottom: var(--space-1);
+    }
+
+    .setting-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Toggle Switch */
+    .toggle {
+      position: relative;
+      width: 56px;
+      height: 32px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: background var(--transition-base);
+    }
+
+    .toggle.active {
+      background: var(--primary);
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--transition-base);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toggle.active::after {
+      transform: translateX(24px);
+    }
+
+    /* Theme Selector */
+    .theme-selector {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .theme-option {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all var(--transition-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-option:hover {
+      transform: scale(1.05);
+    }
+
+    .theme-option.active {
+      border-color: var(--primary);
+    }
+
+    .theme-option.light {
+      background: linear-gradient(135deg, #faf9fb 50%, #f3f2f7 50%);
+    }
+
+    .theme-option.dark {
+      background: linear-gradient(135deg, #0f0e17 50%, #252336 50%);
+    }
+
+    .theme-option svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-primary);
+      fill: none;
+    }
+
+    /* Success Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform var(--transition-bounce);
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto var(--space-5);
+      background: linear-gradient(135deg, var(--accent) 0%, #10b981 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: white;
+      fill: none;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .modal-desc {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-6);
+    }
+
+    /* Motivational Toast */
+    .toast {
+      position: fixed;
+      bottom: var(--space-8);
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-card);
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      z-index: 500;
+      transition: transform var(--transition-bounce);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toast-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .toast-icon.streak { background: rgba(251, 191, 36, 0.15); color: var(--accent-warn); }
+    .toast-icon.success { background: rgba(52, 211, 153, 0.15); color: var(--accent); }
+
+    .toast-message {
+      font-weight: 500;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: fixed;
+      top: var(--space-4);
+      left: var(--space-4);
+      z-index: 200;
+    }
+
+    /* Badge Tooltip */
+    .badge-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: var(--bg-card);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+    }
+
+    .achievement:hover .badge-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header {
+        padding: var(--space-3) var(--space-4);
+      }
+
+      .main-content {
+        padding: var(--space-4);
+      }
+
+      .swipe-card {
+        padding: var(--space-4);
+      }
+
+      .card-file-icon {
+        width: 60px;
+        height: 60px;
+        margin: var(--space-4) auto var(--space-3);
+      }
+
+      .card-file-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+
+      .swipe-actions {
+        gap: var(--space-6);
+      }
+
+      .swipe-action {
+        width: 64px;
+        height: 64px;
+      }
+
+      .comparison-view {
+        gap: var(--space-4);
+      }
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .animate-slide-in {
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    .animate-bounce-in {
+      animation: bounceIn 0.5s var(--transition-bounce) forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Onboarding Screen -->
+  <div id="onboarding" class="screen active">
+    <div class="onboarding-container">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+      </div>
+      <h1 class="brand-name">Chackly</h1>
+      <p class="tagline">지능형 디지털 자산 관리 솔루션</p>
+
+      <div class="steps-indicator">
+        <div class="step-dot active" data-step="1"></div>
+        <div class="step-dot" data-step="2"></div>
+        <div class="step-dot" data-step="3"></div>
+      </div>
+
+      <!-- Step 1: Welcome -->
+      <div class="onboarding-step active" data-step="1">
+        <div class="step-illustration">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h2 class="step-title">파일 정리, 지능적으로</h2>
+        <p class="step-desc">AI가 파일 사용 패턴을 분석하여 당신만의 최적화된 폴더 구조를 제안합니다. 더 이상 수동 정리는 필요 없습니다.</p>
+        <div class="privacy-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>기기 내 단독 처리 • 완벽한 개인정보 보호</span>
+        </div>
+      </div>
+
+      <!-- Step 2: Swipe -->
+      <div class="onboarding-step" data-step="2">
+        <div class="step-illustration">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <h2 class="step-title">스와이프로 직관적으로</h2>
+        <p class="step-desc">오른쪽 스와이프로 보관, 왼쪽 스와이프로 삭제. 카드形式的 인터페이스로 누구나 쉽게 파일을 정리할 수 있습니다.</p>
+      </div>
+
+      <!-- Step 3: Gamification -->
+      <div class="onboarding-step" data-step="3">
+        <div class="step-illustration">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h2 class="step-title">습관 형성의 재미</h2>
+        <p class="step-desc">매일 정리하고 스트릭을 쌓아보세요. 업적 배지를 수집하고 디지털 공간을 항상 청결하게 유지하세요.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-primary" id="onboarding-next">
+          <span>계속</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Screen -->
+  <div id="dashboard" class="screen">
+    <div class="dashboard-container">
+      <header class="header">
+        <div class="header-left">
+          <div class="header-logo">
+            <svg viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+          </div>
+          <h1 class="header-title">Chackly</h1>
+        </div>
+        <div class="header-right">
+          <div class="streak-badge" id="streak-display">
+            <svg viewBox="0 0 24 24"><path d="M12 2L8 12l4-2 4 2-4-10zM8 14l-4 8h4l2-4 2 4h4l-4-8"/></svg>
+            <span id="streak-count">7</span>
+          </div>
+          <button class="btn btn-icon btn-secondary" id="settings-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="left-panel">
+          <div class="stats-grid">
+            <div class="stat-card animate-slide-in">
+              <div class="stat-icon purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              </div>
+              <div class="stat-value" id="files-organized">248</div>
+              <div class="stat-label">정리된 파일</div>
+            </div>
+            <div class="stat-card animate-slide-in" style="animation-delay: 0.1s">
+              <div class="stat-icon pink">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              </div>
+              <div class="stat-value" id="folders-managed">12</div>
+              <div class="stat-label">관리 중인 폴더</div>
+            </div>
+            <div class="stat-card animate-slide-in" style="animation-delay: 0.2s">
+              <div class="stat-icon green">
+                <svg viewBox="0 0 24 24"><path d="M12 2L8 12l4-2 4 2-4-10zM8 14l-4 8h4l2-4 2 4h4l-4-8"/></svg>
+              </div>
+              <div class="stat-value" id="current-streak">7일</div>
+              <div class="stat-label">현재 스트릭</div>
+            </div>
+          </div>
+
+          <div class="file-view">
+            <div class="file-view-header">
+              <h2 class="file-view-title">
+                <svg viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                파일 구조
+              </h2>
+              <button class="btn btn-ghost" id="view-all-btn">전체 보기</button>
+            </div>
+            <div class="tree-view" id="file-tree">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="suggestions-panel">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-icon">
+                <svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              </div>
+              <div>
+                <h3 class="panel-title">AI 구조 제안</h3>
+                <p class="panel-subtitle">파일 패턴 분석 결과</p>
+              </div>
+            </div>
+            <div class="suggestion-list" id="suggestion-list">
+              <!-- Filled by JS -->
+            </div>
+            <button class="btn btn-primary apply-btn" id="apply-suggestions">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <span>적용하기</span>
+            </button>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-icon" style="background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);">
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div>
+                <h3 class="panel-title">빠른 실행</h3>
+                <p class="panel-subtitle">개별シーン 실행</p>
+              </div>
+            </div>
+            <div class="quick-actions">
+              <a href="scene_swipe.html" class="quick-action-btn">
+                <div class="quick-action-icon swipe">
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+                <div class="quick-action-info">
+                  <span class="quick-action-title">스와이프 모드</span>
+                  <span class="quick-action-desc">스와이프로 파일 정리</span>
+                </div>
+                <svg class="quick-action-arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="scene_ai_classification.html" class="quick-action-btn">
+                <div class="quick-action-icon ai">
+                  <svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                </div>
+                <div class="quick-action-info">
+                  <span class="quick-action-title">AI 분류</span>
+                  <span class="quick-action-desc">AI 분석 및 패턴 인식</span>
+                </div>
+                <svg class="quick-action-arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="scene_visualization.html" class="quick-action-btn">
+                <div class="quick-action-icon folder">
+                  <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                </div>
+                <div class="quick-action-info">
+                  <span class="quick-action-title">구조 제안</span>
+                  <span class="quick-action-desc">폴더 구조 시각화</span>
+                </div>
+                <svg class="quick-action-arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="scene_gamification.html" class="quick-action-btn">
+                <div class="quick-action-icon streak">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L8 12l4-2 4 2-4-10zM8 14l-4 8h4l2-4 2 4h4l-4-8"/></svg>
+                </div>
+                <div class="quick-action-info">
+                  <span class="quick-action-title">내 진행 상황</span>
+                  <span class="quick-action-desc">스트릭 및 업적</span>
+                </div>
+                <svg class="quick-action-arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div>
+                <h3 class="panel-title">업적 배지</h3>
+                <p class="panel-subtitle">4/12 달성</p>
+              </div>
+            </div>
+            <div class="achievements-grid" id="achievements-grid">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Swipe Screen -->
+  <div id="swipe-screen" class="screen">
+    <button class="btn btn-icon btn-secondary back-btn" id="swipe-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+
+    <div class="swipe-container">
+      <div class="swipe-header">
+        <h2 class="swipe-title">파일 정리하기</h2>
+        <p class="swipe-subtitle">스와이프로 파일을 보관하거나 삭제하세요</p>
+      </div>
+
+      <div class="swipe-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="swipe-progress-fill" style="width: 60%"></div>
+        </div>
+        <span class="progress-text"><span id="swipe-current">4</span>/<span id="swipe-total">10</span></span>
+      </div>
+
+      <div class="card-stack" id="card-stack">
+        <div class="swipe-card" id="current-card">
+          <span class="swipe-label delete">삭제</span>
+          <span class="swipe-label keep">보관</span>
+          <div class="card-file-icon image" id="card-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="card-info">
+            <h3 class="card-filename" id="card-filename">IMG_20240115_123456.jpg</h3>
+            <p class="card-meta" id="card-meta">2024년 1월 15일 • 3.2 MB</p>
+            <div class="card-suggestion" id="card-suggestion">
+              <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              <span>📷 사진 폴더로 이동</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swipe-actions">
+        <button class="swipe-action delete" id="swipe-delete">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        </button>
+        <button class="swipe-action undo" id="swipe-undo" style="display: none">
+          <svg viewBox="0 0 24 24"><path d="M3 10h10a5 5 0 015 5v0a5 5 0 01-5 5H3M3 10l4-4M3 10l4 4"/></svg>
+        </button>
+        <button class="swipe-action keep" id="swipe-keep">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="swipe-hints">
+        <div class="swipe-hint">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>삭제</span>
+        </div>
+        <div class="swipe-hint">
+          <span>보관</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Suggestion Screen -->
+  <div id="ai-suggestion" class="screen">
+    <button class="btn btn-icon btn-secondary back-btn" id="ai-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+
+    <div class="ai-container">
+      <div class="ai-header">
+        <h2 class="ai-title">AI 구조 제안</h2>
+        <p class="ai-subtitle">분석된 파일 패턴을 기반으로 최적화된 폴더 구조를 제안합니다</p>
+      </div>
+
+      <div class="comparison-view">
+        <div class="comparison-panel">
+          <div class="comparison-header">
+            <span class="comparison-badge before">현재</span>
+            <span>현재 폴더 구조</span>
+          </div>
+          <div class="comparison-tree" id="before-tree">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <div class="comparison-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="comparison-panel">
+          <div class="comparison-header">
+            <span class="comparison-badge after">제안</span>
+            <span>정리된 구조</span>
+          </div>
+          <div class="comparison-tree" id="after-tree">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-actions">
+        <button class="btn btn-secondary" id="ai-cancel">
+          <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <span>취소</span>
+        </button>
+        <button class="btn btn-primary" id="ai-apply">
+          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>구조 적용하기</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Screen -->
+  <div id="settings" class="screen">
+    <button class="btn btn-icon btn-secondary back-btn" id="settings-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+
+    <div class="settings-container">
+      <div class="settings-header">
+        <h2 class="settings-title">설정</h2>
+        <p class="settings-subtitle">앱 환경 사용자 지정</p>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-section-title">알림</h3>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">정리 알림</div>
+            <div class="setting-desc">매일 일정한 시간에 파일 정리를 안내합니다</div>
+          </div>
+          <div class="toggle active" id="toggle-notifications"></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">습관 형성 알림</div>
+            <div class="setting-desc">정리 습관 형성을 돕는 동기를 부여합니다</div>
+          </div>
+          <div class="toggle" id="toggle-habits"></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-section-title">정리 습관</h3>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">자동 정리</div>
+            <div class="setting-desc">자동으로 파일을 제안된 구조로 정리합니다</div>
+          </div>
+          <div class="toggle" id="toggle-auto-organize"></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">삭제 전 확인</div>
+            <div class="setting-desc">파일 삭제 전에 확인 메시지를 표시합니다</div>
+          </div>
+          <div class="toggle active" id="toggle-confirm-delete"></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-section-title">테마</h3>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">외관</div>
+            <div class="setting-desc">라이트 또는 다크 모드를 선택하세요</div>
+          </div>
+          <div class="theme-selector">
+            <div class="theme-option light active" data-theme="light">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <div class="theme-option dark" data-theme="dark">
+              <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-section-title">데이터</h3>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">데이터 내보내기</div>
+            <div class="setting-desc">정리된 파일 구조를 JSON으로 내보냅니다</div>
+          </div>
+          <button class="btn btn-secondary" id="export-data">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span>내보내기</span>
+          </button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">데이터 초기화</div>
+            <div class="setting-desc">모든 데이터를 초기 상태로 되돌립니다</div>
+          </div>
+          <button class="btn btn-secondary" id="reset-data" style="color: var(--accent-danger)">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+            <span>초기화</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3 class="modal-title">정리 완료!</h3>
+      <p class="modal-desc">파일 정리가 성공적으로 완료되었습니다.</p>
+      <button class="btn btn-primary" id="modal-close">
+        <span>계속하기</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div class="toast-icon streak">
+      <svg viewBox="0 0 24 24"><path d="M12 2L8 12l4-2 4 2-4-10zM8 14l-4 8h4l2-4 2 4h4l-4-8"/></svg>
+    </div>
+    <span class="toast-message" id="toast-message">7일 스트릭 달성!</span>
+  </div>
+
+  <script>
+    // ============================================
+    // Chackly - Intelligent Digital Asset Management
+    // ============================================
+
+    // State Management
+    const state = {
+      currentScreen: 'onboarding',
+      onboardingStep: 1,
+      streak: parseInt(localStorage.getItem('chackly_streak') || '7'),
+      filesOrganized: parseInt(localStorage.getItem('chackly_files_organized') || '248'),
+      foldersManaged: parseInt(localStorage.getItem('chackly_folders') || '12'),
+      swipeIndex: 0,
+      swipeHistory: [],
+      theme: localStorage.getItem('chackly_theme') || 'light',
+      settings: JSON.parse(localStorage.getItem('chackly_settings') || '{"notifications":true,"habits":false,"autoOrganize":false,"confirmDelete":true}')
+    };
+
+    // Mock Data
+    const mockFiles = [
+      { name: 'IMG_20240115_123456.jpg', type: 'image', size: '3.2 MB', date: '2024년 1월 15일', folder: '📷 사진' },
+      { name: 'report_Q4_2023.pdf', type: 'pdf', size: '1.8 MB', date: '2024년 1월 10일', folder: '📄 문서' },
+      { name: 'vacation_video.mp4', type: 'video', size: '156 MB', date: '2024년 1월 8일', folder: '🎬 영상' },
+      { name: 'presentation.pptx', type: 'doc', size: '5.4 MB', date: '2024년 1월 5일', folder: '📄 문서' },
+      { name: 'screenshot_2024.png', type: 'image', size: '890 KB', date: '2024년 1월 3일', folder: '📷 사진' },
+      { name: 'meeting_notes.docx', type: 'doc', size: '245 KB', date: '2023년 12월 28일', folder: '📄 문서' },
+      { name: 'family_photo.jpg', type: 'image', size: '4.1 MB', date: '2023년 12월 25일', folder: '📷 사진' },
+      { name: 'project_files.zip', type: 'archive', size: '45 MB', date: '2023년 12월 20일', folder: '📦 압축' },
+      { name: 'music_playlist.m3u', type: 'doc', size: '12 KB', date: '2023년 12월 15일', folder: '🎵 음악' },
+      { name: 'budget_2024.xlsx', type: 'doc', size: '567 KB', date: '2023년 12월 10일', folder: '📊 스프레드시트' }
+    ];
+
+    const fileTree = [
+      { name: '📁 문서', type: 'folder', children: [
+        { name: '📄 report_Q4_2023.pdf', type: 'pdf', meta: '1.8 MB' },
+        { name: '📄 presentation.pptx', type: 'ppt', meta: '5.4 MB' },
+        { name: '📄 meeting_notes.docx', type: 'doc', meta: '245 KB' }
+      ]},
+      { name: '📁 사진', type: 'folder', children: [
+        { name: '🖼️ IMG_20240115.jpg', type: 'image', meta: '3.2 MB' },
+        { name: '🖼️ screenshot_2024.png', type: 'image', meta: '890 KB' },
+        { name: '🖼️ family_photo.jpg', type: 'image', meta: '4.1 MB' }
+      ]},
+      { name: '📁 영상', type: 'folder', children: [
+        { name: '🎬 vacation_video.mp4', type: 'video', meta: '156 MB' }
+      ]},
+      { name: '📁 downloads', type: 'folder', children: [
+        { name: '📦 project_files.zip', type: 'archive', meta: '45 MB' },
+        { name: '🎵 music_playlist.m3u', type: 'audio', meta: '12 KB' },
+        { name: '📊 budget_2024.xlsx', type: 'spreadsheet', meta: '567 KB' }
+      ]}
+    ];
+
+    const suggestions = [
+      { id: 1, name: '📷 사진 폴더 생성', detail: '최근 15개 이미지 파일 이동', checked: true },
+      { id: 2, name: '📄 문서 정리', detail: '프로젝트별 하위 폴더 생성', checked: true },
+      { id: 3, name: '🗑️ 중복 파일 검사', detail: '3개의 중복 파일 발견', checked: false },
+      { id: 4, name: '📦 압축 해제', detail: 'project_files.zip 압축 풀기', checked: true }
+    ];
+
+    const achievements = [
+      { id: 1, name: '첫 걸음', icon: 'gold', unlocked: true },
+      { id: 2, name: '정리 달인', icon: 'gold', unlocked: true },
+      { id: 3, name: '일주일 스트릭', icon: 'gold', unlocked: true },
+      { id: 4, name: '100파일 정리', icon: 'gold', unlocked: true },
+      { id: 5, name: '한달 스트릭', icon: 'silver', unlocked: false },
+      { id: 6, name: '500파일 정리', icon: 'silver', unlocked: false },
+      { id: 7, name: '백만장자', icon: 'bronze', unlocked: false },
+      { id: 8, name: '보안 수호자', icon: 'bronze', unlocked: false }
+    ];
+
+    const motivationalMessages = [
+      '素晴らしい! 스트릭 유지!',
+      '잘하고 있어요! 💪',
+      '오늘도 깔끔하게! ✨',
+      '파일 정리의 달인! 🎉',
+      '계속 진행하세요! 🚀'
+    ];
+
+    // Icon SVGs
+    const icons = {
+      folder: '<svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>',
+      image: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
+      pdf: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+      doc: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+      video: '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>',
+      archive: '<svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>',
+      audio: '<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+      spreadsheet: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>',
+      check: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'
+    };
+
+    // ============================================
+    // Screen Navigation
+    // ============================================
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      state.currentScreen = screenId;
+    }
+
+    // ============================================
+    // Onboarding
+    // ============================================
+
+    function initOnboarding() {
+      const nextBtn = document.getElementById('onboarding-next');
+      const stepDots = document.querySelectorAll('.step-dot');
+      const steps = document.querySelectorAll('.onboarding-step');
+
+      nextBtn.addEventListener('click', () => {
+        if (state.onboardingStep < 3) {
+          state.onboardingStep++;
+
+          stepDots.forEach((dot, i) => {
+            dot.classList.toggle('active', i < state.onboardingStep);
+          });
+
+          steps.forEach(step => {
+            step.classList.toggle('active', parseInt(step.dataset.step) === state.onboardingStep);
+          });
+
+          if (state.onboardingStep === 3) {
+            nextBtn.innerHTML = '<span>시작하기</span><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+          }
+        } else {
+          localStorage.setItem('chackly_onboarded', 'true');
+          showScreen('dashboard');
+          initDashboard();
+        }
+      });
+    }
+
+    // ============================================
+    // Dashboard
+    // ============================================
+
+    function initDashboard() {
+      document.getElementById('streak-count').textContent = state.streak;
+      document.getElementById('files-organized').textContent = state.filesOrganized;
+      document.getElementById('folders-managed').textContent = state.foldersManaged;
+      document.getElementById('current-streak').textContent = state.streak + '일';
+
+      renderFileTree();
+      renderSuggestions();
+      renderAchievements();
+
+      // Navigation buttons
+      document.getElementById('settings-btn').addEventListener('click', () => showScreen('settings'));
+      document.getElementById('view-all-btn').addEventListener('click', () => {
+        showScreen('ai-suggestion');
+        initAISuggestion();
+      });
+      document.getElementById('apply-suggestions').addEventListener('click', () => {
+        showScreen('swipe-screen');
+        initSwipe();
+      });
+    }
+
+    function renderFileTree() {
+      const container = document.getElementById('file-tree');
+      container.innerHTML = fileTree.map(folder => `
+        <div class="tree-item folder">
+          <div class="tree-icon folder-icon">${icons.folder}</div>
+          <div class="tree-item-info">
+            <div class="tree-item-name">${folder.name}</div>
+            <div class="tree-item-meta">${folder.children.length}개 항목</div>
+          </div>
+        </div>
+        <div class="tree-children">
+          ${folder.children.map(file => `
+            <div class="tree-item">
+              <div class="tree-icon ${getFileIconClass(file.type)}">${icons[getFileIcon(file.type)] || icons.doc}</div>
+              <div class="tree-item-info">
+                <div class="tree-item-name">${file.name}</div>
+                <div class="tree-item-meta">${file.meta}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    function getFileIcon(type) {
+      const map = { image: 'image', pdf: 'pdf', doc: 'doc', video: 'video', archive: 'archive', audio: 'audio', spreadsheet: 'spreadsheet' };
+      return map[type] || 'doc';
+    }
+
+    function getFileIconClass(type) {
+      const map = { image: 'image-icon', pdf: 'doc-icon', doc: 'doc-icon', video: 'file-icon', archive: 'file-icon', audio: 'file-icon', spreadsheet: 'doc-icon' };
+      return map[type] || 'file-icon';
+    }
+
+    function renderSuggestions() {
+      const container = document.getElementById('suggestion-list');
+      container.innerHTML = suggestions.map(s => `
+        <div class="suggestion-item ${s.checked ? 'selected' : ''}" data-id="${s.id}">
+          <div class="suggestion-checkbox">${icons.check}</div>
+          <div class="suggestion-content">
+            <div class="suggestion-name">${s.name}</div>
+            <div class="suggestion-detail">${s.detail}</div>
+          </div>
+          <div class="suggestion-arrow">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('selected');
+          const id = parseInt(item.dataset.id);
+          const suggestion = suggestions.find(s => s.id === id);
+          if (suggestion) suggestion.checked = !suggestion.checked;
+        });
+      });
+    }
+
+    function renderAchievements() {
+      const container = document.getElementById('achievements-grid');
+      container.innerHTML = achievements.map(a => `
+        <div class="achievement ${a.unlocked ? '' : 'locked'}" title="${a.name}">
+          <div class="achievement-icon ${a.icon}">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <span class="achievement-name">${a.name}</span>
+          <span class="badge-tooltip">${a.unlocked ? '달성!' : '잠김'}</span>
+        </div>
+      `).join('');
+    }
+
+    // ============================================
+    // Swipe Interface
+    // ============================================
+
+    function initSwipe() {
+      state.swipeIndex = 0;
+      state.swipeHistory = [];
+      updateSwipeCard();
+
+      const card = document.getElementById('current-card');
+      const deleteBtn = document.getElementById('swipe-delete');
+      const keepBtn = document.getElementById('swipe-keep');
+      const undoBtn = document.getElementById('swipe-undo');
+
+      let startX = 0, currentX = 0, isDragging = false;
+
+      const handleStart = (e) => {
+        isDragging = true;
+        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        card.classList.add('dragging');
+      };
+
+      const handleMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        currentX = (e.type === 'mousemove' ? e.clientX : e.touches[0].clientX) - startX;
+        const rotation = currentX * 0.05;
+        card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+
+        card.classList.remove('swiping-left', 'swiping-right');
+        if (currentX < -50) card.classList.add('swiping-left');
+        if (currentX > 50) card.classList.add('swiping-right');
+      };
+
+      const handleEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        card.classList.remove('dragging');
+
+        if (currentX < -100) {
+          swipeLeft();
+        } else if (currentX > 100) {
+          swipeRight();
+        } else {
+          card.style.transform = '';
+          card.classList.remove('swiping-left', 'swiping-right');
+        }
+        currentX = 0;
+      };
+
+      card.addEventListener('mousedown', handleStart);
+      card.addEventListener('touchstart', handleStart, { passive: true });
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('touchmove', handleMove, { passive: false });
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchend', handleEnd);
+
+      deleteBtn.addEventListener('click', swipeLeft);
+      keepBtn.addEventListener('click', swipeRight);
+      undoBtn.addEventListener('click', undoSwipe);
+
+      document.getElementById('swipe-back').addEventListener('click', () => {
+        showScreen('dashboard');
+        initDashboard();
+      });
+    }
+
+    function updateSwipeCard() {
+      if (state.swipeIndex >= mockFiles.length) {
+        showSuccessModal();
+        return;
+      }
+
+      const file = mockFiles[state.swipeIndex];
+      const card = document.getElementById('current-card');
+      const iconEl = document.getElementById('card-icon');
+      const iconMap = { image: 'image', pdf: 'pdf', video: 'video', doc: 'doc' };
+
+      iconEl.className = `card-file-icon ${iconMap[file.type] || 'doc'}`;
+      iconEl.innerHTML = icons[iconMap[file.type]] || icons.doc;
+      document.getElementById('card-filename').textContent = file.name;
+      document.getElementById('card-meta').textContent = `${file.date} • ${file.size}`;
+      document.getElementById('card-suggestion').innerHTML = `<svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>${file.folder}로 이동</span>`;
+
+      document.getElementById('swipe-current').textContent = state.swipeIndex + 1;
+      document.getElementById('swipe-total').textContent = mockFiles.length;
+      document.getElementById('swipe-progress-fill').style.width = `${((state.swipeIndex + 1) / mockFiles.length) * 100}%`;
+
+      document.getElementById('swipe-undo').style.display = state.swipeHistory.length > 0 ? 'flex' : 'none';
+
+      // Reset card state
+      card.style.transform = '';
+      card.classList.remove('swiping-left', 'swiping-right');
+    }
+
+    function swipeLeft() {
+      state.swipeHistory.push({ action: 'delete', file: mockFiles[state.swipeIndex] });
+      animateSwipe('left');
+    }
+
+    function swipeRight() {
+      state.swipeHistory.push({ action: 'keep', file: mockFiles[state.swipeIndex] });
+      state.filesOrganized++;
+      localStorage.setItem('chackly_files_organized', state.filesOrganized);
+      animateSwipe('right');
+    }
+
+    function animateSwipe(direction) {
+      const card = document.getElementById('current-card');
+      const transform = direction === 'left' ? 'translateX(-150%) rotate(-30deg)' : 'translateX(150%) rotate(30deg)';
+
+      card.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+      card.style.transform = transform;
+      card.style.opacity = '0';
+
+      setTimeout(() => {
+        card.style.transition = '';
+        card.style.opacity = '';
+        state.swipeIndex++;
+        updateSwipeCard();
+      }, 400);
+    }
+
+    function undoSwipe() {
+      if (state.swipeHistory.length === 0) return;
+
+      const last = state.swipeHistory.pop();
+      if (last.action === 'keep') {
+        state.filesOrganized--;
+        localStorage.setItem('chackly_files_organized', state.filesOrganized);
+      }
+      state.swipeIndex--;
+
+      const card = document.getElementById('current-card');
+      card.style.transition = 'transform 0.3s ease';
+      card.style.transform = '';
+      card.style.opacity = '';
+
+      setTimeout(() => {
+        card.style.transition = '';
+        updateSwipeCard();
+        showToast(motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)]);
+      }, 300);
+    }
+
+    // ============================================
+    // AI Suggestion View
+    // ============================================
+
+    function initAISuggestion() {
+      renderBeforeTree();
+      renderAfterTree();
+
+      document.getElementById('ai-back').addEventListener('click', () => {
+        showScreen('dashboard');
+        initDashboard();
+      });
+
+      document.getElementById('ai-cancel').addEventListener('click', () => {
+        showScreen('dashboard');
+        initDashboard();
+      });
+
+      document.getElementById('ai-apply').addEventListener('click', () => {
+        showSuccessModal();
+      });
+    }
+
+    function renderBeforeTree() {
+      const container = document.getElementById('before-tree');
+      container.innerHTML = `
+        <div class="comparison-folder">
+          <div class="comparison-folder-name">${icons.folder} downloads</div>
+          <div class="comparison-folder-files">
+            <div class="comparison-file">${icons.doc} report_Q4.pdf</div>
+            <div class="comparison-file">${icons.image} IMG_001.jpg</div>
+            <div class="comparison-file">${icons.video} video.mp4</div>
+            <div class="comparison-file">${icons.doc} notes.docx</div>
+            <div class="comparison-file">${icons.image} photo.png</div>
+            <div class="comparison-file">${icons.pdf} form.pdf</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAfterTree() {
+      const container = document.getElementById('after-tree');
+      container.innerHTML = `
+        <div class="comparison-folder new">
+          <div class="comparison-folder-name">${icons.folder} 📷 사진</div>
+          <div class="comparison-folder-files">
+            <div class="comparison-file">${icons.image} IMG_001.jpg</div>
+            <div class="comparison-file">${icons.image} photo.png</div>
+          </div>
+        </div>
+        <div class="comparison-folder new">
+          <div class="comparison-folder-name">${icons.folder} 📄 문서</div>
+          <div class="comparison-folder-files">
+            <div class="comparison-file">${icons.doc} report_Q4.pdf</div>
+            <div class="comparison-file">${icons.doc} notes.docx</div>
+          </div>
+        </div>
+        <div class="comparison-folder new">
+          <div class="comparison-folder-name">${icons.folder} 🎬 영상</div>
+          <div class="comparison-folder-files">
+            <div class="comparison-file">${icons.video} video.mp4</div>
+          </div>
+        </div>
+        <div class="comparison-folder new">
+          <div class="comparison-folder-name">${icons.folder} 📋 아카이브</div>
+          <div class="comparison-folder-files">
+            <div class="comparison-file">${icons.pdf} form.pdf</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================
+    // Settings
+    // ============================================
+
+    function initSettings() {
+      const toggles = document.querySelectorAll('.toggle');
+      toggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          toggle.classList.toggle('active');
+          updateSettings(toggle.id);
+        });
+      });
+
+      const themeOptions = document.querySelectorAll('.theme-option');
+      themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          themeOptions.forEach(o => o.classList.remove('active'));
+          option.classList.add('active');
+          setTheme(option.dataset.theme);
+        });
+      });
+
+      document.getElementById('settings-back').addEventListener('click', () => {
+        showScreen('dashboard');
+        initDashboard();
+      });
+
+      document.getElementById('reset-data').addEventListener('click', () => {
+        if (confirm('모든 데이터가 초기화됩니다. 계속하시겠습니까?')) {
+          localStorage.clear();
+          location.reload();
+        }
+      });
+
+      document.getElementById('export-data').addEventListener('click', () => {
+        const data = {
+          streak: state.streak,
+          filesOrganized: state.filesOrganized,
+          foldersManaged: state.foldersManaged,
+          fileTree: fileTree,
+          settings: state.settings
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chackly-export.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('데이터를 내보냈습니다!');
+      });
+
+      applyTheme();
+    }
+
+    function updateSettings(toggleId) {
+      const map = {
+        'toggle-notifications': 'notifications',
+        'toggle-habits': 'habits',
+        'toggle-auto-organize': 'autoOrganize',
+        'toggle-confirm-delete': 'confirmDelete'
+      };
+      const key = map[toggleId];
+      if (key) {
+        state.settings[key] = !state.settings[key];
+        localStorage.setItem('chackly_settings', JSON.stringify(state.settings));
+      }
+    }
+
+    function setTheme(theme) {
+      state.theme = theme;
+      localStorage.setItem('chackly_theme', theme);
+      applyTheme();
+    }
+
+    function applyTheme() {
+      document.documentElement.setAttribute('data-theme', state.theme);
+      const lightOption = document.querySelector('.theme-option.light');
+      const darkOption = document.querySelector('.theme-option.dark');
+      if (lightOption && darkOption) {
+        lightOption.classList.toggle('active', state.theme === 'light');
+        darkOption.classList.toggle('active', state.theme === 'dark');
+      }
+    }
+
+    // ============================================
+    // Modals & Toasts
+    // ============================================
+
+    function showSuccessModal() {
+      document.getElementById('success-modal').classList.add('active');
+    }
+
+    function hideSuccessModal() {
+      document.getElementById('success-modal').classList.remove('active');
+      showScreen('dashboard');
+      initDashboard();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ============================================
+    // Initialization
+    // ============================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const onboarded = localStorage.getItem('chackly_onboarded');
+
+      initOnboarding();
+      initSettings();
+
+      document.getElementById('modal-close').addEventListener('click', hideSuccessModal);
+
+      if (onboarded) {
+        showScreen('dashboard');
+        initDashboard();
+      } else {
+        showScreen('onboarding');
+      }
+    });
+  </script>
+</body>
+</html>
