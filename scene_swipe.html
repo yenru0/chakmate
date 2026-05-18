@@ -7,752 +7,166 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#3b82f6', light: '#60a5fa', dark: '#1d4ed8' },
+            secondary: { DEFAULT: '#06b6d4', light: '#22d3ee' },
+            accent: { DEFAULT: '#0ea5e9', warn: '#38bdf8', danger: '#f472b6' },
+            surface: { primary: '#f8fafc', secondary: '#e2e8f0', card: '#ffffff' },
+            text: { primary: '#0f172a', secondary: '#475569', muted: '#94a3b8' },
+          },
+          fontFamily: {
+            sans: ['Noto Sans KR', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          boxShadow: {
+            'sm': '0 2px 8px rgba(14, 165, 233, 0.06)',
+            'md': '0 4px 20px rgba(14, 165, 233, 0.08)',
+            'lg': '0 8px 40px rgba(14, 165, 233, 0.12)',
+            'glow': '0 0 30px rgba(14, 165, 233, 0.25)',
+            'blue': '0 4px 20px rgba(59, 130, 246, 0.3)',
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'fade-slide-up': 'fadeSlideUp 0.5s ease forwards',
+            'slide-in': 'slideIn 0.5s ease forwards',
+            'bounce-in': 'bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            'pulse-slow': 'pulse 2s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            fadeSlideUp: {
+              from: { opacity: '0', transform: 'translateY(20px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideIn: {
+              from: { opacity: '0', transform: 'translateY(30px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+            bounceIn: {
+              '0%': { transform: 'scale(0)' },
+              '50%': { transform: 'scale(1.1)' },
+              '100%': { transform: 'scale(1)' },
+            },
+            pulse: {
+              '0%, 100%': { opacity: '0.5', transform: 'scale(1)' },
+              '50%': { opacity: '1', transform: 'scale(1.05)' },
+            },
+            shimmer: {
+              '0%': { transform: 'translateX(-100%) translateY(-100%)' },
+              '100%': { transform: 'translateX(100%) translateY(100%)' },
+            },
+            cardExitLeft: {
+              to: { transform: 'translateX(-150%) rotate(-15deg)', opacity: '0' },
+            },
+            cardExitRight: {
+              to: { transform: 'translateX(150%) rotate(15deg)', opacity: '0' },
+            },
+            cardEnter: {
+              from: { transform: 'scale(0.9) translateY(30px)', opacity: '0' },
+              to: { transform: 'scale(1) translateY(0)', opacity: '1' },
+            },
+          },
+        },
+      },
+    }
+  </script>
   <style>
-    :root {
-      /* Blue Light Puzzle Theme - Intelligent, Precise, Cool */
-      --primary: #3b82f6;
-      --primary-light: #60a5fa;
-      --primary-dark: #1d4ed8;
-      --secondary: #06b6d4;
-      --secondary-light: #22d3ee;
-      --accent: #0ea5e9;
-      --accent-warn: #38bdf8;
-      --accent-danger: #f472b6;
-
-      --bg-primary: #f8fafc;
-      --bg-secondary: #e2e8f0;
-      --bg-card: #ffffff;
-      --bg-overlay: rgba(14, 165, 233, 0.08);
-
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
-
-      --shadow-sm: 0 2px 8px rgba(14, 165, 233, 0.06);
-      --shadow-md: 0 4px 20px rgba(14, 165, 233, 0.08);
-      --shadow-lg: 0 8px 40px rgba(14, 165, 233, 0.12);
-      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.25);
-      --shadow-blue: 0 4px 20px rgba(59, 130, 246, 0.3);
-
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --space-10: 40px;
-      --space-12: 48px;
-      --space-16: 64px;
-
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --radius-xl: 28px;
-      --radius-full: 9999px;
-
-      --transition-fast: 150ms ease;
-      --transition-base: 250ms ease;
-      --transition-slow: 400ms ease;
-      --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    [data-theme="dark"] {
-      --bg-primary: #0a0e1a;
-      --bg-secondary: #111827;
-      --bg-card: #1e293b;
-      --bg-overlay: rgba(14, 165, 233, 0.12);
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
-      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      padding: var(--space-4) var(--space-8);
-      border-radius: var(--radius-full);
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: 'Outfit', sans-serif;
-      cursor: pointer;
-      border: none;
-      transition: all var(--transition-base);
-      min-height: 56px;
-      min-width: 160px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      box-shadow: var(--shadow-blue);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn-secondary:hover {
-      background: var(--bg-secondary);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-secondary);
-      min-width: auto;
-      padding: var(--space-3) var(--space-4);
-    }
-
-    .btn-icon {
-      width: 56px;
-      height: 56px;
-      padding: 0;
-      border-radius: var(--radius-lg);
-    }
-
-    .btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-    }
-
-    /* Header */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--space-4) var(--space-6);
-      background: var(--bg-card);
-      box-shadow: var(--shadow-sm);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .back-btn {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-4);
-      background: var(--bg-secondary);
-      border: none;
-      border-radius: var(--radius-full);
-      color: var(--text-secondary);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition-fast);
-    }
-
-    .back-btn:hover { background: var(--primary-light); color: white; }
-
-    .header-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .undo-btn {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-5);
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border: none;
-      border-radius: var(--radius-full);
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--shadow-md), 0 4px 15px rgba(14, 165, 233, 0.3);
-      transition: var(--transition-base);
-    }
-
-    .undo-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg), 0 6px 20px rgba(14, 165, 233, 0.4);
-    }
-
-    .undo-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-    /* Main Container */
-    .main-container {
-      display: flex;
-      flex-direction: column;
-      min-height: calc(100vh - 70px);
-      padding: var(--space-6);
-    }
-
-    /* Progress Header */
-    .progress-header {
-      text-align: center;
-      margin-bottom: var(--space-8);
-    }
-
-    .progress-header h2 {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: var(--space-2);
-    }
-
-    .progress-header p {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
-
-    /* Card Stack */
-    .card-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: var(--space-8) 0;
-    }
-
-    .card-stack {
-      position: relative;
-      width: 100%;
-      max-width: 320px;
-      height: 420px;
-    }
-
-    /* File Card */
-    .file-card {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      touch-action: pan-y;
-      cursor: grab;
-      user-select: none;
-      transition: transform 0.1s ease, box-shadow 0.2s ease;
-    }
-
-    .file-card:active { cursor: grabbing; }
-
-    /* Card Visual Stack Effect */
-    .file-card::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: -8px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-xl);
-      z-index: -1;
-      opacity: 0.5;
-    }
-
-    .file-card::after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      right: 4px;
-      bottom: -4px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-xl);
-      z-index: -2;
-      opacity: 0.3;
-    }
-
-    /* Card Header with Type Badge */
-    .card-header {
-      padding: var(--space-5) var(--space-6);
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .file-type-badge {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      background: rgba(255,255,255,0.2);
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .file-type-badge .icon { font-size: 16px; }
-
-    .file-size-badge {
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    /* Card Body */
-    .card-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-8);
-    }
-
-    .file-icon-container {
-      width: 120px;
-      height: 120px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: var(--space-6);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .file-icon-container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
-      animation: shimmer 2s infinite;
-    }
-
     @keyframes shimmer {
       0% { transform: translateX(-100%) translateY(-100%); }
       100% { transform: translateX(100%) translateY(100%); }
     }
-
-    .file-icon-container .icon { font-size: 64px; }
-
-    .file-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text-primary);
-      text-align: center;
-      margin-bottom: var(--space-3);
-      line-height: 1.3;
-      word-break: break-word;
-    }
-
-    .file-date {
-      color: var(--text-muted);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-
-    .file-date svg { width: 16px; height: 16px; }
-
-    /* Swipe Indicators */
-    .swipe-indicators {
-      position: absolute;
-      top: 50%;
-      left: var(--space-4);
-      right: var(--space-4);
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .swipe-indicator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      opacity: 0;
-      transform: scale(0.5);
-      transition: all var(--transition-base);
-    }
-
-    .swipe-indicator.delete {
-      background: var(--accent-danger);
-      color: white;
-    }
-
-    .swipe-indicator.keep {
-      background: var(--accent);
-      color: white;
-    }
-
-    .swipe-indicator.active {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .swipe-indicator svg { width: 28px; height: 28px; }
-
-    /* Card Footer */
-    .card-footer {
-      padding: var(--space-4) var(--space-6);
-      background: var(--bg-secondary);
-      display: flex;
-      justify-content: center;
-      gap: var(--space-6);
-    }
-
-    .swipe-hint {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    .swipe-hint .arrow {
-      font-size: 18px;
-      color: var(--text-secondary);
-    }
-
-    /* Action Buttons Alternative */
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: var(--space-6);
-      margin-top: var(--space-8);
-    }
-
-    .action-btn {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition-bounce);
-      box-shadow: var(--shadow-md);
-    }
-
-    .action-btn:active {
-      transform: scale(0.9);
-    }
-
-    .action-btn.delete {
-      background: linear-gradient(135deg, var(--accent-danger), #ef4444);
-      color: white;
-    }
-
-    .action-btn.keep {
-      background: linear-gradient(135deg, var(--accent), #10b981);
-      color: white;
-    }
-
-    .action-btn svg { width: 36px; height: 36px; }
-
-    /* Swipe Overlay on Card */
-    .card-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      pointer-events: none;
-      border-radius: var(--radius-xl);
-      z-index: 5;
-    }
-
-    .card-overlay.delete {
-      background: linear-gradient(135deg, rgba(248,113,113,0.95), rgba(239,68,68,0.95));
-    }
-
-    .card-overlay.keep {
-      background: linear-gradient(135deg, rgba(52,211,153,0.95), rgba(16,185,129,0.95));
-    }
-
-    .card-overlay.show { opacity: 1; }
-
-    .card-overlay .action-label {
-      font-family: 'Outfit', sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: white;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
-
-    /* Progress Footer */
-    .progress-footer {
-      padding: var(--space-5);
-      background: var(--bg-card);
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      box-shadow: 0 -4px 20px rgba(30, 27, 46, 0.08);
-    }
-
-    .progress-bar-container {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-    }
-
-    .progress-bar-wrapper {
-      flex: 1;
-      height: 8px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: var(--radius-full);
-      transition: width 0.5s var(--transition-bounce);
-    }
-
-    .progress-text {
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--primary);
-      min-width: 60px;
-      text-align: right;
-    }
-
-    /* Empty State */
-    .empty-state {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: var(--space-16);
-    }
-
-    .empty-state.show { display: flex; }
-
-    .empty-state .icon-wrapper {
-      width: 120px;
-      height: 120px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: var(--space-6);
-      animation: pulse 2s ease infinite;
-    }
-
-    @keyframes pulse {
-0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
-50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); }
-    }
-
-    .empty-state .icon-wrapper svg { width: 60px; height: 60px; color: white; }
-
-    .empty-state h2 {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: var(--space-3);
-    }
-
-    .empty-state p {
-      color: var(--text-muted);
-      font-size: 16px;
-      margin-bottom: var(--space-6);
-    }
-
-    .celebrate-btn {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-4) var(--space-6);
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border: none;
-      border-radius: var(--radius-full);
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--shadow-md);
-      transition: var(--transition-base);
-    }
-
-    .celebrate-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      top: 90px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: var(--text-primary);
-      color: var(--bg-card);
-      padding: var(--space-3) var(--space-6);
-      border-radius: var(--radius-full);
-      font-size: 14px;
-      font-weight: 500;
-      box-shadow: var(--shadow-lg);
-      opacity: 0;
-      pointer-events: none;
-      transition: all var(--transition-base);
-      z-index: 200;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Animations */
-    .card-exit-left {
-      animation: cardExitLeft 0.4s ease forwards;
-    }
-
-    .card-exit-right {
-      animation: cardExitRight 0.4s ease forwards;
-    }
-
     @keyframes cardExitLeft {
       to { transform: translateX(-150%) rotate(-15deg); opacity: 0; }
     }
-
     @keyframes cardExitRight {
       to { transform: translateX(150%) rotate(15deg); opacity: 0; }
     }
-
-    .card-enter {
-      animation: cardEnter 0.4s var(--transition-bounce) forwards;
-    }
-
     @keyframes cardEnter {
       from { transform: scale(0.9) translateY(30px); opacity: 0; }
       to { transform: scale(1) translateY(0); opacity: 1; }
     }
-
-    /* Responsive */
-    @media (max-width: 380px) {
-      .card-stack { height: 380px; }
-      .action-btn { width: 70px; height: 70px; }
-      .action-btn svg { width: 30px; height: 30px; }
-    }
   </style>
 </head>
-<body>
-  <header class="header">
-    <button class="back-btn" onclick="window.location.href='index.html'">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </svg>
+<body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased">
+  <!-- Heroicons SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </symbol>
+    <symbol id="icon-arrow-uturn-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+    </symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    </symbol>
+  </svg>
+  <header class="flex items-center justify-between px-6 py-4 bg-surface-card shadow-sm sticky top-0 z-50">
+    <button class="flex items-center gap-2 px-4 py-2 bg-surface-secondary rounded-full text-text-secondary text-sm font-medium transition-colors duration-150 hover:bg-primary-light hover:text-white" onclick="window.location.href='index.html'">
+      <svg class="w-5 h-5"><use href="#icon-arrow-left"></use></svg>
       뒤로
     </button>
-    <h1 class="header-title">스와이프 모드</h1>
-    <button class="undo-btn" id="undoBtn" disabled>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
-      </svg>
+    <h1 class="font-display text-lg font-semibold text-text-primary">스와이프 모드</h1>
+    <button class="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-primary to-primary-dark rounded-full text-white text-sm font-semibold shadow-md transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none" id="undoBtn" disabled>
+      <svg class="w-4 h-4"><use href="#icon-arrow-uturn-left"></use></svg>
       실행 취소
     </button>
   </header>
 
-  <main class="main-container">
-    <div class="progress-header">
-      <h2 id="currentFileName">project_proposal.pdf</h2>
-      <p>왼쪽으로 스와이프하면 삭제, 오른쪽으로 스와이프하면 보관</p>
+  <main class="flex flex-col min-h-[calc(100vh-70px)] px-6">
+    <div class="text-center mb-8">
+      <h2 class="text-[28px] font-bold text-text-primary mb-1" id="currentFileName">project_proposal.pdf</h2>
+      <p class="text-text-muted text-sm">왼쪽으로 스와이프하면 삭제, 오른쪽으로 스와이프하면 보관</p>
     </div>
 
-    <div class="card-area">
-      <div class="card-stack" id="cardStack"></div>
-      
-      <div class="empty-state" id="emptyState">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
+    <div class="flex-1 flex flex-col items-center justify-center relative py-8">
+      <div class="relative w-full max-w-[320px] h-[420px]" id="cardStack"></div>
+
+      <div class="hidden flex-col items-center justify-center text-center p-16" id="emptyState">
+        <div class="w-[120px] h-[120px] bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-6 animate-pulse-slow shadow-glow">
+          <svg class="w-[60px] h-[60px] text-white"><use href="#icon-check"></use></svg>
         </div>
-        <h2>모두 완료!</h2>
-        <p>모든 파일을 검토했습니다</p>
-        <button class="celebrate-btn" onclick="resetFiles()">
+        <h2 class="text-[28px] font-bold text-text-primary mb-3">모두 완료!</h2>
+        <p class="text-text-muted text-base mb-6">모든 파일을 검토했습니다</p>
+        <button class="flex items-center gap-2 px-6 py-4 bg-gradient-to-r from-primary to-primary-dark rounded-full text-white text-base font-semibold shadow-md transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg" onclick="resetFiles()">
           다시 시작
         </button>
       </div>
     </div>
 
-    <div class="action-buttons" id="actionButtons">
-      <button class="action-btn delete" onclick="handleSwipe('delete')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="3 6 5 6 21 6"/>
-          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-        </svg>
+    <div class="flex justify-center gap-6 mt-8" id="actionButtons">
+      <button class="w-[80px] h-[80px] rounded-full bg-gradient-to-br from-accent-danger to-red-500 text-white flex items-center justify-center shadow-md transition-transform duration-500 active:scale-90" onclick="handleSwipe('delete')">
+        <svg class="w-9 h-9"><use href="#icon-trash"></use></svg>
       </button>
-      <button class="action-btn keep" onclick="handleSwipe('keep')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
+      <button class="w-[80px] h-[80px] rounded-full bg-gradient-to-br from-accent to-emerald-500 text-white flex items-center justify-center shadow-md transition-transform duration-500 active:scale-90" onclick="handleSwipe('keep')">
+        <svg class="w-9 h-9"><use href="#icon-check"></use></svg>
       </button>
     </div>
   </main>
 
-  <footer class="progress-footer">
-    <div class="progress-bar-container">
-      <div class="progress-bar-wrapper">
-        <div class="progress-bar-fill" id="progressFill" style="width: 0%"></div>
+  <footer class="p-5 bg-surface-card rounded-t-3xl shadow-[0_-4px_20px_rgba(30,27,46,0.08)]">
+    <div class="flex items-center gap-4">
+      <div class="flex-1 h-2 bg-surface-secondary rounded-full overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500" id="progressFill" style="width: 0%"></div>
       </div>
-      <div class="progress-text" id="progressText">0%</div>
+      <div class="font-display text-sm font-semibold text-primary min-w-[60px] text-right" id="progressText">0%</div>
     </div>
   </footer>
 
-  <div class="toast" id="toast">파일 보관됨</div>
+  <div class="fixed top-[90px] left-1/2 -translate-x-1/2 bg-text-primary text-surface-card px-6 py-3 rounded-full text-sm font-medium shadow-lg opacity-0 pointer-events-none transition-all duration-250 z-[200]" id="toast">파일 보관됨</div>
 
   <script>
     const mockFiles = [
@@ -793,199 +207,208 @@
     function createCard(file) {
       const typeInfo = getFileTypeInfo(file.type);
       return `
-        <div class="file-card" data-id="${file.id}" style="transform: translateX(0) rotate(0deg);">
-          <div class="card-overlay delete" id="overlayDelete">
-            <span class="action-label">삭제</span>
+        <div class="file-card absolute w-full h-full bg-surface-card rounded-[28px] shadow-lg flex flex-col overflow-hidden touch-pan-y cursor-grab select-none transition-transform duration-100" data-id="${file.id}" style="transform: translateX(0) rotate(0deg);">
+          <div class="card-overlay absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-150 pointer-events-none rounded-[28px] z-10" id="overlayDelete">
+            <span class="font-display text-[28px] font-bold text-white uppercase tracking-[3px]">삭제</span>
           </div>
-          <div class="card-overlay keep" id="overlayKeep">
-            <span class="action-label">보관</span>
+          <div class="card-overlay absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-150 pointer-events-none rounded-[28px] z-10" id="overlayKeep">
+            <span class="font-display text-[28px] font-bold text-white uppercase tracking-[3px]">보관</span>
           </div>
-          
-          <div class="card-header" style="background: linear-gradient(135deg, ${typeInfo.color}, ${typeInfo.color}dd)">
-            <div class="file-type-badge">
-              <span class="icon">${file.icon}</span>
+          <div class="card-header px-6 py-5 bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-between">
+            <div class="flex items-center gap-2 bg-white/20 px-3 py-2 rounded-full text-xs font-semibold uppercase">
+              <span class="text-base">${file.icon}</span>
               <span>${typeInfo.label}</span>
             </div>
-            <span class="file-size-badge">${file.size}</span>
+            <span class="text-xs opacity-90">${file.size}</span>
           </div>
-          
-          <div class="card-body">
-            <div class="file-icon-container">
-              <span class="icon">${file.icon}</span>
+          <div class="card-body flex-1 flex flex-col items-center justify-center px-8">
+            <div class="w-[120px] h-[120px] bg-surface-secondary rounded-3xl flex items-center justify-center mb-6 relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/30 to-transparent animate-shimmer"></div>
+              <span class="text-[64px] relative z-10">${file.icon}</span>
             </div>
-            <div class="file-name">${file.name}</div>
-            <div class="file-date">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
+            <h3 class="font-display text-xl font-semibold text-text-primary text-center mb-3 leading-tight break-all">${file.name}</h3>
+            <p class="text-text-muted text-sm flex items-center gap-2">
+              <svg class="w-4 h-4"><use href="#icon-calendar"></use></svg>
               ${file.date}
-            </div>
+            </p>
           </div>
-          
-          <div class="card-footer">
-            <span class="swipe-hint">
-              <span class="arrow">←</span> 삭제
-            </span>
-            <span class="swipe-hint">
-              보관 <span class="arrow">→</span>
-            </span>
+          <div class="card-footer px-6 py-4 bg-surface-secondary flex justify-center gap-6">
+            <div class="flex items-center gap-2 text-text-muted text-xs">
+              <span class="text-lg text-text-secondary">←</span>
+              <span>삭제</span>
+            </div>
+            <div class="flex items-center gap-2 text-text-muted text-xs">
+              <span>보관</span>
+              <span class="text-lg text-text-secondary">→</span>
+            </div>
           </div>
         </div>
       `;
     }
 
-    function renderCard() {
+    function renderCards() {
       if (files.length === 0) {
-        cardStack.style.display = 'none';
-        emptyState.classList.add('show');
+        cardStack.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
         actionButtons.style.display = 'none';
+        currentFileName.textContent = '모든 파일 검토 완료';
         return;
       }
 
-      cardStack.style.display = 'block';
-      emptyState.classList.remove('show');
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
       actionButtons.style.display = 'flex';
 
-      const file = files[0];
-      cardStack.innerHTML = createCard(file);
-      currentFileName.textContent = file.name;
+      const topFile = files[0];
+      currentFileName.textContent = topFile.name;
+      cardStack.innerHTML = createCard(topFile);
 
-      setupSwipeGestures();
-      updateProgress();
+      const card = cardStack.querySelector('.file-card');
+      initSwipe(card);
     }
 
-    function setupSwipeGestures() {
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    function initSwipe(card) {
+      if (!card) return;
+
+      card.addEventListener('mousedown', (e) => startDrag(e));
+      card.addEventListener('touchstart', (e) => startDrag(e), { passive: true });
+
+      document.addEventListener('mousemove', (e) => moveDrag(e));
+      document.addEventListener('touchmove', (e) => moveDrag(e), { passive: true });
+
+      document.addEventListener('mouseup', () => endDrag(card));
+      document.addEventListener('touchend', () => endDrag(card));
+    }
+
+    function startDrag(e) {
+      isDragging = true;
+      startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+      currentX = 0;
+    }
+
+    function moveDrag(e) {
+      if (!isDragging) return;
+      const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+      currentX = clientX - startX;
+
       const card = cardStack.querySelector('.file-card');
       if (!card) return;
 
-      let startX = 0;
-      let currentX = 0;
-      let isDragging = false;
+      const rotation = currentX * 0.05;
+      card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
 
       const overlayDelete = card.querySelector('#overlayDelete');
       const overlayKeep = card.querySelector('#overlayKeep');
 
-      const handleStart = (e) => {
-        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-        isDragging = true;
-        card.style.transition = 'none';
-      };
+      if (currentX < -50) {
+        overlayDelete.style.opacity = Math.min(Math.abs(currentX) / 100, 1);
+        overlayDelete.classList.add('bg-gradient-to-br', 'from-red-400/95', 'to-red-600/95');
+        overlayKeep.style.opacity = 0;
+      } else if (currentX > 50) {
+        overlayKeep.style.opacity = Math.min(currentX / 100, 1);
+        overlayKeep.classList.add('bg-gradient-to-br', 'from-emerald-400/95', 'to-emerald-600/95');
+        overlayDelete.style.opacity = 0;
+      } else {
+        overlayDelete.style.opacity = 0;
+        overlayKeep.style.opacity = 0;
+      }
+    }
 
-      const handleMove = (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        
-        const x = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-        currentX = x - startX;
-        
-        const rotation = currentX * 0.05;
-        card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
-        
-        const threshold = 100;
-        const progress = Math.min(Math.abs(currentX) / threshold, 1);
-        
-        if (currentX < 0) {
-          overlayDelete.style.opacity = progress;
-          overlayKeep.style.opacity = 0;
-        } else {
-          overlayKeep.style.opacity = progress;
-          overlayDelete.style.opacity = 0;
-        }
-      };
+    function endDrag(card) {
+      if (!isDragging) return;
+      isDragging = false;
 
-      const handleEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        card.style.transition = 'transform 0.3s ease';
-        
-        const threshold = 100;
-        
-        if (currentX < -threshold) {
-          handleSwipe('delete');
-        } else if (currentX > threshold) {
-          handleSwipe('keep');
-        } else {
-          card.style.transform = 'translateX(0) rotate(0deg)';
-          overlayDelete.style.opacity = 0;
-          overlayKeep.style.opacity = 0;
-        }
-        
-        currentX = 0;
-      };
+      if (currentX < -150) {
+        animateCard(card, 'left');
+      } else if (currentX > 150) {
+        animateCard(card, 'right');
+      } else {
+        card.style.transform = 'translateX(0) rotate(0deg)';
+        const overlayDelete = card.querySelector('#overlayDelete');
+        const overlayKeep = card.querySelector('#overlayKeep');
+        overlayDelete.style.opacity = 0;
+        overlayKeep.style.opacity = 0;
+      }
+      currentX = 0;
+    }
 
-      card.addEventListener('mousedown', handleStart);
-      card.addEventListener('touchstart', handleStart, { passive: true });
-      
-      document.addEventListener('mousemove', handleMove);
-      document.addEventListener('touchmove', handleMove, { passive: false });
-      
-      document.addEventListener('mouseup', handleEnd);
-      document.addEventListener('touchend', handleEnd);
+    function animateCard(card, direction) {
+      if (direction === 'left') {
+        card.classList.add('animate-card-exit-left');
+        card.style.opacity = '0';
+      } else {
+        card.classList.add('animate-card-exit-right');
+        card.style.opacity = '0';
+      }
+
+      setTimeout(() => {
+        handleSwipe(direction === 'left' ? 'delete' : 'keep');
+      }, 300);
     }
 
     function handleSwipe(action) {
       if (files.length === 0) return;
-      
-      const card = cardStack.querySelector('.file-card');
-      const file = files.shift();
-      
-      historyStack.push({ file, action });
+
+      const deletedFile = files.shift();
+      historyStack.push(deletedFile);
       undoBtn.disabled = false;
-      
-      if (action === 'delete') {
-        card.classList.add('card-exit-left');
-showToast('파일 삭제됨');
-    } else {
-      card.classList.add('card-exit-right');
-      showToast('파일 보관됨');
-      }
-      
-      setTimeout(() => {
-        renderCard();
-      }, 400);
+
+      updateProgress();
+      renderCards();
+      showToast(action === 'delete' ? '파일 삭제됨' : '파일 보관됨');
     }
 
     function undo() {
       if (historyStack.length === 0) return;
-      
-      const last = historyStack.pop();
-      files.unshift(last.file);
-      
-      if (historyStack.length === 0) {
-        undoBtn.disabled = true;
-      }
-      
-      showToast(`${last.file.name} 복원됨`);
-      renderCard();
-    }
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2000);
+      const restoredFile = historyStack.pop();
+      files.unshift(restoredFile);
+
+      undoBtn.disabled = historyStack.length === 0;
+
+      updateProgress();
+      renderCards();
+      showToast('실행 취소됨');
     }
 
     function updateProgress() {
       const total = mockFiles.length;
-      const completed = total - files.length;
-      const percent = Math.round((completed / total) * 100);
-      
-      progressFill.style.width = `${percent}%`;
-      progressText.textContent = `${percent}%`;
+      const current = files.length;
+      const progress = Math.round(((total - current) / total) * 100);
+
+      progressFill.style.width = `${progress}%`;
+      progressText.textContent = `${progress}%`;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('opacity-100', 'translate-y-0');
+      toast.classList.remove('opacity-0', '-translate-y-5');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-5');
+      }, 2000);
     }
 
     function resetFiles() {
       files = [...mockFiles];
       historyStack = [];
       undoBtn.disabled = true;
-      renderCard();
+      updateProgress();
+      renderCards();
+      showToast('초기화됨');
     }
 
     undoBtn.addEventListener('click', undo);
-    renderCard();
+
+    renderCards();
+    updateProgress();
   </script>
 </body>
 </html>

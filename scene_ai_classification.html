@@ -7,56 +7,129 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      /* Blue Light Puzzle Theme - Intelligent, Precise, Cool */
-      --primary: #3b82f6;
-      --primary-light: #60a5fa;
-      --primary-dark: #1d4ed8;
-      --secondary: #06b6d4;
-      --secondary-light: #22d3ee;
-      --accent: #0ea5e9;
-      --accent-warn: #38bdf8;
-      --accent-danger: #f472b6;
-
-      --bg-primary: #f8fafc;
-      --bg-secondary: #e2e8f0;
-      --bg-card: #ffffff;
-      --bg-overlay: rgba(14, 165, 233, 0.08);
-
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
-
-      --shadow-sm: 0 2px 8px rgba(14, 165, 233, 0.06);
-      --shadow-md: 0 4px 20px rgba(14, 165, 233, 0.08);
-      --shadow-lg: 0 8px 40px rgba(14, 165, 233, 0.12);
-      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.25);
-      --shadow-blue: 0 4px 20px rgba(59, 130, 246, 0.3);
-
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --space-10: 40px;
-      --space-12: 48px;
-      --space-16: 64px;
-
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --radius-xl: 28px;
-      --radius-full: 9999px;
-
-      --transition-fast: 150ms ease;
-      --transition-base: 250ms ease;
-      --transition-slow: 400ms ease;
-      --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Heroicons SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </symbol>
+    <symbol id="icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v18M5.5 9.5L7.5 12M5.5 14.5L7.5 12M16.5 9.5L14.5 12M16.5 14.5L14.5 12M9 3l1.5 4.5L15 3M9 21l1.5-4.5L15 21"/>
+      <path d="M9 3l1.5 4.5M14.5 7.5L15 3l-4.5 1.5M9 21l1.5-4.5M14.5 16.5L15 21l-4.5-1.5"/>
+    </symbol>
+    <symbol id="icon-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </symbol>
+    <symbol id="icon-chart-bar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <circle cx="19" cy="5" r="2"/>
+      <circle cx="5" cy="19" r="2"/>
+      <path d="M10.4 10.6l5.2 5.2M13.6 13.6l5.2 5.2"/>
+    </symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </symbol>
+    <symbol id="icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+      <line x1="7" y1="7" x2="7.01" y2="7"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="icon-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <circle cx="8.5" cy="8.5" r="1.5"/>
+      <polyline points="21 15 16 10 5 21"/>
+    </symbol>
+    <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </symbol>
+    <symbol id="icon-magnifying-glass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </symbol>
+    <symbol id="icon-sparkles-alt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <symbol id="icon-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8" y="8" width="12" height="12" rx="2"/>
+      <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+    </symbol>
+  </svg>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#3b82f6', light: '#60a5fa', dark: '#1d4ed8' },
+            secondary: { DEFAULT: '#06b6d4', light: '#22d3ee' },
+            accent: { DEFAULT: '#0ea5e9', warn: '#38bdf8', danger: '#f472b6' },
+            surface: { primary: '#f8fafc', secondary: '#e2e8f0', card: '#ffffff' },
+            text: { primary: '#0f172a', secondary: '#475569', muted: '#94a3b8' },
+          },
+          fontFamily: {
+            sans: ['Noto Sans KR', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          boxShadow: {
+            'sm': '0 2px 8px rgba(14, 165, 233, 0.06)',
+            'md': '0 4px 20px rgba(14, 165, 233, 0.08)',
+            'lg': '0 8px 40px rgba(14, 165, 233, 0.12)',
+            'glow': '0 0 30px rgba(14, 165, 233, 0.25)',
+            'blue': '0 4px 20px rgba(59, 130, 246, 0.3)',
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'fade-slide-up': 'fadeSlideUp 0.5s ease forwards',
+            'slide-in': 'slideIn 0.5s ease forwards',
+            'bounce-in': 'bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            'pulse-slow': 'pulse 2s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+            'spin': 'spin 2s linear infinite',
+            'node-pulse': 'nodePulse 1.5s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            fadeSlideUp: {
+              from: { opacity: '0', transform: 'translateY(20px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideIn: {
+              from: { opacity: '0', transform: 'translateY(30px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+            bounceIn: {
+              '0%': { transform: 'scale(0)' },
+              '50%': { transform: 'scale(1.1)' },
+              '100%': { transform: 'scale(1)' },
+            },
+            pulse: {
+              '0%, 100%': { opacity: '0.5', transform: 'scale(1)' },
+              '50%': { opacity: '1', transform: 'scale(1.1)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { transform: 'scale(1)', opacity: '0.5' },
+              '50%': { transform: 'scale(1.1)', opacity: '0.8' },
+            },
+            nodePulse: {
+              '0%, 100%': { transform: 'scale(1)', opacity: '0.6' },
+              '50%': { transform: 'scale(1.5)', opacity: '1' },
+            },
+          },
+        },
+      },
     }
-
+  </script>
+  <style>
     [data-theme="dark"] {
       --bg-primary: #0a0e1a;
       --bg-secondary: #111827;
@@ -70,1080 +143,256 @@
       --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
       --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      padding: var(--space-4) var(--space-8);
-      border-radius: var(--radius-full);
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: 'Outfit', sans-serif;
-      cursor: pointer;
-      border: none;
-      transition: all var(--transition-base);
-      min-height: 56px;
-      min-width: 160px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      box-shadow: var(--shadow-blue);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn-secondary:hover {
-      background: var(--bg-secondary);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-secondary);
-      min-width: auto;
-      padding: var(--space-3) var(--space-4);
-    }
-
-    .btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-    }
-
-    /* Main Container */
-    .ai-container {
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      padding: var(--space-6);
-    }
-
-    /* Back Button */
-    .back-header {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      margin-bottom: var(--space-8);
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color var(--transition-fast);
-      min-width: auto;
-      min-height: auto;
-      padding: var(--space-2) var(--space-4);
-      border-radius: var(--radius-md);
-    }
-
-    .back-btn:hover {
-      color: var(--primary);
-      background: var(--bg-overlay);
-    }
-
-    .back-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* Privacy Hero Banner */
-    .privacy-hero {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--primary-light) 100%);
-      border-radius: var(--radius-xl);
-      padding: var(--space-12) var(--space-8);
-      margin-bottom: var(--space-8);
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .privacy-hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-      animation: pulse-glow 4s ease-in-out infinite;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-    }
-
-    .privacy-hero-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: var(--space-6);
-    }
-
-    .shield-icon {
-      width: 80px;
-      height: 80px;
-      background: rgba(255,255,255,0.2);
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(10px);
-    }
-
-    .shield-icon svg {
-      width: 48px;
-      height: 48px;
-      stroke: white;
-      fill: none;
-    }
-
-    .privacy-hero-text h1 {
-      color: white;
-      font-size: 1.75rem;
-      margin-bottom: var(--space-2);
-    }
-
-    .privacy-hero-text p {
-      color: rgba(255,255,255,0.9);
-      font-size: 1rem;
-    }
-
-    /* AI Status Bar */
-    .ai-status-bar {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      margin-bottom: var(--space-8);
-      box-shadow: var(--shadow-md);
-      display: flex;
-      align-items: center;
-      gap: var(--space-6);
-    }
-
-    .neural-icon {
-      width: 64px;
-      height: 64px;
-      position: relative;
-    }
-
-    .neural-ring {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 4px solid var(--bg-secondary);
-      position: relative;
-    }
-
-    .neural-ring::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 4px solid transparent;
-      border-top-color: var(--primary);
-      animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .neural-nodes {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .neural-node {
-      width: 12px;
-      height: 12px;
-      background: var(--primary);
-      border-radius: 50%;
-      position: absolute;
-      animation: node-pulse 1.5s ease-in-out infinite;
-    }
-
-    .neural-node:nth-child(1) { top: 10%; left: 50%; animation-delay: 0s; }
-    .neural-node:nth-child(2) { top: 50%; right: 10%; animation-delay: 0.3s; }
-    .neural-node:nth-child(3) { bottom: 10%; left: 50%; animation-delay: 0.6s; }
-    .neural-node:nth-child(4) { top: 50%; left: 10%; animation-delay: 0.9s; }
-    .neural-node:nth-child(5) { center: true; top: 50%; left: 50%; animation-delay: 1.2s; }
-
-    @keyframes node-pulse {
-      0%, 100% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.5); opacity: 1; }
-    }
-
-    .ai-status-text {
-      flex: 1;
-    }
-
-    .ai-status-text h3 {
-      font-size: 1.1rem;
-      margin-bottom: var(--space-1);
-    }
-
-    .ai-status-text p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    .progress-ring-container {
-      position: relative;
-      width: 60px;
-      height: 60px;
-    }
-
-    .progress-ring {
-      transform: rotate(-90deg);
-    }
-
-    .progress-ring-bg {
-      fill: none;
-      stroke: var(--bg-secondary);
-      stroke-width: 6;
-    }
-
-    .progress-ring-fill {
-      fill: none;
-      stroke: var(--accent);
-      stroke-width: 6;
-      stroke-linecap: round;
-      stroke-dasharray: 157;
-      stroke-dashoffset: 157;
-      transition: stroke-dashoffset 1.5s ease-out;
-    }
-
-    .progress-ring-fill.animate {
-      stroke-dashoffset: 20;
-    }
-
-    .progress-percent {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--accent);
-    }
-
-    /* AI Discoveries Section */
-    .ai-discoveries {
-      margin-bottom: var(--space-8);
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: var(--space-6);
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .section-title h2 {
-      font-size: 1.5rem;
-    }
-
-    .section-title .badge {
-      background: var(--primary);
-      color: white;
-      font-size: 0.75rem;
-      padding: var(--space-1) var(--space-3);
-      border-radius: var(--radius-full);
-      font-weight: 600;
-    }
-
-    .discoveries-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-6);
-    }
-
-    .discovery-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      box-shadow: var(--shadow-md);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all var(--transition-slow);
-    }
-
-    .discovery-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    [data-theme="dark"] body { background: var(--bg-primary); color: var(--text-primary); }
+    [data-theme="dark"] .bg-primary { background: var(--bg-primary); }
+    [data-theme="dark"] .bg-secondary { background: var(--bg-secondary); }
+    [data-theme="dark"] .bg-card { background: var(--bg-card); }
+    [data-theme="dark"] .bg-overlay { background: var(--bg-overlay); }
+    [data-theme="dark"] .text-primary { color: var(--text-primary); }
+    [data-theme="dark"] .text-secondary { color: var(--text-secondary); }
+    [data-theme="dark"] .text-muted { color: var(--text-muted); }
+    [data-theme="dark"] .shadow-sm { box-shadow: var(--shadow-sm); }
+    [data-theme="dark"] .shadow-md { box-shadow: var(--shadow-md); }
+    [data-theme="dark"] .shadow-lg { box-shadow: var(--shadow-lg); }
+    [data-theme="dark"] .shadow-glow { box-shadow: var(--shadow-glow); }
+    [data-theme="dark"] .border-secondary { border-color: var(--bg-secondary); }
+    
+    /* Neural network nodes animation delays */
+    .neural-node:nth-child(1) { animation-delay: 0s; }
+    .neural-node:nth-child(2) { animation-delay: 0.3s; }
+    .neural-node:nth-child(3) { animation-delay: 0.6s; }
+    .neural-node:nth-child(4) { animation-delay: 0.9s; }
+    .neural-node:nth-child(5) { animation-delay: 1.2s; }
+    
+    /* Discovery card stagger animation */
     .discovery-card:nth-child(1) { transition-delay: 0ms; }
     .discovery-card:nth-child(2) { transition-delay: 100ms; }
     .discovery-card:nth-child(3) { transition-delay: 200ms; }
     .discovery-card:nth-child(4) { transition-delay: 300ms; }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      margin-bottom: var(--space-5);
-    }
-
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .card-icon svg {
-      width: 24px;
-      height: 24px;
-      stroke: white;
-      fill: none;
-    }
-
-    .card-icon.clusters { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
-    .card-icon.duplicates { background: linear-gradient(135deg, var(--secondary), #ec4899); }
-    .card-icon.tags { background: linear-gradient(135deg, var(--accent), #059669); }
-    .card-icon.predictive { background: linear-gradient(135deg, var(--accent-warn), #f59e0b); }
-
-    .card-title-group h3 {
-      font-size: 1.1rem;
-      margin-bottom: var(--space-1);
-    }
-
-    .card-title-group span {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    /* Smart Clusters */
-    .cluster-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .cluster-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      padding: var(--space-4);
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-      transition: transform var(--transition-fast);
-    }
-
-    .cluster-item:hover {
-      transform: translateX(4px);
-    }
-
-    .cluster-color {
-      width: 12px;
-      height: 40px;
-      border-radius: var(--radius-sm);
-    }
-
-    .cluster-info {
-      flex: 1;
-    }
-
-    .cluster-info h4 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: var(--space-1);
-    }
-
-    .cluster-info p {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-
-    .cluster-badge {
-      background: var(--bg-card);
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    /* Duplicate Detection */
-    .duplicate-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .duplicate-pair {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      padding: var(--space-4);
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-    }
-
-    .file-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--secondary-light), var(--secondary));
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .file-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke: white;
-      fill: none;
-    }
-
-    .duplicate-info {
-      flex: 1;
-    }
-
-    .duplicate-info p {
-      font-weight: 500;
-      font-size: 0.9rem;
-      margin-bottom: var(--space-1);
-    }
-
-    .duplicate-info span {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-
-    .match-badge {
-      background: linear-gradient(135deg, var(--accent-warn), #f59e0b);
-      color: white;
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--radius-full);
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    /* Auto Tags */
-    .tag-cloud {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-
-    .tag-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-4);
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: all var(--transition-fast);
-      cursor: pointer;
-    }
-
-    .tag-pill:hover {
-      transform: scale(1.05);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .tag-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .tag-dot.high-priority { background: var(--accent-danger); }
-    .tag-dot.work { background: var(--primary); }
-    .tag-dot.personal { background: var(--secondary); }
-    .tag-dot.archive { background: var(--text-muted); }
-    .tag-dot.quick { background: var(--accent); }
-
-    /* Predictive Actions */
-    .prediction-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .prediction-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      padding: var(--space-4);
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-    }
-
-    .prediction-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .prediction-icon svg {
-      width: 22px;
-      height: 22px;
-      stroke: white;
-      fill: none;
-    }
-
-    .prediction-info {
-      flex: 1;
-    }
-
-    .prediction-info p {
-      font-weight: 500;
-      font-size: 0.9rem;
-      margin-bottom: var(--space-1);
-    }
-
-    .prediction-info span {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-
-    .confidence-badge {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-3);
-      background: var(--bg-card);
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .confidence-bar {
-      width: 40px;
-      height: 6px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-    }
-
-    .confidence-fill {
-      height: 100%;
-      border-radius: var(--radius-full);
-      width: 0;
-      transition: width 1s ease-out;
-    }
-
-    .confidence-fill.animate { width: var(--confidence); }
-    .confidence-fill.high { background: var(--accent); }
-    .confidence-fill.medium { background: var(--accent-warn); }
-
-    /* Distribution Chart Section */
-    .distribution-section {
-      margin-bottom: var(--space-8);
-    }
-
-    .distribution-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: var(--space-8);
-      box-shadow: var(--shadow-md);
-    }
-
-    .distribution-content {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: var(--space-8);
-      align-items: center;
-    }
-
-    .pie-chart-container {
-      position: relative;
-      width: 220px;
-      height: 220px;
-    }
-
-    .pie-chart {
-      width: 100%;
-      height: 100%;
-      transform: rotate(-90deg);
-    }
-
-    .pie-segment {
-      fill: none;
-      stroke-width: 40;
-      stroke-dasharray: 0 314;
-      transition: stroke-dasharray 1s ease-out;
-    }
-
-    .pie-segment.animate {
-      stroke-dasharray: var(--segment-dash) 314;
-    }
-
-    .pie-segment.documents { stroke: var(--primary); }
-    .pie-segment.images { stroke: var(--secondary); }
-    .pie-segment.videos { stroke: var(--accent); }
-    .pie-segment.others { stroke: var(--accent-warn); }
-
-    .pie-center {
-      position: absolute;
-      inset: 40px;
-      background: var(--bg-card);
-      border-radius: 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .pie-center span {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .pie-center small {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-
-    .pattern-bars {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .pattern-bar-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-    }
-
-    .pattern-bar-label {
-      width: 100px;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .pattern-bar-track {
-      flex: 1;
-      height: 32px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .pattern-bar-fill {
-      height: 100%;
-      border-radius: var(--radius-md);
-      width: 0;
-      transition: width 1s ease-out;
-    }
-
-    .pattern-bar-fill.animate { width: var(--bar-width); }
-    .pattern-bar-fill.documents { background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
-    .pattern-bar-fill.images { background: linear-gradient(90deg, var(--secondary), var(--secondary-light)); }
-    .pattern-bar-fill.videos { background: linear-gradient(90deg, var(--accent), #6ee7b7); }
-    .pattern-bar-fill.others { background: linear-gradient(90deg, var(--accent-warn), #fcd34d); }
-
-    .pattern-bar-value {
-      width: 50px;
-      text-align: right;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-
-    /* Semantic Search Hints */
-    .search-hints {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      box-shadow: var(--shadow-md);
-      margin-bottom: var(--space-8);
-    }
-
-    .search-hints h3 {
-      font-size: 1rem;
-      margin-bottom: var(--space-4);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-
-    .search-hints h3 svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--primary);
-      fill: none;
-    }
-
-    .hints-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-
-    .hint-chip {
-      padding: var(--space-3) var(--space-5);
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .hint-chip:hover {
-      background: var(--primary);
-      color: white;
-      transform: scale(1.05);
-    }
-
-    /* Generate Button */
-    .generate-section {
-      display: flex;
-      justify-content: center;
-      gap: var(--space-4);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .discoveries-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .distribution-content {
-        grid-template-columns: 1fr;
-      }
-
-      .pie-chart-container {
-        margin: 0 auto;
-      }
-
-      .ai-status-bar {
-        flex-wrap: wrap;
-      }
-
-      .privacy-hero-content {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
+    
+    /* Tag pill click feedback */
+    .tag-pill-feedback { transform: scale(0.95); }
+    
+    /* Hint chip click feedback */
+    .hint-chip-feedback { background: var(--primary-dark); }
   </style>
 </head>
-<body>
-  <div class="ai-container">
+<body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased overflow-x-hidden">
+  <div class="max-w-[1200px] w-full mx-auto p-6">
     <!-- Back Header -->
-    <div class="back-header">
-      <a href="index.html" class="back-btn">
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
+    <div class="flex items-center gap-4 mb-8">
+      <a href="index.html" class="inline-flex items-center gap-2 text-text-secondary font-medium transition-colors duration-150 hover:text-primary hover:bg-accent/10 rounded-xl px-3 py-2">
+        <svg class="w-5 h-5"><use href="#icon-arrow-left"></use></svg>
         <span>대시보드로</span>
       </a>
     </div>
 
     <!-- Privacy Hero Banner -->
-    <div class="privacy-hero">
-      <div class="privacy-hero-content">
-        <div class="shield-icon">
-          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M9 12l2 2 4-4"/>
-          </svg>
+    <div class="bg-gradient-to-br from-primary via-secondary to-primary-light rounded-[28px] p-12 mb-8 relative overflow-hidden shadow-lg">
+      <div class="absolute top-[-50%] right-[-20%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(255,255,255,0.15),transparent_70%)] animate-pulse-glow"></div>
+      <div class="relative z-10 flex items-center gap-6">
+          <div class="w-20 h-20 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+            <svg class="w-12 h-12 text-white"><use href="#icon-shield-check"></use></svg>
+          </div>
         </div>
-        <div class="privacy-hero-text">
-          <h1>AI 파일 지능</h1>
-          <p>파일은 기기 내에서 분석됩니다. 데이터가 기기를 떠나지 않습니다.</p>
+    <div class="bg-surface-card rounded-xl p-6 mb-8 shadow-md flex items-center gap-6">
+      <div class="w-16 h-16 relative">
+        <div class="w-full h-full rounded-full border-4 border-surface-secondary relative">
+          <div class="absolute inset-[-4px] rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- AI Status Bar -->
-    <div class="ai-status-bar">
-      <div class="neural-icon">
-        <div class="neural-ring"></div>
-        <div class="neural-nodes">
-          <div class="neural-node"></div>
-          <div class="neural-node"></div>
-          <div class="neural-node"></div>
-          <div class="neural-node"></div>
-          <div class="neural-node"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-3 h-3 bg-primary rounded-full absolute top-[10%] left-[50%] -translate-x-1/2 animate-node-pulse"></div>
+          <div class="w-3 h-3 bg-primary rounded-full absolute top-[50%] right-[10%] animate-node-pulse"></div>
+          <div class="w-3 h-3 bg-primary rounded-full absolute bottom-[10%] left-[50%] -translate-x-1/2 animate-node-pulse"></div>
+          <div class="w-3 h-3 bg-primary rounded-full absolute top-[50%] left-[10%] animate-node-pulse"></div>
+          <div class="w-3 h-3 bg-primary rounded-full absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 animate-node-pulse"></div>
         </div>
       </div>
-      <div class="ai-status-text">
-        <h3>신경망 분석 활성화</h3>
-        <p>12개 디렉토리에서 847개 파일 스캔 중</p>
+      <div class="flex-1">
+        <h3 class="text-[1.1rem] font-display font-semibold mb-1">신경망 분석 활성화</h3>
+        <p class="text-text-secondary text-[0.9rem]">12개 디렉토리에서 847개 파일 스캔 중</p>
       </div>
-      <div class="progress-ring-container">
-        <svg class="progress-ring" width="60" height="60">
-          <circle class="progress-ring-bg" cx="30" cy="30" r="25"/>
-          <circle class="progress-ring-fill" cx="30" cy="30" r="25"/>
+      <div class="relative w-[60px] h-[60px]">
+        <svg class="w-full h-full -rotate-[90deg]" viewBox="0 0 60 60">
+          <circle class="fill-none stroke-surface-secondary" cx="30" cy="30" r="25" stroke-width="6"/>
+          <circle class="progress-ring-fill fill-none stroke-accent rounded-full transition-all duration-[1.5s]" cx="30" cy="30" r="25" stroke-width="6" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="157"/>
         </svg>
-        <span class="progress-percent">87%</span>
+        <span class="absolute inset-0 flex items-center justify-center font-display font-bold text-accent text-[0.9rem]">87%</span>
       </div>
     </div>
 
     <!-- AI Discoveries Section -->
-    <div class="ai-discoveries">
-      <div class="section-header">
-        <div class="section-title">
-          <h2>AI 발견</h2>
-          <span class="badge">4개 신규</span>
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-[1.5rem] font-display font-semibold">AI 발견</h2>
+          <span class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">4개 신규</span>
         </div>
       </div>
 
-      <div class="discoveries-grid">
+      <div class="grid grid-cols-2 gap-6">
         <!-- Smart Clusters Card -->
-        <div class="discovery-card">
-          <div class="card-header">
-            <div class="card-icon clusters">
-              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"/>
-                <circle cx="19" cy="5" r="2"/>
-                <circle cx="5" cy="19" r="2"/>
-                <path d="M10.4 10.6l5.2 5.2M13.6 13.6L8.4 8.4"/>
-              </svg>
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-400">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center">
+              <svg class="w-6 h-6 text-white"><use href="#icon-chart-bar"></use></svg>
             </div>
-            <div class="card-title-group">
-              <h3>스마트 클러스터</h3>
-              <span>3개 그룹 발견</span>
+            <div>
+              <h3 class="text-[1.1rem] font-semibold mb-1">스마트 클러스터</h3>
+              <span class="text-text-muted text-[0.85rem]">3개 그룹 발견</span>
             </div>
           </div>
-          <div class="cluster-list">
-            <div class="cluster-item">
-              <div class="cluster-color" style="background: linear-gradient(180deg, var(--primary), var(--primary-light));"></div>
-              <div class="cluster-info">
-                <h4>금융 보고서</h4>
-                <p>5개 파일 - 2024년 4분기 분석 문서</p>
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl transition-transform duration-150 hover:translate-x-1">
+              <div class="w-3 h-10 rounded-sm bg-gradient-to-b from-primary to-primary-light"></div>
+              <div class="flex-1">
+                <h4 class="text-[0.95rem] font-semibold mb-1">금융 보고서</h4>
+                <p class="text-text-muted text-[0.8rem]">5개 파일 - 2024년 4분기 분석 문서</p>
               </div>
-              <span class="cluster-badge">5 files</span>
+              <span class="bg-surface-card text-text-secondary text-xs font-semibold px-3 py-2 rounded-full">5 files</span>
             </div>
-            <div class="cluster-item">
-              <div class="cluster-color" style="background: linear-gradient(180deg, var(--secondary), var(--secondary-light));"></div>
-              <div class="cluster-info">
-                <h4>휴가 사진</h4>
-                <p>12개 파일 - 2024년 여름 여행</p>
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl transition-transform duration-150 hover:translate-x-1">
+              <div class="w-3 h-10 rounded-sm bg-gradient-to-b from-secondary to-secondary-light"></div>
+              <div class="flex-1">
+                <h4 class="text-[0.95rem] font-semibold mb-1">휴가 사진</h4>
+                <p class="text-text-muted text-[0.8rem]">12개 파일 - 2024년 여름 여행</p>
               </div>
-              <span class="cluster-badge">12 files</span>
+              <span class="bg-surface-card text-text-secondary text-xs font-semibold px-3 py-2 rounded-full">12 files</span>
             </div>
-            <div class="cluster-item">
-              <div class="cluster-color" style="background: linear-gradient(180deg, var(--accent), #6ee7b7);"></div>
-              <div class="cluster-info">
-                <h4>프로젝트 자산</h4>
-                <p>8개 파일 - 디자인 리소스</p>
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl transition-transform duration-150 hover:translate-x-1">
+              <div class="w-3 h-10 rounded-sm bg-gradient-to-b from-accent to-[#6ee7b7]"></div>
+              <div class="flex-1">
+                <h4 class="text-[0.95rem] font-semibold mb-1">프로젝트 자산</h4>
+                <p class="text-text-muted text-[0.8rem]">8개 파일 - 디자인 리소스</p>
               </div>
-              <span class="cluster-badge">8 files</span>
+              <span class="bg-surface-card text-text-secondary text-xs font-semibold px-3 py-2 rounded-full">8 files</span>
             </div>
           </div>
         </div>
 
         <!-- Duplicate Detection Card -->
-        <div class="discovery-card">
-          <div class="card-header">
-            <div class="card-icon duplicates">
-              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="8" y="8" width="12" height="12" rx="2"/>
-                <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
-              </svg>
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-400">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary to-[#ec4899] flex items-center justify-center">
+              <svg class="w-6 h-6 text-white"><use href="#icon-cpu"></use></svg>
             </div>
-            <div class="card-title-group">
-              <h3>중복 후보</h3>
-              <span>2개 중복 가능성</span>
+            <div>
+              <h3 class="text-[1.1rem] font-semibold mb-1">중복 후보</h3>
+              <span class="text-text-muted text-[0.85rem]">2개 중복 가능성</span>
             </div>
           </div>
-          <div class="duplicate-list">
-            <div class="duplicate-pair">
-              <div class="file-icon">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                </svg>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl">
+              <div class="w-10 h-10 rounded-sm bg-gradient-to-br from-secondary-light to-secondary flex items-center justify-center">
+                <svg class="w-5 h-5 text-white"><use href="#icon-document"></use></svg>
               </div>
-              <div class="duplicate-info">
-                <p>report_final.pdf</p>
-                <span>report_v2.pdf와 일치</span>
+              <div class="flex-1">
+                <p class="font-medium text-[0.9rem] mb-1">report_final.pdf</p>
+                <span class="text-text-muted text-[0.8rem]">report_v2.pdf와 일치</span>
               </div>
-              <span class="match-badge">94%</span>
+              <span class="bg-gradient-to-r from-accent-warn to-[#f59e0b] text-white text-[0.8rem] font-bold px-3 py-2 rounded-full">94%</span>
             </div>
-            <div class="duplicate-pair">
-              <div class="file-icon">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                </svg>
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl">
+              <div class="w-10 h-10 rounded-sm bg-gradient-to-br from-secondary-light to-secondary flex items-center justify-center">
+                <svg class="w-5 h-5 text-white"><use href="#icon-document"></use></svg>
               </div>
-              <div class="duplicate-info">
-                <p>presentation.pptx</p>
-                <span>presentation_backup.pptx와 일치</span>
+              <div class="flex-1">
+                <p class="font-medium text-[0.9rem] mb-1">presentation.pptx</p>
+                <span class="text-text-muted text-[0.8rem]">presentation_backup.pptx와 일치</span>
               </div>
-              <span class="match-badge">78%</span>
+              <span class="bg-gradient-to-r from-accent-warn to-[#f59e0b] text-white text-[0.8rem] font-bold px-3 py-2 rounded-full">78%</span>
             </div>
           </div>
         </div>
 
         <!-- Auto Tags Card -->
-        <div class="discovery-card">
-          <div class="card-header">
-            <div class="card-icon tags">
-              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-                <line x1="7" y1="7" x2="7.01" y2="7"/>
-              </svg>
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-400">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-[#059669] flex items-center justify-center">
+              <svg class="w-6 h-6 text-white"><use href="#icon-tag"></use></svg>
             </div>
-            <div class="card-title-group">
-              <h3>자동 태그</h3>
-              <span>15개 태그 생성됨</span>
+            <div>
+              <h3 class="text-[1.1rem] font-semibold mb-1">자동 태그</h3>
+              <span class="text-text-muted text-[0.85rem]">15개 태그 생성됨</span>
             </div>
           </div>
-          <div class="tag-cloud">
-            <span class="tag-pill">
-              <span class="tag-dot high-priority"></span>
+          <div class="flex flex-wrap gap-3">
+            <span class="tag-pill inline-flex items-center gap-2 px-4 py-3 bg-surface-secondary rounded-full text-[0.85rem] font-medium cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-accent-danger"></span>
               높은 우선순위
             </span>
-            <span class="tag-pill">
-              <span class="tag-dot work"></span>
+            <span class="tag-pill inline-flex items-center gap-2 px-4 py-3 bg-surface-secondary rounded-full text-[0.85rem] font-medium cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
               작업 관련
             </span>
-            <span class="tag-pill">
-              <span class="tag-dot personal"></span>
+            <span class="tag-pill inline-flex items-center gap-2 px-4 py-3 bg-surface-secondary rounded-full text-[0.85rem] font-medium cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-secondary"></span>
               개인
             </span>
-            <span class="tag-pill">
-              <span class="tag-dot archive"></span>
+            <span class="tag-pill inline-flex items-center gap-2 px-4 py-3 bg-surface-secondary rounded-full text-[0.85rem] font-medium cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-text-muted"></span>
               아카이브 대상
             </span>
-            <span class="tag-pill">
-              <span class="tag-dot quick"></span>
+            <span class="tag-pill inline-flex items-center gap-2 px-4 py-3 bg-surface-secondary rounded-full text-[0.85rem] font-medium cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-accent"></span>
               빠른 접근
             </span>
           </div>
         </div>
 
         <!-- Predictive Actions Card -->
-        <div class="discovery-card">
-          <div class="card-header">
-            <div class="card-icon predictive">
-              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-400">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-warn to-[#f59e0b] flex items-center justify-center">
+              <svg class="w-6 h-6 text-white"><use href="#icon-clock"></use></svg>
             </div>
-            <div class="card-title-group">
-              <h3>예측 작업</h3>
-              <span>3개 예측</span>
+            <div>
+              <h3 class="text-[1.1rem] font-semibold mb-1">예측 작업</h3>
+              <span class="text-text-muted text-[0.85rem]">3개 예측</span>
             </div>
           </div>
-          <div class="prediction-list">
-            <div class="prediction-item">
-              <div class="prediction-icon" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                </svg>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl">
+              <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center">
+                <svg class="w-[22px] h-[22px] text-white"><use href="#icon-document"></use></svg>
               </div>
-              <div class="prediction-info">
-                <p>곧 4분기 보고서가 필요할 것입니다</p>
-                <span>월별 접근 패턴 기반</span>
+              <div class="flex-1">
+                <p class="font-medium text-[0.9rem] mb-1">곧 4분기 보고서가 필요할 것입니다</p>
+                <span class="text-text-muted text-[0.8rem]">월별 접근 패턴 기반</span>
               </div>
-              <div class="confidence-badge">
-                <div class="confidence-bar">
-                  <div class="confidence-fill high" style="--confidence: 92%;"></div>
+              <div class="flex items-center gap-2 px-3 py-2 bg-surface-card rounded-full text-[0.75rem] font-semibold">
+                <div class="w-10 h-1.5 bg-surface-secondary rounded-full overflow-hidden">
+                  <div class="confidence-fill h-full rounded-full transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 92%; background: var(--accent);"></div>
                 </div>
                 92%
               </div>
             </div>
-            <div class="prediction-item">
-              <div class="prediction-icon" style="background: linear-gradient(135deg, var(--secondary), #ec4899);">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl">
+              <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-secondary to-[#ec4899] flex items-center justify-center">
+                <svg class="w-[22px] h-[22px] text-white"><use href="#icon-photo"></use></svg>
               </div>
-              <div class="prediction-info">
-                <p>휴가 사진 아카이브</p>
-                <span>28일 동안 접근 없음</span>
+              <div class="flex-1">
+                <p class="font-medium text-[0.9rem] mb-1">휴가 사진 아카이브</p>
+                <span class="text-text-muted text-[0.8rem]">28일 동안 접근 없음</span>
               </div>
-              <div class="confidence-badge">
-                <div class="confidence-bar">
-                  <div class="confidence-fill medium" style="--confidence: 78%;"></div>
+              <div class="flex items-center gap-2 px-3 py-2 bg-surface-card rounded-full text-[0.75rem] font-semibold">
+                <div class="w-10 h-1.5 bg-surface-secondary rounded-full overflow-hidden">
+                  <div class="confidence-fill h-full rounded-full transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 78%; background: var(--accent-warn);"></div>
                 </div>
                 78%
               </div>
             </div>
-            <div class="prediction-item">
-              <div class="prediction-icon" style="background: linear-gradient(135deg, var(--accent), #059669);">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
+            <div class="flex items-center gap-4 p-4 bg-surface-secondary rounded-xl">
+              <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-accent to-[#059669] flex items-center justify-center">
+                <svg class="w-[22px] h-[22px] text-white"><use href="#icon-arrow-up"></use></svg>
               </div>
-              <div class="prediction-info">
-                <p>프로젝트 자산 백업</p>
-                <span>3일 전 수정됨</span>
+              <div class="flex-1">
+                <p class="font-medium text-[0.9rem] mb-1">프로젝트 자산 백업</p>
+                <span class="text-text-muted text-[0.8rem]">3일 전 수정됨</span>
               </div>
-              <div class="confidence-badge">
-                <div class="confidence-bar">
-                  <div class="confidence-fill high" style="--confidence: 85%;"></div>
+              <div class="flex items-center gap-2 px-3 py-2 bg-surface-card rounded-full text-[0.75rem] font-semibold">
+                <div class="w-10 h-1.5 bg-surface-secondary rounded-full overflow-hidden">
+                  <div class="confidence-fill h-full rounded-full transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 85%; background: var(--accent);"></div>
                 </div>
                 85%
               </div>
@@ -1154,54 +403,54 @@
     </div>
 
     <!-- Distribution Chart -->
-    <div class="distribution-section">
-      <div class="section-header">
-        <div class="section-title">
-          <h2>파일 분포</h2>
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-[1.5rem] font-display font-semibold">파일 분포</h2>
         </div>
       </div>
-      <div class="distribution-card">
-        <div class="distribution-content">
-          <div class="pie-chart-container">
-            <svg class="pie-chart" viewBox="0 0 100 100">
-              <circle class="pie-segment documents" cx="50" cy="50" r="25" style="--segment-dash: 98;"/>
-              <circle class="pie-segment images" cx="50" cy="50" r="25" style="--segment-dash: 78;"/>
-              <circle class="pie-segment videos" cx="50" cy="50" r="25" style="--segment-dash: 47;"/>
-              <circle class="pie-segment others" cx="50" cy="50" r="25" style="--segment-dash: 47;"/>
+      <div class="bg-surface-card rounded-xl p-8 shadow-md">
+        <div class="grid grid-cols-[300px_1fr] gap-8 items-center max-lg:grid-cols-1">
+          <div class="relative w-[220px] h-[220px] mx-auto">
+            <svg class="w-full h-full -rotate-[90deg]" viewBox="0 0 100 100">
+              <circle class="pie-segment fill-none stroke-primary transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 98;"/>
+              <circle class="pie-segment fill-none stroke-secondary transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 78;"/>
+              <circle class="pie-segment fill-none stroke-accent transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 47;"/>
+              <circle class="pie-segment fill-none stroke-accent-warn transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 47;"/>
             </svg>
-            <div class="pie-center">
-              <span>847</span>
-              <small>전체 파일</small>
+            <div class="absolute inset-10 bg-surface-card rounded-full flex flex-col items-center justify-center">
+              <span class="font-display text-2xl font-bold text-text-primary">847</span>
+              <small class="text-text-muted text-[0.8rem]">전체 파일</small>
             </div>
           </div>
-          <div class="pattern-bars">
-            <div class="pattern-bar-item">
-              <span class="pattern-bar-label">문서</span>
-              <div class="pattern-bar-track">
-                <div class="pattern-bar-fill documents" style="--bar-width: 45%;"></div>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">문서</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 45%; background: linear-gradient(90deg, var(--primary), var(--primary-light));"></div>
               </div>
-              <span class="pattern-bar-value">382</span>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">382</span>
             </div>
-            <div class="pattern-bar-item">
-              <span class="pattern-bar-label">이미지</span>
-              <div class="pattern-bar-track">
-                <div class="pattern-bar-fill images" style="--bar-width: 35%;"></div>
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">이미지</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 35%; background: linear-gradient(90deg, var(--secondary), var(--secondary-light));"></div>
               </div>
-              <span class="pattern-bar-value">296</span>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">296</span>
             </div>
-            <div class="pattern-bar-item">
-              <span class="pattern-bar-label">동영상</span>
-              <div class="pattern-bar-track">
-                <div class="pattern-bar-fill videos" style="--bar-width: 12%;"></div>
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">동영상</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 12%; background: linear-gradient(90deg, var(--accent), #6ee7b7);"></div>
               </div>
-              <span class="pattern-bar-value">102</span>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">102</span>
             </div>
-            <div class="pattern-bar-item">
-              <span class="pattern-bar-label">기타</span>
-              <div class="pattern-bar-track">
-                <div class="pattern-bar-fill others" style="--bar-width: 8%;"></div>
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">기타</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 8%; background: linear-gradient(90deg, var(--accent-warn), #fcd34d);"></div>
               </div>
-              <span class="pattern-bar-value">67</span>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">67</span>
             </div>
           </div>
         </div>
@@ -1209,30 +458,25 @@
     </div>
 
     <!-- Semantic Search Hints -->
-    <div class="search-hints">
-      <h3>
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
+    <div class="bg-surface-card rounded-xl p-6 shadow-md mb-8">
+      <h3 class="text-base font-display font-semibold mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-primary"><use href="#icon-magnifying-glass"></use></svg>
         관련 검색
       </h3>
-      <div class="hints-container">
-        <span class="hint-chip">2024년 4분기 금융 보고서</span>
-        <span class="hint-chip">프로젝트 타임라인</span>
-        <span class="hint-chip">2024년 휴가</span>
-        <span class="hint-chip">디자인 자산</span>
-        <span class="hint-chip">세금 문서</span>
-        <span class="hint-chip">고객 프레젠테이션</span>
+      <div class="flex flex-wrap gap-3">
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">2024년 4분기 금융 보고서</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">프로젝트 타임라인</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">2024년 휴가</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">디자인 자산</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">세금 문서</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">고객 프레젠테이션</span>
       </div>
     </div>
 
     <!-- Generate Button -->
-    <div class="generate-section">
-      <button class="btn btn-primary">
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-        </svg>
+    <div class="flex justify-center gap-4">
+      <button class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-br from-primary to-primary-dark text-white rounded-full font-display font-semibold text-base shadow-blue hover:shadow-[0_6px_25px_rgba(59,130,246,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250 min-h-[56px] min-w-[160px]">
+        <svg class="w-5 h-5"><use href="#icon-sparkles-alt"></use></svg>
         새 인사이트 생성
       </button>
     </div>
@@ -1243,42 +487,52 @@
       // Stagger reveal discovery cards
       setTimeout(() => {
         document.querySelectorAll('.discovery-card').forEach(card => {
-          card.classList.add('visible');
+          card.classList.remove('opacity-0', 'translate-y-5');
+          card.classList.add('opacity-100', 'translate-y-0');
         });
       }, 300);
 
       // Animate progress ring
       setTimeout(() => {
-        document.querySelector('.progress-ring-fill').classList.add('animate');
+        document.querySelector('.progress-ring-fill').style.strokeDashoffset = '20';
       }, 500);
 
       // Animate confidence bars
       setTimeout(() => {
         document.querySelectorAll('.confidence-fill').forEach(bar => {
-          bar.classList.add('animate');
+          const width = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 50);
         });
       }, 800);
 
       // Animate pie segments
       setTimeout(() => {
         document.querySelectorAll('.pie-segment').forEach(segment => {
-          segment.classList.add('animate');
+          const dash = getComputedStyle(segment).getPropertyValue('--segment-dash');
+          segment.style.strokeDasharray = dash + ' 314';
         });
       }, 600);
 
       // Animate pattern bars
       setTimeout(() => {
         document.querySelectorAll('.pattern-bar-fill').forEach(bar => {
-          bar.classList.add('animate');
+          const width = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 50);
         });
       }, 700);
 
       // Tag pill interaction
       document.querySelectorAll('.tag-pill').forEach(tag => {
         tag.addEventListener('click', () => {
-          tag.style.transform = 'scale(0.95)';
+          tag.classList.add('tag-pill-feedback');
           setTimeout(() => {
-            tag.style.transform = '';
+            tag.classList.remove('tag-pill-feedback');
           }, 150);
         });
       });
@@ -1286,9 +540,9 @@
       // Hint chip interaction
       document.querySelectorAll('.hint-chip').forEach(chip => {
         chip.addEventListener('click', () => {
-          chip.style.background = 'var(--primary-dark)';
+          chip.classList.add('hint-chip-feedback');
           setTimeout(() => {
-            chip.style.background = '';
+            chip.classList.remove('hint-chip-feedback');
           }, 300);
         });
       });

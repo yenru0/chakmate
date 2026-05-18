@@ -4,623 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>내 진행 상황 - Chakmate</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Heroicons SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </symbol>
+  </svg>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#3b82f6', light: '#60a5fa', dark: '#1d4ed8' },
+            secondary: { DEFAULT: '#06b6d4', light: '#22d3ee' },
+            accent: { DEFAULT: '#0ea5e9', warn: '#38bdf8', danger: '#f472b6' },
+            surface: { primary: '#f8fafc', secondary: '#e2e8f0', card: '#ffffff' },
+            text: { primary: '#0f172a', secondary: '#475569', muted: '#94a3b8' },
+          },
+          fontFamily: {
+            sans: ['Noto Sans KR', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          boxShadow: {
+            'sm': '0 2px 8px rgba(14, 165, 233, 0.06)',
+            'md': '0 4px 20px rgba(14, 165, 233, 0.08)',
+            'lg': '0 8px 40px rgba(14, 165, 233, 0.12)',
+            'glow': '0 0 30px rgba(14, 165, 233, 0.25)',
+            'blue': '0 4px 20px rgba(59, 130, 246, 0.3)',
+          },
+          animation: {
+            'shimmer': 'shimmer 3s ease-in-out infinite',
+            'pulse-slow': 'pulse 1.5s ease-in-out infinite',
+            'unlock-pulse': 'unlockPulse 0.6s ease-out',
+            'sparkle': 'sparkle 0.6s ease-out forwards',
+            'confetti-fall': 'confettiFall 2s ease-out forwards',
+            'fire-flicker': 'fireFlicker 0.3s ease-in-out infinite',
+          },
+          keyframes: {
+            shimmer: {
+              '0%, 100%': { transform: 'translate(-10%, -10%) rotate(0deg)' },
+              '50%': { transform: 'translate(10%, 10%) rotate(180deg)' },
+            },
+            unlockPulse: {
+              '0%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(251, 191, 36, 0.4)' },
+              '50%': { transform: 'scale(1.1)', boxShadow: '0 0 0 15px rgba(251, 191, 36, 0)' },
+              '100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(251, 191, 36, 0)' },
+            },
+            sparkle: {
+              '0%, 100%': { opacity: '0', transform: 'scale(0) rotate(0deg)' },
+              '50%': { opacity: '1', transform: 'scale(1) rotate(180deg)' },
+            },
+            confettiFall: {
+              '0%': { opacity: '1', transform: 'translateY(-100px) rotate(0deg)' },
+              '100%': { opacity: '0', transform: 'translateY(100vh) rotate(720deg)' },
+            },
+            fireFlicker: {
+              '0%, 100%': { transform: 'scaleY(1) scaleX(1)' },
+              '25%': { transform: 'scaleY(1.1) scaleX(0.95)' },
+              '50%': { transform: 'scaleY(0.95) scaleX(1.05)' },
+              '75%': { transform: 'scaleY(1.05) scaleX(0.98)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
   <style>
-    :root {
-      /* Blue Light Puzzle Theme - Intelligent, Precise, Cool */
-      --primary: #3b82f6;
-      --primary-light: #60a5fa;
-      --primary-dark: #1d4ed8;
-      --secondary: #06b6d4;
-      --secondary-light: #22d3ee;
-      --accent: #0ea5e9;
-      --accent-warn: #38bdf8;
-      --accent-danger: #f472b6;
-
-      /* Neutrals */
-      --bg-primary: #f8fafc;
-      --bg-secondary: #e2e8f0;
-      --bg-card: #ffffff;
-      --bg-overlay: rgba(14, 165, 233, 0.08);
-
-      /* Text */
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
-
-      /* Shadows with Blue Glow */
-      --shadow-sm: 0 2px 8px rgba(14, 165, 233, 0.06);
-      --shadow-md: 0 4px 20px rgba(14, 165, 233, 0.08);
-      --shadow-lg: 0 8px 40px rgba(14, 165, 233, 0.12);
-      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.25);
-      --shadow-blue: 0 4px 20px rgba(59, 130, 246, 0.3);
-
-      /* Spacing */
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --space-10: 40px;
-      --space-12: 48px;
-      --space-16: 64px;
-
-      /* Border Radius */
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --radius-xl: 28px;
-      --radius-full: 9999px;
-
-      /* Transitions */
-      --transition-fast: 150ms ease;
-      --transition-base: 250ms ease;
-      --transition-slow: 400ms ease;
-      --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    [data-theme="dark"] {
-      --bg-primary: #0a0e1a;
-      --bg-secondary: #111827;
-      --bg-card: #1e293b;
-      --bg-overlay: rgba(14, 165, 233, 0.12);
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
-      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-    }
-
-    /* Main Container */
-    .container {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: var(--space-4);
-      padding-bottom: 100px;
-    }
-
-    /* Header */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--space-4) var(--space-6);
-      background: var(--bg-card);
-      box-shadow: var(--shadow-sm);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      margin-bottom: var(--space-6);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .header-logo {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-blue);
-      position: relative;
-    }
-
-    .header-logo::before {
-      content: '';
+    .confetti {
       position: absolute;
-      inset: -2px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: var(--radius-md);
-      filter: blur(8px);
-      opacity: 0.5;
-      z-index: -1;
-    }
-
-    .header-logo svg {
-      width: 24px;
-      height: 24px;
-      fill: white;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
-    }
-
-    .header-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .back-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      background: var(--bg-secondary);
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    }
-
-    .back-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .back-btn:active {
-      transform: translateY(0);
-    }
-
-    .back-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--text-primary);
-      fill: none;
-    }
-
-    /* Streak Badge (matches index.html style) */
-    .streak-badge {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      background: linear-gradient(135deg, var(--accent-warn) 0%, #f59e0b 100%);
-      color: white;
-      padding: var(--space-2) var(--space-4);
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .streak-badge svg {
-      width: 18px;
-      height: 18px;
-      fill: white;
-    }
-
-    /* Streak Card */
-    .streak-card {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: var(--radius-xl);
-      padding: var(--space-8);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-glow);
-      margin-bottom: var(--space-6);
-    }
-
-    .streak-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-      animation: shimmer 3s ease-in-out infinite;
-    }
-
-    @keyframes shimmer {
-      0%, 100% { transform: translate(-10%, -10%) rotate(0deg); }
-      50% { transform: translate(10%, 10%) rotate(180deg); }
-    }
-
-    .streak-icon {
-      font-size: 3rem;
-      margin-bottom: var(--space-2);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    .streak-count {
-      font-family: 'Outfit', sans-serif;
-      font-size: 4rem;
-      font-weight: 800;
-      color: white;
-      line-height: 1;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-
-    .streak-label {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.95);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-top: var(--space-2);
-    }
-
-    .streak-message {
-      color: rgba(255,255,255,0.9);
-      font-size: 0.9rem;
-      margin-top: var(--space-4);
-    }
-
-    /* Section Card */
-    .section-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: var(--space-5);
-      margin-bottom: var(--space-5);
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-base), box-shadow var(--transition-base);
-    }
-
-    .section-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .section-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: var(--space-4);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-
-    .section-title::before {
-      content: '';
-      width: 4px;
-      height: 16px;
-      background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: 2px;
-    }
-
-    /* Weekly Progress */
-    .weekly-progress {
-      margin-bottom: var(--space-4);
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-3);
-    }
-
-    .progress-label {
-      font-size: 0.9rem;
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    .progress-count {
-      font-size: 0.9rem;
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .progress-bar {
-      height: 12px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-      border-radius: var(--radius-full);
-      width: 0;
-      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .progress-fill::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 20px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
-    }
-
-    /* Week Days Grid */
-    .week-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: var(--space-2);
-      margin-top: var(--space-4);
-    }
-
-    .week-day {
-      text-align: center;
-    }
-
-    .week-day-label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-bottom: var(--space-2);
-    }
-
-    .week-day-indicator {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-md);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      background: var(--bg-secondary);
-      transition: all var(--transition-base);
-    }
-
-    .week-day-indicator.completed {
-      background: linear-gradient(135deg, var(--accent) 0%, #10b981 100%);
-      color: white;
-      box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
-    }
-
-    .week-day-indicator.today {
-      border: 2px solid var(--primary);
-      box-shadow: 0 0 0 4px var(--bg-overlay);
-    }
-
-    /* Achievements */
-    .achievements-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-3);
-    }
-
-    .achievement {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: var(--radius-md);
-      background: var(--bg-secondary);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-1);
-      padding: var(--space-2);
-      transition: transform var(--transition-bounce), box-shadow var(--transition-base);
-      cursor: pointer;
-    }
-
-    .achievement.unlocked {
-      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);
-    }
-
-    .achievement.unlocked.gold {
-      background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
-    }
-
-    .achievement.unlocked.silver {
-      background: linear-gradient(135deg, #f3f4f6 0%, #d1d5db 100%);
-      box-shadow: 0 4px 20px rgba(156, 163, 175, 0.3);
-    }
-
-    .achievement.unlocked.bronze {
-      background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
-      box-shadow: 0 4px 20px rgba(251, 146, 60, 0.3);
-    }
-
-    .achievement.locked {
-      opacity: 0.6;
-    }
-
-    .achievement:hover:not(.locked) {
-      transform: scale(1.05) translateY(-4px);
-    }
-
-    .achievement.locked:hover {
-      transform: scale(1.02);
-    }
-
-    .achievement.locked:hover .achievement-tooltip {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(-10px);
-    }
-
-    .achievement-icon {
-      font-size: 1.5rem;
-    }
-
-    .achievement-name {
-      font-size: 0.6rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .achievement.locked .achievement-name {
-      color: var(--text-muted);
-    }
-
-    .achievement-tooltip {
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%) translateY(0);
-      background: var(--text-primary);
-      color: var(--bg-card);
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--radius-sm);
-      font-size: 0.7rem;
-      white-space: nowrap;
+      width: 10px;
+      height: 10px;
       opacity: 0;
-      visibility: hidden;
-      transition: all var(--transition-fast);
-      z-index: 10;
     }
-
-    .achievement-tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: var(--text-primary);
-    }
-
-    .achievement.unlocked .achievement-tooltip {
-      display: none;
-    }
-
-    /* Unlock Animation */
-    @keyframes unlockPulse {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
-      50% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
-    }
-
     .achievement.just-unlocked {
       animation: unlockPulse 0.6s ease-out;
     }
-
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-      50% { opacity: 1; transform: scale(1) rotate(180deg); }
-    }
-
     .sparkle {
       position: absolute;
       font-size: 1rem;
       animation: sparkle 0.6s ease-out forwards;
     }
-
-    /* Daily Tip */
-    .daily-tip {
-      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
-      border-radius: var(--radius-md);
-      padding: var(--space-4);
-      display: flex;
-      gap: var(--space-3);
-      align-items: flex-start;
+    .toast.show {
+      opacity: 1 !important;
+      transform: translateX(-50%) translateY(0) !important;
     }
-
-    .tip-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .tip-content {
-      flex: 1;
-    }
-
-    .tip-text {
-      font-size: 0.9rem;
-      color: var(--text-primary);
-      line-height: 1.5;
-    }
-
-    .tip-author {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: var(--space-2);
-    }
-
-    /* Toggle Switch */
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--space-4);
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .toggle-info {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .toggle-icon {
-      font-size: 1.5rem;
-    }
-
-    .toggle-label {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    .toggle-sublabel {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
     .toggle-switch {
       position: relative;
       width: 56px;
       height: 32px;
     }
-
     .toggle-switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-
     .toggle-slider {
       position: absolute;
       cursor: pointer;
       inset: 0;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      transition: background var(--transition-base);
+      background: #e2e8f0;
+      border-radius: 9999px;
+      transition: background 250ms ease;
     }
-
     .toggle-slider::before {
       content: '';
       position: absolute;
@@ -630,179 +116,208 @@
       bottom: 4px;
       background: white;
       border-radius: 50%;
-      transition: transform var(--transition-bounce);
-      box-shadow: var(--shadow-sm);
+      transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.06);
     }
-
     .toggle-switch input:checked + .toggle-slider {
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      background: linear-gradient(90deg, #3b82f6 0%, #0ea5e9 100%);
     }
-
     .toggle-switch input:checked + .toggle-slider::before {
       transform: translateX(24px);
     }
-
-    /* Confetti */
-    .confetti-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1000;
-      overflow: hidden;
-    }
-
-    .confetti {
+    .achievement-tooltip {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      opacity: 0;
-    }
-
-    @keyframes confettiFall {
-      0% {
-        opacity: 1;
-        transform: translateY(-100px) rotate(0deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(100vh) rotate(720deg);
-      }
-    }
-
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 100px;
+      bottom: calc(100% + 8px);
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--text-primary);
-      color: var(--bg-card);
-      padding: var(--space-4) var(--space-6);
-      border-radius: var(--radius-full);
-      font-size: 0.9rem;
-      font-weight: 500;
-      box-shadow: var(--shadow-lg);
+      transform: translateX(-50%) translateY(0);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      white-space: nowrap;
       opacity: 0;
-      transition: all var(--transition-bounce);
-      z-index: 100;
+      visibility: hidden;
+      transition: all 150ms ease;
+      z-index: 10;
+    }
+    .achievement-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #0f172a;
+    }
+    .achievement.locked:hover .achievement-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    .achievement.unlocked .achievement-tooltip {
+      display: none;
+    }
+    .week-day-indicator {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: var(--space-2);
+      justify-content: center;
+      font-size: 1.1rem;
+      background: #e2e8f0;
+      transition: all 250ms ease;
     }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .week-day-indicator.completed {
+      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
     }
-
-    /* Streak Fire Animation */
-    @keyframes fireFlicker {
-      0%, 100% { transform: scaleY(1) scaleX(1); }
-      25% { transform: scaleY(1.1) scaleX(0.95); }
-      50% { transform: scaleY(0.95) scaleX(1.05); }
-      75% { transform: scaleY(1.05) scaleX(0.98); }
+    .week-day-indicator.today {
+      border: 2px solid #3b82f6;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.08);
     }
-
+    .achievement {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      background: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px;
+      transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 250ms ease;
+      cursor: pointer;
+    }
+    .achievement.unlocked {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);
+    }
+    .achievement.unlocked.gold {
+      background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+    }
+    .achievement.unlocked.silver {
+      background: linear-gradient(135deg, #f3f4f6 0%, #d1d5db 100%);
+      box-shadow: 0 4px 20px rgba(156, 163, 175, 0.3);
+    }
+    .achievement.unlocked.bronze {
+      background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+      box-shadow: 0 4px 20px rgba(251, 146, 60, 0.3);
+    }
+    .achievement.locked {
+      opacity: 0.6;
+    }
+    .achievement:hover:not(.locked) {
+      transform: scale(1.05) translateY(-4px);
+    }
+    .achievement.locked:hover {
+      transform: scale(1.02);
+    }
     .streak-icon.animate {
       animation: fireFlicker 0.3s ease-in-out infinite;
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <header class="header">
-      <div class="header-left">
-<div class="header-logo">
-          <svg viewBox="0 0 24 24" fill="none">
-            <!-- Puzzle piece representing '착' - fitting together -->
-            <defs>
-              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#06b6d4"/>
-                <stop offset="50%" stop-color="#3b82f6"/>
-                <stop offset="100%" stop-color="#0ea5e9"/>
-              </linearGradient>
-            </defs>
-            <!-- Puzzle piece body -->
-            <path d="M6 3a3 3 0 013 3v2a3 3 0 01-3 3H4a2 2 0 00-2 2v6a2 2 0 002 2h2a3 3 0 013 3v2a3 3 0 01-3 3H6a3 3 0 01-3-3v-2a3 3 0 013-3h2a2 2 0 002-2V8a2 2 0 00-2-2H6a3 3 0 01-3-3V6a3 3 0 013-3z" fill="url(#logoGrad)"/>
-            <!-- Puzzle knob highlight -->
-            <circle cx="12" cy="12" r="3" fill="white" opacity="0.3"/>
-          </svg>
+<body class="font-sans bg-surface-primary text-text-primary min-h-screen overflow-x-hidden antialiased">
+  <div class="max-w-[480px] mx-auto p-4 pb-[100px]">
+    <header class="flex items-center justify-between p-4 bg-surface-card shadow-sm sticky top-0 z-[100] mb-6 rounded-xl">
+      <div class="flex items-center gap-3">
+          <div class="relative w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-blue">
+            <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 fill-white drop-shadow-md">
+              <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06b6d4"/>
+                  <stop offset="50%" stop-color="#3b82f6"/>
+                  <stop offset="100%" stop-color="#0ea5e9"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 3a3 3 0 013 3v2a3 3 0 01-3 3H4a2 2 0 00-2 2v6a2 2 0 002 2h2a3 3 0 013 3v2a3 3 0 01-3 3H6a3 3 0 01-3-3v-2a3 3 0 013-3h2a2 2 0 002-2V8a2 2 0 00-2-2H6a3 3 0 01-3-3V6a3 3 0 013-3z" fill="url(#logoGrad)"/>
+              <circle cx="12" cy="12" r="3" fill="white" opacity="0.3"/>
+            </svg>
+          </div>
+          <h1 class="font-display text-xl font-semibold">내 진행 상황</h1>
         </div>
-        <h1 class="header-title">내 진행 상황</h1>
-      </div>
-      <div class="header-right">
-        <button class="back-btn" onclick="window.location.href='index.html'">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-          </svg>
-          뒤로
-        </button>
-      </div>
-    </header>
-
-    <div class="streak-card">
-      <div class="streak-icon" id="streakIcon">🔥</div>
-      <div class="streak-count" id="streakCount">0</div>
-      <div class="streak-label">STREAK!</div>
-      <div class="streak-message" id="streakMessage">오늘 시작하세요!</div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-title">주간 목표</div>
-      <div class="weekly-progress">
-        <div class="progress-header">
-          <span class="progress-label">이번 주 완료된 일수</span>
-          <span class="progress-count"><span id="daysCompleted">0</span>/7</span>
+        <div class="flex items-center gap-3">
+          <button class="w-11 h-11 rounded-xl bg-surface-secondary flex items-center justify-center cursor-pointer shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all duration-150" onclick="window.location.href='index.html'">
+            <svg class="w-5 h-5 stroke-text-primary"><use href="#icon-arrow-left"></use></svg>
+            뒤로
+          </button>
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
+      </header>
+
+      <div class="bg-gradient-to-br from-primary to-secondary rounded-[28px] p-8 text-center relative overflow-hidden shadow-glow mb-6">
+        <div class="streak-icon text-5xl mb-2 animate-pulse-slow" id="streakIcon">🔥</div>
+        <div class="font-display text-7xl font-extrabold text-white leading-none drop-shadow-lg" id="streakCount">0</div>
+        <div class="text-xl font-bold text-white/95 uppercase tracking-[2px] mt-1">STREAK!</div>
+        <div class="text-white/90 text-sm mt-4" id="streakMessage">오늘 시작하세요!</div>
+      </div>
+
+      <div class="bg-surface-card rounded-[20px] p-5 mb-5 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-250">
+        <div class="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span class="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-sm"></span>
+          주간 목표
         </div>
-      </div>
-      <div class="week-grid" id="weekGrid">
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-title">업적</div>
-      <div class="achievements-grid" id="achievementsGrid">
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-title">오늘의 팁</div>
-      <div class="daily-tip">
-        <span class="tip-icon">💡</span>
-        <div class="tip-content">
-          <p class="tip-text" id="tipText">작은 걸음이 큰 변화를 만듭니다! 오늘 5분만的投资하세요.</p>
-          <p class="tip-author">— 오늘의 동기</p>
+        <div class="mb-4">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-sm text-text-primary font-medium">이번 주 완료된 일수</span>
+            <span class="text-sm text-primary font-semibold"><span id="daysCompleted">0</span>/7</span>
+          </div>
+          <div class="h-3 bg-surface-secondary rounded-full overflow-hidden relative">
+            <div class="h-full bg-gradient-to-r from-primary to-accent rounded-full w-0 transition-all duration-1000 relative" id="progressFill"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-7 gap-2 mt-4" id="weekGrid">
         </div>
       </div>
-    </div>
 
-    <div class="toggle-container">
-      <div class="toggle-info">
-        <span class="toggle-icon">🔔</span>
-        <div>
-          <div class="toggle-label">습관 알림</div>
-          <div class="toggle-sublabel">매일 알림 받기</div>
+      <div class="bg-surface-card rounded-[20px] p-5 mb-5 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-250">
+        <div class="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span class="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-sm"></span>
+          업적
+        </div>
+        <div class="grid grid-cols-4 gap-3" id="achievementsGrid">
         </div>
       </div>
-      <label class="toggle-switch">
-        <input type="checkbox" id="habitToggle">
-        <span class="toggle-slider"></span>
-      </label>
+
+      <div class="bg-surface-card rounded-[20px] p-5 mb-5 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-250">
+        <div class="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span class="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-sm"></span>
+          오늘의 팁
+        </div>
+        <div class="bg-gradient-to-br from-surface-secondary to-surface-card rounded-xl p-4 flex gap-3 items-start">
+          <span class="text-2xl shrink-0">💡</span>
+          <div class="flex-1">
+            <p class="text-sm text-text-primary leading-relaxed" id="tipText">작은 걸음이 큰 변화를 만듭니다! 오늘 5분만 투자하세요.</p>
+            <p class="text-xs text-text-muted mt-2">— 오늘의 동기</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between p-4 bg-surface-card rounded-[20px] shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🔔</span>
+          <div>
+            <div class="text-sm font-medium text-text-primary">습관 알림</div>
+            <div class="text-xs text-text-muted mt-0.5">매일 알림 받기</div>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="habitToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
     </div>
-  </div>
 
-  <div class="toast" id="toast">
-    <span id="toastIcon">🎉</span>
-    <span id="toastText">업적 달성!</span>
-  </div>
+    <div class="fixed bottom-[100px] left-1/2 -translate-x-1/2 translate-y-[100px] bg-text-primary text-surface-card px-6 py-4 rounded-full text-sm font-medium shadow-lg opacity-0 transition-all duration-500 z-[100] flex items-center gap-2" id="toast">
+      <span id="toastIcon">🎉</span>
+      <span id="toastText">업적 달성!</span>
+    </div>
 
-  <div class="confetti-container" id="confettiContainer"></div>
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-[1000] overflow-hidden" id="confettiContainer"></div>
 
   <script>
     // Data Management
