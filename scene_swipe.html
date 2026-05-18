@@ -3,34 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>스와이프 모드 - Chackly</title>
+  <title>스와이프 모드 - Chakmate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --primary-dark: #4f46e5;
-      --secondary: #f472b6;
-      --secondary-light: #f9a8d4;
-      --accent: #34d399;
-      --accent-warn: #fbbf24;
-      --accent-danger: #f87171;
+      /* Blue Light Puzzle Theme - Intelligent, Precise, Cool */
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-light: #22d3ee;
+      --accent: #0ea5e9;
+      --accent-warn: #38bdf8;
+      --accent-danger: #f472b6;
 
-      --bg-primary: #faf9fb;
-      --bg-secondary: #f3f2f7;
+      --bg-primary: #f8fafc;
+      --bg-secondary: #e2e8f0;
       --bg-card: #ffffff;
-      --bg-overlay: rgba(99, 102, 241, 0.1);
+      --bg-overlay: rgba(14, 165, 233, 0.08);
 
-      --text-primary: #1e1b2e;
-      --text-secondary: #6b6880;
-      --text-muted: #9d99a8;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
 
-      --shadow-sm: 0 2px 8px rgba(30, 27, 46, 0.06);
-      --shadow-md: 0 4px 20px rgba(30, 27, 46, 0.08);
-      --shadow-lg: 0 8px 40px rgba(30, 27, 46, 0.12);
-      --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+      --shadow-sm: 0 2px 8px rgba(14, 165, 233, 0.06);
+      --shadow-md: 0 4px 20px rgba(14, 165, 233, 0.08);
+      --shadow-lg: 0 8px 40px rgba(14, 165, 233, 0.12);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.25);
+      --shadow-blue: 0 4px 20px rgba(59, 130, 246, 0.3);
 
       --space-1: 4px;
       --space-2: 8px;
@@ -56,16 +58,17 @@
     }
 
     [data-theme="dark"] {
-      --bg-primary: #0f0e17;
-      --bg-secondary: #1a1825;
-      --bg-card: #252336;
-      --bg-overlay: rgba(99, 102, 241, 0.15);
-      --text-primary: #f3f2f7;
-      --text-secondary: #a8a4b8;
-      --text-muted: #6b6880;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --bg-overlay: rgba(14, 165, 233, 0.12);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -101,12 +104,12 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      box-shadow: var(--shadow-blue);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
     }
 
     .btn-primary:active {
@@ -193,13 +196,13 @@
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: var(--shadow-md), 0 4px 15px rgba(99, 102, 241, 0.3);
+      box-shadow: var(--shadow-md), 0 4px 15px rgba(14, 165, 233, 0.3);
       transition: var(--transition-base);
     }
 
     .undo-btn:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-lg), 0 6px 20px rgba(99, 102, 241, 0.4);
+      box-shadow: var(--shadow-lg), 0 6px 20px rgba(14, 165, 233, 0.4);
     }
 
     .undo-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
@@ -585,8 +588,8 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-      50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); }
     }
 
     .empty-state .icon-wrapper svg { width: 60px; height: 60px; color: white; }

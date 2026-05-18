@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내 진행 상황 - Chackly</title>
+  <title>내 진행 상황 - Chakmate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Color Palette */
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --primary-dark: #4f46e5;
-      --secondary: #f472b6;
-      --secondary-light: #f9a8d4;
-      --accent: #34d399;
-      --accent-warn: #fbbf24;
-      --accent-danger: #f87171;
+      /* Blue Light Puzzle Theme - Intelligent, Precise, Cool */
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-light: #22d3ee;
+      --accent: #0ea5e9;
+      --accent-warn: #38bdf8;
+      --accent-danger: #f472b6;
 
       /* Neutrals */
-      --bg-primary: #faf9fb;
-      --bg-secondary: #f3f2f7;
+      --bg-primary: #f8fafc;
+      --bg-secondary: #e2e8f0;
       --bg-card: #ffffff;
-      --bg-overlay: rgba(99, 102, 241, 0.1);
+      --bg-overlay: rgba(14, 165, 233, 0.08);
 
       /* Text */
-      --text-primary: #1e1b2e;
-      --text-secondary: #6b6880;
-      --text-muted: #9d99a8;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
 
-      /* Shadows */
-      --shadow-sm: 0 2px 8px rgba(30, 27, 46, 0.06);
-      --shadow-md: 0 4px 20px rgba(30, 27, 46, 0.08);
-      --shadow-lg: 0 8px 40px rgba(30, 27, 46, 0.12);
-      --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+      /* Shadows with Blue Glow */
+      --shadow-sm: 0 2px 8px rgba(14, 165, 233, 0.06);
+      --shadow-md: 0 4px 20px rgba(14, 165, 233, 0.08);
+      --shadow-lg: 0 8px 40px rgba(14, 165, 233, 0.12);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.25);
+      --shadow-blue: 0 4px 20px rgba(59, 130, 246, 0.3);
 
       /* Spacing */
       --space-1: 4px;
@@ -63,16 +64,17 @@
     }
 
     [data-theme="dark"] {
-      --bg-primary: #0f0e17;
-      --bg-secondary: #1a1825;
-      --bg-card: #252336;
-      --bg-overlay: rgba(99, 102, 241, 0.15);
-      --text-primary: #f3f2f7;
-      --text-secondary: #a8a4b8;
-      --text-muted: #6b6880;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --bg-overlay: rgba(14, 165, 233, 0.12);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
     }
 
     * {
@@ -131,12 +133,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: var(--shadow-blue);
+      position: relative;
+    }
+
+    .header-logo::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: var(--radius-md);
+      filter: blur(8px);
+      opacity: 0.5;
+      z-index: -1;
     }
 
     .header-logo svg {
       width: 24px;
       height: 24px;
       fill: white;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
     }
 
     .header-title {
@@ -699,8 +715,21 @@
   <div class="container">
     <header class="header">
       <div class="header-left">
-        <div class="header-logo">
-          <svg viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+<div class="header-logo">
+          <svg viewBox="0 0 24 24" fill="none">
+            <!-- Puzzle piece representing '착' - fitting together -->
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="50%" stop-color="#3b82f6"/>
+                <stop offset="100%" stop-color="#0ea5e9"/>
+              </linearGradient>
+            </defs>
+            <!-- Puzzle piece body -->
+            <path d="M6 3a3 3 0 013 3v2a3 3 0 01-3 3H4a2 2 0 00-2 2v6a2 2 0 002 2h2a3 3 0 013 3v2a3 3 0 01-3 3H6a3 3 0 01-3-3v-2a3 3 0 013-3h2a2 2 0 002-2V8a2 2 0 00-2-2H6a3 3 0 01-3-3V6a3 3 0 013-3z" fill="url(#logoGrad)"/>
+            <!-- Puzzle knob highlight -->
+            <circle cx="12" cy="12" r="3" fill="white" opacity="0.3"/>
+          </svg>
         </div>
         <h1 class="header-title">내 진행 상황</h1>
       </div>

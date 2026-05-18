@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>구조 제안 - Chackly</title>
+  <title>구조 제안 - Chakmate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Color Palette - Soft & Approachable */
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --primary-dark: #4f46e5;
-      --secondary: #f472b6;
-      --secondary-light: #f9a8d4;
-      --accent: #34d399;
-      --accent-warn: #fbbf24;
-      --accent-danger: #f87171;
+      /* Blue Light Puzzle Theme - Intelligent, Precise, Cool */
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-light: #22d3ee;
+      --accent: #0ea5e9;
+      --accent-warn: #38bdf8;
+      --accent-danger: #f472b6;
 
       /* Neutrals */
-      --bg-primary: #faf9fb;
-      --bg-secondary: #f3f2f7;
+      --bg-primary: #f8fafc;
+      --bg-secondary: #e2e8f0;
       --bg-card: #ffffff;
-      --bg-overlay: rgba(99, 102, 241, 0.1);
+      --bg-overlay: rgba(14, 165, 233, 0.08);
 
       /* Text */
-      --text-primary: #1e1b2e;
-      --text-secondary: #6b6880;
-      --text-muted: #9d99a8;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
 
-      /* Shadows */
-      --shadow-sm: 0 2px 8px rgba(30, 27, 46, 0.06);
-      --shadow-md: 0 4px 20px rgba(30, 27, 46, 0.08);
-      --shadow-lg: 0 8px 40px rgba(30, 27, 46, 0.12);
-      --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+      /* Shadows with Blue Glow */
+      --shadow-sm: 0 2px 8px rgba(14, 165, 233, 0.06);
+      --shadow-md: 0 4px 20px rgba(14, 165, 233, 0.08);
+      --shadow-lg: 0 8px 40px rgba(14, 165, 233, 0.12);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.25);
+      --shadow-blue: 0 4px 20px rgba(59, 130, 246, 0.3);
 
       /* Spacing */
       --space-1: 4px;
@@ -63,16 +64,17 @@
     }
 
     [data-theme="dark"] {
-      --bg-primary: #0f0e17;
-      --bg-secondary: #1a1825;
-      --bg-card: #252336;
-      --bg-overlay: rgba(99, 102, 241, 0.15);
-      --text-primary: #f3f2f7;
-      --text-secondary: #a8a4b8;
-      --text-muted: #6b6880;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --bg-overlay: rgba(14, 165, 233, 0.12);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
     }
 
     * {
@@ -89,6 +91,48 @@
       overflow-x: hidden;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .app {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .header {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    .comparison-banner {
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+
+    .comparison-container {
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    .comparison-panel {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .comparison-panel:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .section {
+      animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+
+    .tree-container {
+      animation: fadeInUp 0.6s ease-out 0.4s both;
     }
 
     h1, h2, h3, h4 {
@@ -117,12 +161,12 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      box-shadow: var(--shadow-blue);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
     }
 
     .btn-primary:active {
@@ -193,12 +237,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: var(--shadow-blue);
+      position: relative;
+    }
+
+    .header-logo::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: var(--radius-md);
+      filter: blur(8px);
+      opacity: 0.5;
+      z-index: -1;
     }
 
     .header-logo svg {
       width: 24px;
       height: 24px;
       fill: white;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
     }
 
     .header-title {
@@ -243,40 +301,516 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--space-5);
-      padding: var(--space-5);
-      background: var(--bg-card);
-      border: 1px solid var(--bg-secondary);
-      border-radius: var(--radius-lg);
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.03) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(244, 114, 182, 0.03) 100%);
+      border: 1px solid rgba(14, 165, 233, 0.1);
+      border-radius: var(--radius-xl);
       margin-bottom: var(--space-7);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .comparison-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+      transform: translateX(-100%);
+      animation: bannerShimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes bannerShimmer {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
     }
 
     .comparison-item {
       display: flex;
       align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      font-weight: 500;
-      font-size: 0.875rem;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      position: relative;
+      z-index: 1;
+      transition: all var(--transition-base);
     }
 
     .comparison-item.current {
-      background: rgba(251, 191, 36, 0.1);
-      color: var(--accent-warn);
-      border: 1px solid rgba(251, 191, 36, 0.2);
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.2) 0%, rgba(244, 114, 182, 0.1) 100%);
+      color: #db2777;
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      box-shadow: 0 2px 10px rgba(244, 114, 182, 0.15), inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    .comparison-item.current:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(244, 114, 182, 0.25);
     }
 
     .comparison-item.proposed {
-      background: var(--bg-overlay);
-      color: var(--primary);
-      border: 1px solid rgba(99, 102, 241, 0.2);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+      color: var(--primary-dark);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      box-shadow: 0 2px 10px rgba(14, 165, 233, 0.15), inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    .comparison-item.proposed:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.25);
+    }
+
+    .comparison-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .comparison-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
     }
 
     .comparison-arrow {
       color: var(--text-muted);
-      font-size: 1.25rem;
+      font-size: 1.5rem;
+      font-weight: 300;
+      opacity: 0.6;
+      animation: arrowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes arrowPulse {
+      0%, 100% { transform: translateX(0); opacity: 0.4; }
+      50% { transform: translateX(4px); opacity: 0.8; }
+    }
+
+    /* Before/After Comparison Container */
+    .comparison-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .comparison-panel {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--bg-secondary);
+      position: relative;
+      transition: all var(--transition-base);
+    }
+
+    .comparison-panel:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .comparison-panel-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--bg-secondary);
+      position: relative;
+    }
+
+    .comparison-panel-header.before {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.12) 0%, rgba(244, 114, 182, 0.04) 100%);
+    }
+
+    .comparison-panel-header.after {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.06) 100%);
+    }
+
+    .comparison-panel-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .comparison-panel-icon::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      opacity: 0.3;
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.1); opacity: 0.1; }
+    }
+
+    .comparison-panel-icon.before {
+      background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
+    }
+
+    .comparison-panel-icon.before::after {
+      background: rgba(244, 114, 182, 0.3);
+    }
+
+    .comparison-panel-icon.after {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+    }
+
+    .comparison-panel-icon.after::after {
+      background: rgba(14, 165, 233, 0.3);
+    }
+
+    .comparison-panel-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .comparison-panel-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .comparison-panel-subtitle {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Before Tree - Messy, Disorganized */
+    .before-tree {
+      padding: var(--space-5);
+      position: relative;
+    }
+
+    .messy-folder {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.08) 0%, rgba(236, 72, 153, 0.04) 100%);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-3);
+      opacity: 0.85;
+      border: 1px dashed rgba(244, 114, 182, 0.25);
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .messy-folder::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at top right, rgba(244, 114, 182, 0.08) 0%, transparent 70%);
+    }
+
+    .messy-folder:hover {
+      opacity: 1;
+      transform: translateX(4px);
+      border-style: solid;
+    }
+
+    .messy-folder-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #be185d;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .messy-folder-name svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent-danger);
+      fill: none;
+      animation: messyShake 3s ease-in-out infinite;
+    }
+
+    @keyframes messyShake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    .messy-files {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+      padding-left: var(--space-6);
+      animation: filesScatter 0.5s ease-out;
+    }
+
+    @keyframes filesScatter {
+      0% { opacity: 0; transform: translateY(-5px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .messy-file-tag {
+      font-size: 0.6875rem;
+      padding: var(--space-1) var(--space-2);
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.15) 0%, rgba(236, 72, 153, 0.08) 100%);
+      color: #db2777;
+      border-radius: var(--radius-sm);
+      border: 1px dashed rgba(244, 114, 182, 0.4);
+      position: relative;
+      transition: all var(--transition-fast);
+    }
+
+    .messy-file-tag:hover {
+      transform: rotate(-2deg) scale(1.05);
+      border-style: solid;
+    }
+
+    /* After Tree - Clean, Organized */
+    .after-tree {
+      padding: var(--space-5);
+      position: relative;
+    }
+
+    .after-tree::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(14, 165, 233, 0.2) 50%, transparent 100%);
+    }
+
+    .clean-folder {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-3);
+      border: 1px solid rgba(14, 165, 233, 0.12);
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .clean-folder::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      transform: scaleX(0);
+      transition: transform var(--transition-base);
+    }
+
+    .clean-folder:hover {
+      border-color: rgba(14, 165, 233, 0.25);
+      transform: translateX(4px);
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
+    }
+
+    .clean-folder:hover::before {
+      transform: scaleX(1);
+    }
+
+    .clean-folder-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .clean-folder-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .clean-folder-name svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--primary);
+      fill: none;
+    }
+
+    .clean-folder-count {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.08) 100%);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(14, 165, 233, 0.15);
+    }
+
+    .clean-subfolders {
+      margin-top: var(--space-3);
+      padding-left: var(--space-5);
+      border-left: 2px solid rgba(14, 165, 233, 0.2);
+    }
+
+    .clean-subfolder {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) 0;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      position: relative;
+    }
+
+    .clean-subfolder::before {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--space-5) - 8px);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--secondary);
+      opacity: 0.6;
+    }
+
+    .clean-subfolder svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--primary-light);
+      fill: none;
+    }
+
+    /* Diff Highlight */
+    .diff-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 0.6875rem;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-full);
+      margin-left: var(--space-2);
+      font-weight: 600;
+    }
+
+    .diff-indicator.added {
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.2) 0%, rgba(52, 211, 153, 0.12) 100%);
+      color: #10b981;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .diff-indicator.removed {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.2) 0%, rgba(236, 72, 153, 0.12) 100%);
+      color: #ec4899;
+      border: 1px solid rgba(244, 114, 182, 0.25);
+    }
+
+    .diff-indicator svg {
+      width: 10px;
+      height: 10px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* Stats Summary */
+    .comparison-stats {
+      display: flex;
+      gap: var(--space-5);
+      padding: var(--space-5);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+      border-top: 1px solid rgba(14, 165, 233, 0.1);
+      position: relative;
+    }
+
+    .comparison-stats::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: var(--space-5);
+      right: var(--space-5);
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(14, 165, 233, 0.2) 50%, transparent 100%);
+    }
+
+    .comparison-stat {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .comparison-stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .comparison-stat-icon.improved {
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.2) 0%, rgba(52, 211, 153, 0.1) 100%);
+      color: #10b981;
+      box-shadow: 0 2px 8px rgba(52, 211, 153, 0.2);
+    }
+
+    .comparison-stat-icon.optimized {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
+    }
+
+    .comparison-stat-icon.removed {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%);
+      color: #ec4899;
+      box-shadow: 0 2px 8px rgba(244, 114, 182, 0.2);
+    }
+
+    .comparison-stat-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .comparison-stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .comparison-stat-label {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-top: 2px;
     }
 
     /* Section */
@@ -312,35 +846,52 @@
     .tree-container {
       background: var(--bg-card);
       border: 1px solid var(--bg-secondary);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
       overflow: hidden;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-lg);
     }
 
     /* Tree Item */
     .tree-item {
       border-bottom: 1px solid var(--bg-secondary);
+      position: relative;
     }
 
     .tree-item:last-child {
       border-bottom: none;
     }
 
+    .tree-item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+      transform: scaleY(0);
+      transition: transform var(--transition-base);
+    }
+
+    .tree-item:hover::after {
+      transform: scaleY(1);
+    }
+
     .tree-item-header {
       display: flex;
       align-items: center;
-      padding: var(--space-4);
-      gap: var(--space-3);
+      padding: var(--space-5);
+      gap: var(--space-4);
       cursor: pointer;
-      transition: background var(--transition-fast);
+      transition: all var(--transition-fast);
     }
 
     .tree-item-header:hover {
-      background: var(--bg-secondary);
+      background: rgba(14, 165, 233, 0.03);
     }
 
     .tree-item.expanded .tree-item-header {
-      background: var(--bg-secondary);
+      background: rgba(14, 165, 233, 0.05);
     }
 
     /* Category Colors */
@@ -377,17 +928,35 @@
       width: 22px;
       height: 22px;
       border: 2px solid var(--text-muted);
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all var(--transition-fast);
+      transition: all var(--transition-bounce);
       background: var(--bg-card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .checkbox-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
     }
 
     .checkbox-input:checked + .checkbox-visual {
-      background: var(--primary);
-      border-color: var(--primary);
+      border-color: transparent;
+    }
+
+    .checkbox-input:checked + .checkbox-visual::before {
+      opacity: 1;
+    }
+
+    .checkbox-input:checked + .checkbox-visual {
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
     }
 
     .checkbox-visual svg {
@@ -395,13 +964,15 @@
       height: 14px;
       color: white;
       opacity: 0;
-      transform: scale(0.5);
-      transition: all var(--transition-fast);
+      transform: scale(0.5) rotate(-90deg);
+      transition: all var(--transition-bounce);
+      position: relative;
+      z-index: 1;
     }
 
     .checkbox-input:checked + .checkbox-visual svg {
       opacity: 1;
-      transform: scale(1);
+      transform: scale(1) rotate(0deg);
     }
 
     .checkbox-input:focus-visible + .checkbox-visual {
@@ -411,10 +982,16 @@
 
     /* Folder Icon */
     .folder-icon {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       flex-shrink: 0;
-      transition: transform var(--transition-base);
+      transition: all var(--transition-base);
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    }
+
+    .tree-item:hover .folder-icon {
+      transform: scale(1.15) rotate(-3deg);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
     }
 
     .tree-item.expanded .folder-icon {
@@ -424,7 +1001,7 @@
     /* Folder Name */
     .folder-name {
       flex: 1;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.9375rem;
     }
 
@@ -435,29 +1012,38 @@
     }
 
     .file-count {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       color: var(--text-muted);
-      background: var(--bg-secondary);
-      padding: 2px var(--space-2);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%);
+      padding: 2px var(--space-3);
       border-radius: var(--radius-full);
+      border: 1px solid rgba(14, 165, 233, 0.1);
     }
 
     .expand-icon {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       color: var(--text-muted);
-      transition: transform var(--transition-base);
+      transition: all var(--transition-base);
+      opacity: 0.6;
+    }
+
+    .tree-item:hover .expand-icon {
+      opacity: 1;
+      color: var(--primary);
     }
 
     .tree-item.expanded .expand-icon {
       transform: rotate(180deg);
+      color: var(--primary);
+      opacity: 1;
     }
 
     /* Children Container */
     .tree-children {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease;
+      transition: max-height 0.4s ease;
     }
 
     .tree-item.expanded .tree-children {
@@ -465,22 +1051,26 @@
     }
 
     .tree-children-inner {
-      padding: 0 var(--space-4) var(--space-4) 52px;
+      padding: 0 var(--space-5) var(--space-5) 60px;
     }
 
     .child-item {
       display: flex;
       align-items: center;
-      padding: var(--space-2) var(--space-3);
+      padding: var(--space-3) var(--space-4);
       gap: var(--space-3);
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-md);
       cursor: pointer;
-      transition: background var(--transition-fast);
-      margin-bottom: var(--space-1);
+      transition: all var(--transition-fast);
+      margin-bottom: var(--space-2);
+      background: rgba(14, 165, 233, 0.02);
+      border: 1px solid transparent;
     }
 
     .child-item:hover {
-      background: var(--bg-secondary);
+      background: rgba(14, 165, 233, 0.06);
+      border-color: rgba(14, 165, 233, 0.1);
+      transform: translateX(4px);
     }
 
     .child-item:last-child {
@@ -621,9 +1211,10 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 70%, transparent 100%);
-      padding: var(--space-6) var(--space-5) calc(var(--space-6) + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, var(--bg-primary) 0%, rgba(248, 250, 252, 0.95) 60%, transparent 100%);
+      padding: var(--space-8) var(--space-5) calc(var(--space-8) + env(safe-area-inset-bottom));
       z-index: 100;
+      backdrop-filter: blur(10px);
     }
 
     .action-bar-inner {
@@ -638,30 +1229,50 @@
     .progress-label {
       display: flex;
       justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: var(--space-2);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-3);
+      font-weight: 500;
     }
 
     .progress-bar {
-      height: 6px;
-      background: var(--bg-secondary);
+      height: 8px;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
       border-radius: var(--radius-full);
       overflow: hidden;
+      position: relative;
     }
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
       border-radius: var(--radius-full);
-      transition: width 0.5s ease;
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+      animation: progressShine 2s ease-in-out infinite;
+    }
+
+    @keyframes progressShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
     .apply-btn {
       width: 100%;
-      padding: var(--space-4) var(--space-6);
+      padding: var(--space-5) var(--space-6);
       font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
+      font-size: 1.0625rem;
       font-weight: 600;
       color: white;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -672,18 +1283,33 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--space-2);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-      min-height: 56px;
+      gap: var(--space-3);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+      min-height: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .apply-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+      opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+
+    .apply-btn:hover:not(:disabled)::before {
+      opacity: 1;
     }
 
     .apply-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
     }
 
     .apply-btn:active:not(:disabled) {
-      transform: translateY(0);
+      transform: translateY(-1px);
     }
 
     .apply-btn:disabled {
@@ -694,29 +1320,44 @@
     }
 
     .apply-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
+      position: relative;
+      z-index: 1;
+      transition: transform var(--transition-bounce);
+    }
+
+    .apply-btn:hover:not(:disabled) svg {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .apply-btn .btn-text {
+      position: relative;
+      z-index: 1;
     }
 
     .apply-btn .count-badge {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 2px var(--space-3);
+      background: rgba(255, 255, 255, 0.25);
+      padding: 4px var(--space-4);
       border-radius: var(--radius-full);
       font-size: 0.875rem;
+      position: relative;
+      z-index: 1;
     }
 
     /* Success Animation Overlay */
     .success-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(30, 27, 46, 0.9);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 200;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(8px);
     }
 
     .success-overlay.visible {
@@ -727,7 +1368,7 @@
     .success-content {
       text-align: center;
       transform: scale(0.8);
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .success-overlay.visible .success-content {
@@ -735,38 +1376,45 @@
     }
 
     .success-icon {
-      width: 80px;
-      height: 80px;
-      background: rgba(52, 211, 153, 0.15);
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto var(--space-6);
-      animation: successPulse 1s ease infinite;
+      animation: successPulse 1.5s ease infinite;
+      box-shadow: 0 0 40px rgba(52, 211, 153, 0.3);
     }
 
     @keyframes successPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
-      50% { box-shadow: 0 0 0 20px rgba(52, 211, 153, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); transform: scale(1); }
+      50% { box-shadow: 0 0 0 25px rgba(52, 211, 153, 0); transform: scale(1.05); }
     }
 
     .success-icon svg {
-      width: 40px;
-      height: 40px;
-      color: var(--accent);
+      width: 50px;
+      height: 50px;
+      color: #10b981;
+      stroke-width: 2.5;
     }
 
     .success-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 700;
-      margin-bottom: var(--space-2);
+      margin-bottom: var(--space-3);
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .success-message {
       color: var(--text-secondary);
-      font-size: 0.9375rem;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .success-subtitle {
@@ -811,8 +1459,16 @@
     <header class="header">
       <div class="header-left">
         <div class="header-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          <svg viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="50%" stop-color="#3b82f6"/>
+                <stop offset="100%" stop-color="#0ea5e9"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 3a3 3 0 013 3v2a3 3 0 01-3 3H4a2 2 0 00-2 2v6a2 2 0 002 2h2a3 3 0 013 3v2a3 3 0 01-3 3H6a3 3 0 01-3-3v-2a3 3 0 013-3h2a2 2 0 002-2V8a2 2 0 00-2-2H6a3 3 0 01-3-3V6a3 3 0 013-3z" fill="url(#logoGrad)"/>
+            <circle cx="12" cy="12" r="3" fill="white" opacity="0.3"/>
           </svg>
         </div>
         <h1 class="header-title">구조 제안</h1>
@@ -829,17 +1485,197 @@
     
     <div class="comparison-banner">
       <div class="comparison-item current">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
-        </svg>
+        <div class="comparison-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+        </div>
         <span>현재</span>
       </div>
       <span class="comparison-arrow">→</span>
       <div class="comparison-item proposed">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
-        </svg>
+        <div class="comparison-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9.5 2A2.5 2.5 0 0112 4.5V6H9.5A2.5 2.5 0 019.5 2zM12 4.5V6H6.5A2.5 2.5 0 014.5 6V4.5A2.5 2.5 0 016.5 2H12z"/>
+            <path d="M14.5 2A2.5 2.5 0 0112 4.5V6H14.5A2.5 2.5 0 0114.5 2zM12 4.5V6H17.5A2.5 2.5 0 0120 6V4.5A2.5 2.5 0 0117.5 2H12z"/>
+            <path d="M4.5 22A2.5 2.5 0 012 19.5V18H4.5A2.5 2.5 0 014.5 22zM2 18V19.5A2.5 2.5 0 014.5 22H6A2.5 2.5 0 012 19.5V18z"/>
+            <path d="M4.5 22A2.5 2.5 0 012 19.5V18H4.5A2.5 2.5 0 014.5 22zM2 18V19.5A2.5 2.5 0 014.5 22H6A2.5 2.5 0 012 19.5V18z"/>
+          </svg>
+        </div>
         <span>AI 제안</span>
+      </div>
+    </div>
+
+    <!-- Before/After Comparison UI -->
+    <div class="comparison-container">
+      <!-- Before Panel - Messy State -->
+      <div class="comparison-panel">
+        <div class="comparison-panel-header before">
+          <div class="comparison-panel-icon before">
+            <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div>
+            <div class="comparison-panel-title">정리 전</div>
+            <div class="comparison-panel-subtitle">지저분한 폴더 구조</div>
+          </div>
+        </div>
+        <div class="before-tree">
+          <div class="messy-folder">
+            <div class="messy-folder-name">
+              <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              다운로드
+            </div>
+            <div class="messy-files">
+              <span class="messy-file-tag">사진_2024.jpg</span>
+              <span class="messy-file-tag">invoice.pdf</span>
+              <span class="messy-file-tag">Screenshot.png</span>
+              <span class="messy-file-tag">doc.docx</span>
+              <span class="messy-file-tag">video.mp4</span>
+            </div>
+          </div>
+          <div class="messy-folder">
+            <div class="messy-folder-name">
+              <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              바탕화면
+            </div>
+            <div class="messy-files">
+              <span class="messy-file-tag">report_final.xls</span>
+              <span class="messy-file-tag">report_v2.xls</span>
+              <span class="messy-file-tag">report_FINAL.xls</span>
+              <span class="messy-file-tag">temp.png</span>
+            </div>
+          </div>
+          <div class="messy-folder">
+            <div class="messy-folder-name">
+              <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              문서
+            </div>
+            <div class="messy-files">
+              <span class="messy-file-tag">새 폴더</span>
+              <span class="messy-file-tag">새 폴더 (2)</span>
+              <span class="messy-file-tag">archive</span>
+              <span class="messy-file-tag">backup</span>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-stats">
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon removed">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">87</div>
+              <div class="comparison-stat-label">분산 파일</div>
+            </div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon removed">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">12</div>
+              <div class="comparison-stat-label">중복 폴더</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- After Panel - Organized State -->
+      <div class="comparison-panel">
+        <div class="comparison-panel-header after">
+          <div class="comparison-panel-icon after">
+            <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="comparison-panel-title">정리 후</div>
+            <div class="comparison-panel-subtitle">AI가 제안하는 구조</div>
+          </div>
+        </div>
+        <div class="after-tree">
+          <div class="clean-folder">
+            <div class="clean-folder-header">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              <span class="clean-folder-name">작업 프로젝트</span>
+              <span class="clean-folder-count">24개 파일</span>
+            </div>
+            <div class="clean-subfolders">
+              <div class="clean-subfolder">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                2024 보고서
+                <span class="diff-indicator added">
+                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  +8
+                </span>
+              </div>
+              <div class="clean-subfolder">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                고객 파일
+              </div>
+            </div>
+          </div>
+          <div class="clean-folder">
+            <div class="clean-folder-header">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              <span class="clean-folder-name">개인 파일</span>
+              <span class="clean-folder-count">31개 파일</span>
+            </div>
+            <div class="clean-subfolders">
+              <div class="clean-subfolder">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                사진 아카이브
+                <span class="diff-indicator added">
+                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  +15
+                </span>
+              </div>
+              <div class="clean-subfolder">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                문서
+              </div>
+            </div>
+          </div>
+          <div class="clean-folder">
+            <div class="clean-folder-header">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              <span class="clean-folder-name">유틸리티</span>
+              <span class="clean-folder-count">18개 파일</span>
+            </div>
+            <div class="clean-subfolders">
+              <div class="clean-subfolder">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                임시 파일
+                <span class="diff-indicator removed">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  정리됨
+                </span>
+              </div>
+              <div class="clean-subfolder">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                아카이브
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-stats">
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon improved">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">73</div>
+              <div class="comparison-stat-label">정리된 파일</div>
+            </div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon optimized">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">6</div>
+              <div class="comparison-stat-label">개선된 구조</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
