@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구조 제안 - Chakmate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Heroicons SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none; width: 0; height: 0;">
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+    </symbol>
+    <symbol id="icon-folder-solid" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h6l4 4h6a2 2 0 012 2v8a2 2 0 01-2 2z"/>
+    </symbol>
+    <symbol id="icon-folder-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2v11z"/>
+    </symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="icon-x-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </symbol>
+    <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </symbol>
+    <symbol id="icon-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </symbol>
+    <symbol id="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </symbol>
+    <symbol id="icon-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="16 18 22 12 16 6"/>
+      <polyline points="8 6 2 12 8 18"/>
+    </symbol>
+  </svg>
+  <link rel="stylesheet" href="../styles/main.css">
+  <script type="module" src="../scripts/visualization.js"></script>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="header-logo">
+          <svg viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="50%" stop-color="#3b82f6"/>
+                <stop offset="100%" stop-color="#0ea5e9"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 3a3 3 0 013 3v2a3 3 0 01-3 3H4a2 2 0 00-2 2v6a2 2 0 002 2h2a3 3 0 013 3v2a3 3 0 01-3 3H6a3 3 0 01-3-3v-2a3 3 0 013-3h2a2 2 0 002-2V8a2 2 0 00-2-2H6a3 3 0 01-3-3V6a3 3 0 013-3z" fill="url(#logoGrad)"/>
+            <circle cx="12" cy="12" r="3" fill="white" opacity="0.3"/>
+          </svg>
+        </div>
+        <h1 class="header-title">구조 제안</h1>
+      </div>
+      <div class="header-right">
+        <button class="back-btn" onclick="window.location.href='index.html'" aria-label="Go back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <use href="#icon-arrow-left"></use>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    
+    <div class="comparison-banner">
+      <div class="comparison-item current">
+        <div class="comparison-icon">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <use href="#icon-folder"></use>
+          </svg>
+        </div>
+        <span>현재</span>
+      </div>
+      <span class="comparison-arrow">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <use href="#icon-arrow-right"></use>
+        </svg>
+      </span>
+      <div class="comparison-item proposed">
+        <div class="comparison-icon">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <use href="#icon-folder"></use>
+          </svg>
+        </div>
+        <span>AI 제안</span>
+      </div>
+    </div>
+
+    <!-- Before/After Comparison UI -->
+    <div class="comparison-container">
+      <!-- Before Panel - Messy State -->
+      <div class="comparison-panel">
+        <div class="comparison-panel-header before">
+          <div class="comparison-panel-icon before">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <use href="#icon-folder"></use>
+            </svg>
+          </div>
+          <div>
+            <div class="comparison-panel-title">정리 전</div>
+            <div class="comparison-panel-subtitle">지저분한 폴더 구조</div>
+          </div>
+        </div>
+        <div class="before-tree">
+          <div class="messy-folder">
+            <div class="messy-folder-name">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+              다운로드
+            </div>
+            <div class="messy-files">
+              <span class="messy-file-tag">사진_2024.jpg</span>
+              <span class="messy-file-tag">invoice.pdf</span>
+              <span class="messy-file-tag">Screenshot.png</span>
+              <span class="messy-file-tag">doc.docx</span>
+              <span class="messy-file-tag">video.mp4</span>
+            </div>
+          </div>
+          <div class="messy-folder">
+            <div class="messy-folder-name">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+              바탕화면
+            </div>
+            <div class="messy-files">
+              <span class="messy-file-tag">report_final.xls</span>
+              <span class="messy-file-tag">report_v2.xls</span>
+              <span class="messy-file-tag">report_FINAL.xls</span>
+              <span class="messy-file-tag">temp.png</span>
+            </div>
+          </div>
+          <div class="messy-folder">
+            <div class="messy-folder-name">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+              문서
+            </div>
+            <div class="messy-files">
+              <span class="messy-file-tag">새 폴더</span>
+              <span class="messy-file-tag">새 폴더 (2)</span>
+              <span class="messy-file-tag">archive</span>
+              <span class="messy-file-tag">backup</span>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-stats">
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon removed">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-x-mark"></use></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">87</div>
+              <div class="comparison-stat-label">분산 파일</div>
+            </div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon removed">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">12</div>
+              <div class="comparison-stat-label">중복 폴더</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- After Panel - Organized State -->
+      <div class="comparison-panel">
+        <div class="comparison-panel-header after">
+          <div class="comparison-panel-icon after">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use><use href="#icon-check" class="absolute inset-0"></use></svg>
+          </div>
+          <div>
+            <div class="comparison-panel-title">정리 후</div>
+            <div class="comparison-panel-subtitle">AI가 제안하는 구조</div>
+          </div>
+        </div>
+        <div class="after-tree">
+          <div class="clean-folder">
+            <div class="clean-folder-header">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><use href="#icon-plus"></use></svg>
+              <span class="clean-folder-name">작업 프로젝트</span>
+              <span class="clean-folder-count">24개 파일</span>
+            </div>
+            <div class="clean-subfolders">
+              <div class="clean-subfolder">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                2024 보고서
+                <span class="diff-indicator added">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-plus"></use></svg>
+                  +8
+                </span>
+              </div>
+              <div class="clean-subfolder">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                고객 파일
+              </div>
+            </div>
+          </div>
+          <div class="clean-folder">
+            <div class="clean-folder-header">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><use href="#icon-folder"></use></svg>
+              <span class="clean-folder-name">개인 파일</span>
+              <span class="clean-folder-count">31개 파일</span>
+            </div>
+            <div class="clean-subfolders">
+              <div class="clean-subfolder">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                사진 아카이브
+                <span class="diff-indicator added">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-plus"></use></svg>
+                  +15
+                </span>
+              </div>
+              <div class="clean-subfolder">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                문서
+              </div>
+            </div>
+          </div>
+          <div class="clean-folder">
+            <div class="clean-folder-header">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><use href="#icon-folder"></use></svg>
+              <span class="clean-folder-name">유틸리티</span>
+              <span class="clean-folder-count">18개 파일</span>
+            </div>
+            <div class="clean-subfolders">
+              <div class="clean-subfolder">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                임시 파일
+                <span class="diff-indicator removed">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-check"></use></svg>
+                  정리됨
+                </span>
+              </div>
+              <div class="clean-subfolder">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                아카이브
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-stats">
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon improved">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-check"></use></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">73</div>
+              <div class="comparison-stat-label">정리된 파일</div>
+            </div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-icon optimized">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+            </div>
+            <div>
+              <div class="comparison-stat-value">6</div>
+              <div class="comparison-stat-label">개선된 구조</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">AI 추천 구조</h2>
+        <span class="section-badge" id="selectedCount">7개 중 3개 선택됨</span>
+      </div>
+      <div class="tree-container" id="folderTree">
+        
+        <div class="tree-item expanded" data-category="work" data-folder="work-projects">
+          <div class="tree-item-header">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" class="checkbox-input" data-type="folder" data-folder="work-projects" checked>
+              <span class="checkbox-visual">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+              </span>
+            </label>
+            <svg class="folder-icon" viewBox="0 0 24 24" fill="currentColor"><use href="#icon-folder-solid"></use></svg>
+            <span class="folder-name">작업 프로젝트</span>
+            <div class="folder-meta">
+              <span class="file-count">12개 파일</span>
+              <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-chevron-down"></use></svg>
+            </div>
+          </div>
+          <div class="tree-children">
+            <div class="tree-children-inner">
+              <div class="child-item" data-preview="work-projects/2024-reports">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" class="checkbox-input" data-type="subfolder" data-folder="work-projects" data-subfolder="2024-reports" checked>
+                  <span class="checkbox-visual">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+                  </span>
+                </label>
+                <svg class="child-folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                <span class="child-folder-name">2024 보고서</span>
+              </div>
+              <div class="child-item" data-preview="work-projects/client-files">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" class="checkbox-input" data-type="subfolder" data-folder="work-projects" data-subfolder="client-files" checked>
+                  <span class="checkbox-visual">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+                  </span>
+                </label>
+                <svg class="child-folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                <span class="child-folder-name">고객 파일</span>
+              </div>
+              <div class="child-item" data-preview="work-projects/archive">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" class="checkbox-input" data-type="subfolder" data-folder="work-projects" data-subfolder="archive">
+                  <span class="checkbox-visual">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+                  </span>
+                </label>
+                <svg class="child-folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                <span class="child-folder-name">아카이브</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="tree-item" data-category="personal" data-folder="personal">
+          <div class="tree-item-header">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" class="checkbox-input" data-type="folder" data-folder="personal">
+              <span class="checkbox-visual">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+              </span>
+            </label>
+            <svg class="folder-icon" viewBox="0 0 24 24" fill="currentColor"><use href="#icon-folder-solid"></use></svg>
+            <span class="folder-name">개인</span>
+            <div class="folder-meta">
+              <span class="file-count">24개 파일</span>
+              <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-chevron-down"></use></svg>
+            </div>
+          </div>
+          <div class="tree-children">
+            <div class="tree-children-inner">
+              <div class="child-item" data-preview="personal/photos">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" class="checkbox-input" data-type="subfolder" data-folder="personal" data-subfolder="photos">
+                  <span class="checkbox-visual">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+                  </span>
+                </label>
+                <svg class="child-folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                <span class="child-folder-name">사진</span>
+              </div>
+              <div class="child-item" data-preview="personal/downloads-archive">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" class="checkbox-input" data-type="subfolder" data-folder="personal" data-subfolder="downloads-archive">
+                  <span class="checkbox-visual">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+                  </span>
+                </label>
+                <svg class="child-folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                <span class="child-folder-name">다운로드 아카이브</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="tree-item" data-category="utility" data-folder="utilities">
+          <div class="tree-item-header">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" class="checkbox-input" data-type="folder" data-folder="utilities">
+              <span class="checkbox-visual">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+              </span>
+            </label>
+            <svg class="folder-icon" viewBox="0 0 24 24" fill="currentColor"><use href="#icon-folder-solid"></use></svg>
+            <span class="folder-name">유틸리티</span>
+            <div class="folder-meta">
+              <span class="file-count">8개 파일</span>
+              <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-chevron-down"></use></svg>
+            </div>
+          </div>
+          <div class="tree-children">
+            <div class="tree-children-inner">
+              <div class="child-item" data-preview="utilities/temp-files">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" class="checkbox-input" data-type="subfolder" data-folder="utilities" data-subfolder="temp-files">
+                  <span class="checkbox-visual">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><use href="#icon-check"></use></svg>
+                  </span>
+                </label>
+                <svg class="child-folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-folder"></use></svg>
+                <span class="child-folder-name">임시 파일</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">미리보기</h2>
+      </div>
+      <div class="preview-container">
+        <div class="preview-header">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-eye"></use></svg>
+          <span class="preview-title">폴더 내용</span>
+          <span class="preview-path" id="previewPath">폴더 선택</span>
+        </div>
+        <div class="preview-content" id="previewContent">
+          <div class="preview-empty">
+            <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-folder"></use></svg>
+            <p>폴더를 클릭하여 내용 미리보기</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  
+  <div class="action-bar">
+    <div class="action-bar-inner">
+      <div class="progress-bar-container">
+        <div class="progress-label">
+          <span id="progressText">7개 폴더 중 0개 적용됨</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+      </div>
+      <button class="apply-btn" id="applyBtn" disabled>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-check"></use></svg>
+        <span>선택 항목 적용</span>
+        <span class="count-badge" id="applyCount">0</span>
+      </button>
+    </div>
+  </div>
+
+  
+      <div class="success-overlay" id="successOverlay">
+    <div class="success-content">
+      <div class="success-icon">
+        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><use href="#icon-check"></use></svg>
+      </div>
+      <h2 class="success-title">적용 완료!</h2>
+      <p class="success-subtitle" id="successSubtitle">3개의 폴더가 정리되었습니다</p>
+    </div>
+  </div>
+
+</body>
+</html>

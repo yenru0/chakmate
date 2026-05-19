@@ -26,7 +26,8 @@
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </symbol>
     <symbol id="icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 23c-3.866 0-7-3.134-7-7 0-2.5 1.5-4.5 3-6 .5-.5 1.5-2 1.5-3.5 0 1.5.5 2 1.5 2.5 0-3 2-6.5 4-8.5.5-.5 1.5-.5 2 0 1.5 2 3 5 3 8.5 0 1.5.5 2.5 1.5 3 1.5 1.5 3 3.5 3 6 0 3.866-3.134 7-7 7z"/>
+      <path d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/>
+      <path d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/>
     </symbol>
     <symbol id="icon-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
@@ -313,7 +314,7 @@
         </div>
         <div class="header-right flex items-center gap-3">
           <div class="streak-badge flex items-center gap-2 bg-gradient-to-r from-accent-warn to-amber-500 text-white px-4 py-2 rounded-full font-semibold text-sm" id="streak-display">
-            <svg class="w-[18px] h-[18px] fill-current"><use href="#icon-fire"></use></svg>
+            <svg class="w-[18px] h-[18px] stroke-current fill-none"><use href="#icon-fire"></use></svg>
             <span id="streak-count">7</span>
           </div>
           <button class="btn btn-icon btn-secondary" id="settings-btn">
@@ -421,7 +422,7 @@
               </a>
               <a href="scene_gamification.html" class="quick-action-btn flex items-center gap-4 p-3 bg-surface-secondary rounded-[12px] text-text-primary hover:bg-overlay hover:translate-x-1 transition-all duration-150 no-underline">
                 <div class="quick-action-icon w-11 h-11 rounded-[12px] flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-accent-warn to-amber-500">
-                  <svg class="w-[22px] h-[22px] fill-current stroke-white"><use href="#icon-fire"></use></svg>
+                  <svg class="w-[22px] h-[22px] stroke-white fill-none"><use href="#icon-fire"></use></svg>
                 </div>
                 <div class="quick-action-info flex-1 flex flex-col gap-0.5">
                   <span class="quick-action-title font-semibold text-sm">내 진행 상황</span>
@@ -667,7 +668,7 @@
   <!-- Toast -->
   <div class="toast fixed bottom-8 left-1/2 -translate-x-1/2 translate-y-[100px] bg-surface-card px-6 py-4 rounded-full shadow-lg flex items-center gap-3 z-[500] transition-transform duration-500" id="toast">
     <div class="toast-icon w-8 h-8 rounded-full flex items-center justify-center bg-amber-500/15 text-accent-warn">
-      <svg class="w-[18px] h-[18px] fill-current text-orange-500"><use href="#icon-fire"></use></svg>
+      <svg class="w-[18px] h-[18px] stroke-current fill-none text-orange-500"><use href="#icon-fire"></use></svg>
     </div>
     <span class="toast-message font-medium" id="toast-message">7일 스트릭 달성!</span>
   </div>

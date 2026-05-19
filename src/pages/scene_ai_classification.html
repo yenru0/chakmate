@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 분류 - Chakmate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+  <!-- Heroicons SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </symbol>
+    <symbol id="icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v18M5.5 9.5L7.5 12M5.5 14.5L7.5 12M16.5 9.5L14.5 12M16.5 14.5L14.5 12M9 3l1.5 4.5L15 3M9 21l1.5-4.5L15 21"/>
+      <path d="M9 3l1.5 4.5M14.5 7.5L15 3l-4.5 1.5M9 21l1.5-4.5M14.5 16.5L15 21l-4.5-1.5"/>
+    </symbol>
+    <symbol id="icon-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </symbol>
+    <symbol id="icon-chart-bar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <circle cx="19" cy="5" r="2"/>
+      <circle cx="5" cy="19" r="2"/>
+      <path d="M10.4 10.6l5.2 5.2M13.6 13.6l5.2 5.2"/>
+    </symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </symbol>
+    <symbol id="icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+      <line x1="7" y1="7" x2="7.01" y2="7"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </symbol>
+    <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </symbol>
+    <symbol id="icon-magnifying-glass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </symbol>
+    <symbol id="icon-sparkles-alt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <symbol id="icon-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8" y="8" width="12" height="12" rx="2"/>
+      <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+    </symbol>
+  </svg>
+  <style>
+    [data-theme="dark"] {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --bg-overlay: rgba(14, 165, 233, 0.12);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.3);
+    }
+    [data-theme="dark"] body { background: var(--bg-primary); color: var(--text-primary); }
+    [data-theme="dark"] .bg-primary { background: var(--bg-primary); }
+    [data-theme="dark"] .bg-secondary { background: var(--bg-secondary); }
+    [data-theme="dark"] .bg-card { background: var(--bg-card); }
+    [data-theme="dark"] .bg-overlay { background: var(--bg-overlay); }
+    [data-theme="dark"] .text-primary { color: var(--text-primary); }
+    [data-theme="dark"] .text-secondary { color: var(--text-secondary); }
+    [data-theme="dark"] .text-muted { color: var(--text-muted); }
+    [data-theme="dark"] .shadow-sm { box-shadow: var(--shadow-sm); }
+    [data-theme="dark"] .shadow-md { box-shadow: var(--shadow-md); }
+    [data-theme="dark"] .shadow-lg { box-shadow: var(--shadow-lg); }
+    [data-theme="dark"] .shadow-glow { box-shadow: var(--shadow-glow); }
+    [data-theme="dark"] .border-secondary { border-color: var(--bg-secondary); }
+    
+    /* Neural network nodes animation delays */
+    .neural-node:nth-child(1) { animation-delay: 0s; }
+    .neural-node:nth-child(2) { animation-delay: 0.3s; }
+    .neural-node:nth-child(3) { animation-delay: 0.6s; }
+    .neural-node:nth-child(4) { animation-delay: 0.9s; }
+    .neural-node:nth-child(5) { animation-delay: 1.2s; }
+    
+    /* Discovery card stagger animation */
+    .discovery-card:nth-child(1) { transition-delay: 0ms; }
+    .discovery-card:nth-child(2) { transition-delay: 100ms; }
+    .discovery-card:nth-child(3) { transition-delay: 200ms; }
+    .discovery-card:nth-child(4) { transition-delay: 300ms; }
+    
+    /* Tag pill click feedback */
+    .tag-pill-feedback { transform: scale(0.95); }
+    
+    /* Hint chip click feedback */
+    .hint-chip-feedback { background: var(--primary-dark); }
+  </style>
+</head>
+<body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased overflow-x-hidden">
+  <div class="max-w-[1200px] w-full mx-auto p-6">
+    <!-- Back Header -->
+    <div class="flex items-center gap-4 mb-8">
+      <a href="index.html" class="inline-flex items-center gap-2 text-text-secondary font-medium transition-colors duration-150 hover:text-primary hover:bg-accent/10 rounded-xl px-3 py-2">
+        <svg class="w-5 h-5"><use href="#icon-arrow-left"></use></svg>
+        <span>대시보드로</span>
+      </a>
+    </div>
+
+    <!-- Privacy Hero Banner -->
+    <div class="bg-gradient-to-br from-primary via-secondary to-primary-light rounded-[28px] p-12 mb-8 relative overflow-hidden shadow-lg">
+      <div class="absolute top-[-50%] right-[-20%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(255,255,255,0.15),transparent_70%)] animate-pulse-glow"></div>
+      <div class="relative z-10 flex items-center gap-6">
+          <div class="w-20 h-20 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+            <svg class="w-12 h-12 text-white"><use href="#icon-shield-check"></use></svg>
+          </div>
+        </div>
+      <div class="relative z-10 ml-4">
+        <h1 class="text-white text-2xl font-display font-bold mb-2">AI 파일 분류</h1>
+        <p class="text-white/80 text-sm font-light">머신러닝으로 파일을 자동으로 분석하고 분류합니다</p>
+      </div>
+    </div>
+    <div class="bg-surface-card rounded-xl p-6 mb-8 shadow-md flex items-center gap-6">
+      <div class="w-16 h-16 relative">
+        <div class="w-full h-full rounded-full border-4 border-surface-secondary relative">
+          <div class="absolute inset-[-4px] rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-3 h-3 bg-primary rounded-full absolute top-[10%] left-[50%] -translate-x-1/2 animate-node-pulse"></div>
+        </div>
+      </div>
+      <div class="flex-1">
+        <h2 class="text-[1.1rem] font-display font-semibold mb-1">AI 분석 진행 중</h2>
+        <p class="text-text-muted text-[0.85rem]">파일을 스캔하고 패턴을 인식하는 중...</p>
+        <div class="mt-2 h-2 bg-surface-secondary rounded-full overflow-hidden w-[200px]">
+          <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-1000 animate-[width_2s_ease-out]" style="width: 67%;"></div>
+        </div>
+      </div>
+      <button class="inline-flex items-center gap-2 px-4 py-2 bg-surface-secondary hover:bg-surface-primary text-text-secondary hover:text-text-primary rounded-xl text-sm font-medium transition-all duration-200">
+        <svg class="w-4 h-4"><use href="#icon-arrow-up"></use></svg>
+        분석 결과 내보내기
+      </button>
+    </div>
+
+    <!-- Neural Network Visualization -->
+    <div class="bg-surface-card rounded-xl p-8 mb-8 shadow-md relative overflow-hidden">
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-[20%] left-[10%] w-32 h-32 border border-primary rounded-full animate-float"></div>
+        <div class="absolute top-[60%] right-[15%] w-24 h-24 border border-secondary rounded-full animate-float" style="animation-delay: 0.5s;"></div>
+        <div class="absolute bottom-[20%] left-[30%] w-20 h-20 border border-accent rounded-full animate-float" style="animation-delay: 1s;"></div>
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <h2 class="text-[1.5rem] font-display font-semibold">분류 네트워크</h2>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-[0.75rem] font-medium">
+              <span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+              활성
+            </span>
+          </div>
+          <div class="flex items-center gap-2 text-text-muted text-[0.85rem]">
+            <svg class="w-4 h-4"><use href="#icon-cpu"></use></svg>
+            <span>GPU 가속</span>
+          </div>
+        </div>
+        <div class="relative h-[200px] flex items-center justify-center">
+          <!-- Neural Network SVG -->
+          <svg class="w-full h-full absolute inset-0" style="min-width: 600px;">
+            <!-- Connection lines -->
+            <path d="M100 100 Q200 50 300 100" class="stroke-surface-secondary stroke-[1] fill-none opacity-30"/>
+            <path d="M100 100 Q200 150 300 100" class="stroke-surface-secondary stroke-[1] fill-none opacity-30"/>
+            <path d="M100 100 Q200 100 300 100" class="stroke-surface-secondary stroke-[1] fill-none opacity-50"/>
+            <path d="M300 100 Q400 50 500 100" class="stroke-primary stroke-[2] fill-none opacity-60"/>
+            <path d="M300 100 Q400 150 500 100" class="stroke-secondary stroke-[2] fill-none opacity-60"/>
+            <path d="M300 100 Q400 100 500 100" class="stroke-accent stroke-[2] fill-none opacity-80"/>
+            <!-- Animated pulses on connections -->
+            <circle r="4" fill="var(--primary)" class="animate-node-pulse">
+              <animateMotion dur="2s" repeatCount="indefinite" path="M100 100 Q200 50 300 100"/>
+            </circle>
+            <circle r="4" fill="var(--secondary)" class="animate-node-pulse" style="animation-delay: 0.5s;">
+              <animateMotion dur="2s" repeatCount="indefinite" path="M300 100 Q400 150 500 100" begin="0.5s"/>
+            </circle>
+          </svg>
+          <!-- Input Layer -->
+          <div class="flex flex-col gap-4 absolute left-[10%] top-1/2 -translate-y-1/2">
+            <div class="neural-node w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark shadow-md flex items-center justify-center animate-node-pulse">
+              <svg class="w-5 h-5 text-white"><use href="#icon-document"></use></svg>
+            </div>
+            <div class="neural-node w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark shadow-md flex items-center justify-center animate-node-pulse" style="animation-delay: 0.3s;">
+              <svg class="w-5 h-5 text-white"><use href="#icon-image"></use></svg>
+            </div>
+            <div class="neural-node w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark shadow-md flex items-center justify-center animate-node-pulse" style="animation-delay: 0.6s;">
+              <svg class="w-5 h-5 text-white"><use href="#icon-folder"></use></svg>
+            </div>
+          </div>
+          <!-- Hidden Layer -->
+          <div class="flex flex-col gap-4 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div class="neural-node w-14 h-14 rounded-full bg-gradient-to-br from-secondary to-secondary-light shadow-lg flex items-center justify-center animate-node-pulse" style="animation-delay: 0.2s;">
+              <svg class="w-6 h-6 text-white"><use href="#icon-sparkles"></use></svg>
+            </div>
+            <div class="neural-node w-14 h-14 rounded-full bg-gradient-to-br from-secondary to-secondary-light shadow-lg flex items-center justify-center animate-node-pulse" style="animation-delay: 0.4s;">
+              <span class="text-white font-bold text-lg">NN</span>
+            </div>
+            <div class="neural-node w-14 h-14 rounded-full bg-gradient-to-br from-secondary to-secondary-light shadow-lg flex items-center justify-center animate-node-pulse" style="animation-delay: 0.6s;">
+              <svg class="w-6 h-6 text-white"><use href="#icon-chart-bar"></use></svg>
+            </div>
+          </div>
+          <!-- Output Layer -->
+          <div class="flex flex-col gap-4 absolute right-[10%] top-1/2 -translate-y-1/2">
+            <div class="neural-node w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-warn shadow-md flex items-center justify-center animate-node-pulse" style="animation-delay: 0.3s;">
+              <svg class="w-5 h-5 text-white"><use href="#icon-tag"></use></svg>
+            </div>
+            <div class="neural-node w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-warn shadow-md flex items-center justify-center animate-node-pulse" style="animation-delay: 0.5s;">
+              <svg class="w-5 h-5 text-white"><use href="#icon-clock"></use></svg>
+            </div>
+            <div class="neural-node w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-warn shadow-md flex items-center justify-center animate-node-pulse" style="animation-delay: 0.7s;">
+              <svg class="w-5 h-5 text-white"><use href="#icon-folder"></use></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confidence Metrics -->
+    <div class="grid grid-cols-3 gap-6 mb-8 max-lg:grid-cols-1">
+      <!-- Overall Confidence -->
+      <div class="bg-surface-card rounded-xl p-6 shadow-md">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-[0.9rem] font-medium text-text-secondary">전체 신뢰도</h3>
+          <svg class="w-5 h-5 text-primary"><use href="#icon-sparkles"></use></svg>
+        </div>
+        <div class="relative w-[120px] h-[120px] mx-auto mb-4">
+          <svg class="w-full h-full -rotate-[90deg]" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="var(--surface-secondary)" stroke-width="12"/>
+            <circle class="progress-ring-fill fill-none stroke-primary transition-all duration-1000" cx="50" cy="50" r="40" stroke-width="12" stroke-dasharray="251" stroke-dashoffset="251" stroke-linecap="round"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="font-display text-2xl font-bold text-text-primary">92<span class="text-[1rem]">%</span></span>
+          </div>
+        </div>
+        <div class="text-center">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-[0.8rem] font-medium">
+            <svg class="w-3.5 h-3.5"><use href="#icon-shield-check"></use></svg>
+            매우 높음
+          </span>
+        </div>
+      </div>
+
+      <!-- Files Processed -->
+      <div class="bg-surface-card rounded-xl p-6 shadow-md">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-[0.9rem] font-medium text-text-secondary">처리된 파일</h3>
+          <svg class="w-5 h-5 text-secondary"><use href="#icon-folder"></use></svg>
+        </div>
+        <div class="text-center mb-4">
+          <span class="font-display text-4xl font-bold text-text-primary">847</span>
+          <span class="text-text-muted text-sm ml-2">파일</span>
+        </div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-[0.85rem]">
+            <span class="text-text-secondary">오늘</span>
+            <span class="font-semibold text-text-primary">+127</span>
+          </div>
+          <div class="flex items-center justify-between text-[0.85rem]">
+            <span class="text-text-secondary">이번 주</span>
+            <span class="font-semibold text-text-primary">+389</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Found -->
+      <div class="bg-surface-card rounded-xl p-6 shadow-md">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-[0.9rem] font-medium text-text-secondary">발견된 카테고리</h3>
+          <svg class="w-5 h-5 text-accent"><use href="#icon-tag"></use></svg>
+        </div>
+        <div class="text-center mb-4">
+          <span class="font-display text-4xl font-bold text-text-primary">24</span>
+          <span class="text-text-muted text-sm ml-2">개</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="tag-pill px-3 py-1 bg-primary/10 text-primary rounded-full text-[0.75rem] font-medium cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white">문서</span>
+          <span class="tag-pill px-3 py-1 bg-secondary/10 text-secondary rounded-full text-[0.75rem] font-medium cursor-pointer transition-all duration-150 hover:bg-secondary hover:text-white">이미지</span>
+          <span class="tag-pill px-3 py-1 bg-accent/10 text-accent rounded-full text-[0.75rem] font-medium cursor-pointer transition-all duration-150 hover:bg-accent hover:text-white">프로젝트</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Discovery Cards -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-[1.5rem] font-display font-semibold">AI 발견 항목</h2>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-accent rounded-full text-[0.75rem] font-medium">
+            <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+            실시간
+          </span>
+        </div>
+        <button class="inline-flex items-center gap-2 px-4 py-2 bg-surface-secondary hover:bg-surface-primary text-text-secondary hover:text-text-primary rounded-xl text-sm font-medium transition-all duration-200">
+          <svg class="w-4 h-4"><use href="#icon-arrow-right"></use></svg>
+          모두 보기
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-6 max-lg:grid-cols-1">
+        <!-- Discovery Card 1 -->
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-500">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-md">
+              <svg class="w-6 h-6 text-white"><use href="#icon-document"></use></svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display font-semibold text-[1.05rem] mb-1">금융 문서 자동 분류</h3>
+              <p class="text-text-muted text-[0.85rem]">보고서, 세금, 계약서를 자동으로 구분합니다</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">보고서</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">금융</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">자동</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-surface-secondary">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-primary rounded-full"></div>
+              <span class="text-[0.8rem] text-text-muted">신뢰도 94%</span>
+            </div>
+            <span class="text-[0.8rem] text-text-muted">방금 전</span>
+          </div>
+        </div>
+
+        <!-- Discovery Card 2 -->
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-500">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary to-secondary-light flex items-center justify-center shadow-md">
+              <svg class="w-6 h-6 text-white"><use href="#icon-chart-bar"></use></svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display font-semibold text-[1.05rem] mb-1">시간 기반 정리</h3>
+              <p class="text-text-muted text-[0.85rem]">파일 수정일을 분석하여 자동으로 연도/분기별로 분류</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">타임라인</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">정리</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-surface-secondary">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-secondary rounded-full"></div>
+              <span class="text-[0.8rem] text-text-muted">신뢰도 89%</span>
+            </div>
+            <span class="text-[0.8rem] text-text-muted">5분 전</span>
+          </div>
+        </div>
+
+        <!-- Discovery Card 3 -->
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-500">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-accent-warn flex items-center justify-center shadow-md">
+              <svg class="w-6 h-6 text-white"><use href="#icon-tag"></use></svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display font-semibold text-[1.05rem] mb-1">태그 제안</h3>
+              <p class="text-text-muted text-[0.85rem]">파일 내용을 분석하여 적절한 태그를 자동으로 추천</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">AI</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">추천</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">태그</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-surface-secondary">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-accent rounded-full"></div>
+              <span class="text-[0.8rem] text-text-muted">신뢰도 91%</span>
+            </div>
+            <span class="text-[0.8rem] text-text-muted">12분 전</span>
+          </div>
+        </div>
+
+        <!-- Discovery Card 4 -->
+        <div class="discovery-card bg-surface-card rounded-xl p-6 shadow-md opacity-0 translate-y-5 transition-all duration-500">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-dark to-primary flex items-center justify-center shadow-md">
+              <svg class="w-6 h-6 text-white"><use href="#icon-folder"></use></svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display font-semibold text-[1.05rem] mb-1">프로젝트 폴더 감지</h3>
+              <p class="text-text-muted text-[0.85rem]">유사한 파일들을 하나의 프로젝트로 그룹화</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">프로젝트</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">그룹</span>
+            <span class="px-3 py-1 bg-surface-secondary rounded-full text-[0.75rem] text-text-secondary">자동</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-surface-secondary">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-primary-dark rounded-full"></div>
+              <span class="text-[0.8rem] text-text-muted">신뢰도 87%</span>
+            </div>
+            <span class="text-[0.8rem] text-text-muted">1시간 전</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confidence Breakdown -->
+    <div class="bg-surface-card rounded-xl p-8 mb-8 shadow-md">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-[1.5rem] font-display font-semibold">카테고리별 신뢰도</h2>
+        <button class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary text-[0.85rem] transition-colors">
+          <svg class="w-4 h-4"><use href="#icon-chart-bar"></use></svg>
+          상세 보기
+        </button>
+      </div>
+      <div class="space-y-5">
+        <!-- Confidence Bar 1 -->
+        <div class="flex items-center gap-4">
+          <span class="w-[100px] text-[0.9rem] font-medium">문서</span>
+          <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+            <div class="confidence-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 94%; background: linear-gradient(90deg, var(--primary), var(--primary-light));"></div>
+          </div>
+          <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">94%</span>
+        </div>
+        <!-- Confidence Bar 2 -->
+        <div class="flex items-center gap-4">
+          <span class="w-[100px] text-[0.9rem] font-medium">이미지</span>
+          <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+            <div class="confidence-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 89%; background: linear-gradient(90deg, var(--secondary), var(--secondary-light));"></div>
+          </div>
+          <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">89%</span>
+        </div>
+        <!-- Confidence Bar 3 -->
+        <div class="flex items-center gap-4">
+          <span class="w-[100px] text-[0.9rem] font-medium">프로젝트</span>
+          <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+            <div class="confidence-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 91%; background: linear-gradient(90deg, var(--accent), var(--accent-warn));"></div>
+          </div>
+          <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">91%</span>
+        </div>
+        <!-- Confidence Bar 4 -->
+        <div class="flex items-center gap-4">
+          <span class="w-[100px] text-[0.9rem] font-medium">归档</span>
+          <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+            <div class="confidence-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 78%; background: linear-gradient(90deg, var(--primary-dark), var(--primary));"></div>
+          </div>
+          <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">78%</span>
+        </div>
+        <!-- Confidence Bar 5 -->
+        <div class="flex items-center gap-4">
+          <span class="w-[100px] text-[0.9rem] font-medium">기타</span>
+          <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+            <div class="confidence-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 67%; background: linear-gradient(90deg, var(--accent-warn), #fcd34d);"></div>
+          </div>
+          <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">67</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Distribution Chart -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-[1.5rem] font-display font-semibold">파일 분포</h2>
+        </div>
+      </div>
+      <div class="bg-surface-card rounded-xl p-8 shadow-md">
+        <div class="grid grid-cols-[300px_1fr] gap-8 items-center max-lg:grid-cols-1">
+          <div class="relative w-[220px] h-[220px] mx-auto">
+            <svg class="w-full h-full -rotate-[90deg]" viewBox="0 0 100 100">
+              <circle class="pie-segment fill-none stroke-primary transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 98;"/>
+              <circle class="pie-segment fill-none stroke-secondary transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 78;"/>
+              <circle class="pie-segment fill-none stroke-accent transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 47;"/>
+              <circle class="pie-segment fill-none stroke-accent-warn transition-all duration-1000" cx="50" cy="50" r="25" stroke-width="40" stroke-dasharray="0 314" style="--segment-dash: 47;"/>
+            </svg>
+            <div class="absolute inset-10 bg-surface-card rounded-full flex flex-col items-center justify-center">
+              <span class="font-display text-2xl font-bold text-text-primary">847</span>
+              <small class="text-text-muted text-[0.8rem]">전체 파일</small>
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">문서</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 45%; background: linear-gradient(90deg, var(--primary), var(--primary-light));"></div>
+              </div>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">382</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">이미지</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 35%; background: linear-gradient(90deg, var(--secondary), var(--secondary-light));"></div>
+              </div>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">296</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">프로젝트</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 12%; background: linear-gradient(90deg, var(--accent), var(--accent-warn));"></div>
+              </div>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">102</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="w-[100px] text-[0.9rem] font-medium">기타</span>
+              <div class="flex-1 h-8 bg-surface-secondary rounded-xl overflow-hidden relative">
+                <div class="pattern-bar-fill h-full rounded-xl transition-all duration-1000 animate-[width_1s_ease-out]" style="width: 8%; background: linear-gradient(90deg, var(--accent-warn), #fcd34d);"></div>
+              </div>
+              <span class="w-[50px] text-right font-semibold text-[0.9rem] text-text-secondary">67</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semantic Search Hints -->
+    <div class="bg-surface-card rounded-xl p-6 shadow-md mb-8">
+      <h3 class="text-base font-display font-semibold mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-primary"><use href="#icon-magnifying-glass"></use></svg>
+        관련 검색
+      </h3>
+      <div class="flex flex-wrap gap-3">
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">2024년 4분기 금융 보고서</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">프로젝트 타임라인</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">2024년 휴가</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">디자인 자산</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">세금 문서</span>
+        <span class="hint-chip px-5 py-3 bg-surface-secondary rounded-full text-[0.85rem] text-text-secondary cursor-pointer transition-all duration-150 hover:bg-primary hover:text-white hover:scale-105">고객 프레젠테이션</span>
+      </div>
+    </div>
+
+    <!-- Generate Button -->
+    <div class="flex justify-center gap-4">
+      <button class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-br from-primary to-primary-dark text-white rounded-full font-display font-semibold text-base shadow-blue hover:shadow-[0_6px_25px_rgba(59,130,246,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250 min-h-[56px] min-w-[160px]">
+        <svg class="w-5 h-5"><use href="#icon-sparkles-alt"></use></svg>
+        새 인사이트 생성
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/ai-classification.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드 - Chakmate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+      <path d="M2 17l10 5 10-5"/>
+      <path d="M2 12l10 5 10-5"/>
+    </symbol>
+    <symbol id="icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 a8.21 8.21 0 0 0 3 2.48Z"/>
+      <path d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </symbol>
+    <symbol id="icon-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+    </symbol>
+    <symbol id="icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </symbol>
+  </svg>
+</head>
+<body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased overflow-x-hidden pb-20">
+  <header class="flex items-center justify-between p-5 bg-surface-card rounded-b-3xl shadow-[0_4px_20px_rgba(30,27,46,0.08)]">
+    <div class="flex items-center gap-3">
+      <img src="../assets/logo.svg" alt="Chakmate Logo" class="w-10 h-10 object-contain">
+      <span class="font-display text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Chakmate</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="streak-badge flex items-center gap-2 bg-surface-card px-4 py-2 rounded-full shadow-sm">
+        <svg class="w-5 h-5 stroke-accent-warn fill-none text-orange-500"><use href="#icon-fire"></use></svg>
+        <span class="font-bold text-accent-warn" id="streak-count">7</span>
+        <span class="text-text-muted text-sm">일</span>
+      </div>
+    </div>
+  </header>
+
+  <div id="dashboard">
+    <div class="stats-container p-4 flex flex-col gap-4">
+      <div class="stats-row flex gap-4">
+        <div class="stat-card flex-1 bg-surface-card rounded-[20px] p-5 shadow-sm">
+          <div class="stat-icon w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 stroke-primary fill-none"><use href="#icon-folder"></use></svg>
+          </div>
+          <p class="stat-value text-2xl font-display font-bold text-text-primary" id="files-count">248</p>
+          <p class="stat-label text-text-muted text-sm">정리된 파일</p>
+        </div>
+        <div class="stat-card flex-1 bg-surface-card rounded-[20px] p-5 shadow-sm">
+          <div class="stat-icon w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 stroke-accent fill-none"><use href="#icon-document"></use></svg>
+          </div>
+          <p class="stat-value text-2xl font-display font-bold text-text-primary" id="folders-count">12</p>
+          <p class="stat-label text-text-muted text-sm">관리된 폴더</p>
+        </div>
+      </div>
+
+      <div class="suggestions-card bg-surface-card rounded-[20px] p-5 shadow-md">
+        <div class="suggestions-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-display font-bold">AI 제안</h2>
+          <button class="text-sm text-primary font-medium hover:underline" id="apply-suggestions">적용하기</button>
+        </div>
+        <div class="suggestions-list flex flex-col gap-3" id="suggestions-list"></div>
+      </div>
+    </div>
+
+    <div class="achievements-section p-4">
+      <div class="section-header flex items-center justify-between mb-4">
+        <h2 class="text-lg font-display font-bold">업적</h2>
+        <div class="flex items-center gap-1">
+          <svg class="w-5 h-5 stroke-amber-500 fill-none text-yellow-400"><use href="#icon-star"></use></svg>
+          <span class="text-sm font-medium text-text-muted">4/8</span>
+        </div>
+      </div>
+      <div class="achievements-grid grid grid-cols-4 gap-3" id="achievements-grid"></div>
+    </div>
+  </div>
+
+  <nav class="fixed bottom-0 left-0 right-0 bg-surface-card border-t border-surface-secondary z-[100]">
+    <div class="max-w-[600px] mx-auto flex justify-around py-3">
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 active bg-primary/10 text-primary" id="nav-dashboard">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-layers"></use></svg>
+        <span class="text-xs font-medium">홈</span>
+      </button>
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-swipe" onclick="window.location.href='scene_swipe.html'">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-bolt"></use></svg>
+        <span class="text-xs font-medium">스와이프</span>
+      </button>
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-settings" onclick="window.location.href='scene_settings.html'">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-cog"></use></svg>
+        <span class="text-xs font-medium">설정</span>
+      </button>
+    </div>
+  </nav>
+
+  <script type="module" src="../scripts/dashboard.js"></script>
+</body>
+</html>

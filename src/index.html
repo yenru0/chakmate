@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chakmate - 지능형 디지털 자산 관리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/main.css">
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+      <path d="M2 17l10 5 10-5"/>
+      <path d="M2 12l10 5 10-5"/>
+    </symbol>
+    <symbol id="icon-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"/>
+      <path d="M12 5l7 7-7 7"/>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </symbol>
+    <symbol id="icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/>
+      <path d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/>
+    </symbol>
+    <symbol id="icon-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+    </symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <path d="M14 2v6h6"/>
+      <path d="M16 13H8"/>
+      <path d="M16 17H8"/>
+      <path d="M10 9H8"/>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+    </symbol>
+    <symbol id="icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+    </symbol>
+    <symbol id="icon-light-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+    </symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 6h18"/>
+      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+    </symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/>
+      <path d="M12 19l-7-7 7-7"/>
+    </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </symbol>
+    <symbol id="icon-x-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 6L6 18"/>
+      <path d="M6 6l12 12"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6L9 17l-5-5"/>
+    </symbol>
+    <symbol id="icon-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <circle cx="8.5" cy="8.5" r="1.5"/>
+      <polyline points="21 15 16 10 5 21"/>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+    </symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <path d="M7 10l5 5 5-5"/>
+      <path d="M12 15V3"/>
+    </symbol>
+    <symbol id="icon-undo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 10h10a5 5 0 015 5v0a5 5 0 01-5 5H3"/>
+      <path d="M3 10l4-4"/>
+      <path d="M3 10l4 4"/>
+    </symbol>
+  </svg>
+</head>
+<body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased overflow-x-hidden">
+  <!-- Onboarding Screen -->
+  <div id="onboarding" class="screen active">
+    <div class="max-w-[420px] w-full text-center flex flex-col items-center justify-center min-h-screen p-4 gap-4 lg:flex-row lg:max-w-full lg:justify-center lg:gap-8">
+      <div class="flex flex-col items-center justify-center lg:flex-shrink-0">
+        <div class="logo w-64 h-64 mx-auto mb-6 flex items-center justify-center animate-float lg:w-48 lg:h-48">
+          <img src="assets/logo.svg" alt="Chakmate Logo" class="w-full h-full object-contain">
+        </div>
+        <h1 class="brand-name font-display text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2 lg:text-3xl">Chakmate</h1>
+        <p class="tagline text-text-secondary text-base mb-10 lg:mb-0">지능형 디지털 자산 관리 솔루션</p>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 lg:flex-col">
+        <div class="steps-indicator flex gap-2 justify-center mb-8 lg:mb-0">
+          <div class="step-dot active w-2 h-2 rounded-full bg-text-muted transition-all duration-250" data-step="1"></div>
+          <div class="step-dot w-2 h-2 rounded-full bg-text-muted transition-all duration-250" data-step="2"></div>
+          <div class="step-dot w-2 h-2 rounded-full bg-text-muted transition-all duration-250" data-step="3"></div>
+        </div>
+
+        <!-- Step 1: Welcome -->
+        <div class="onboarding-step active" data-step="1">
+          <div class="step-illustration w-[200px] h-[200px] mx-auto mb-8 bg-surface-card rounded-[28px] flex items-center justify-center shadow-lg relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent"></div>
+            <svg class="w-[100px] h-[100px] stroke-primary fill-none stroke-[1.5] relative z-10"><use href="#icon-layers"></use></svg>
+          </div>
+          <h2 class="step-title text-xl mb-3 text-text-primary font-display">파일 정리, 지능적으로</h2>
+          <p class="step-desc text-text-secondary leading-relaxed mb-8">AI가 파일 사용 패턴을 분석하여 당신만의 최적화된 폴더 구조를 제안합니다. 더 이상 수동 정리는 필요 없습니다.</p>
+          <div class="privacy-badge inline-flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <svg class="w-4 h-4 stroke-white fill-none"><use href="#icon-shield-check"></use></svg>
+            <span>기기 내 단독 처리 • 완벽한 개인정보 보호</span>
+          </div>
+        </div>
+
+        <!-- Step 2: Swipe -->
+        <div class="onboarding-step hidden" data-step="2">
+          <div class="step-illustration w-[200px] h-[200px] mx-auto mb-8 bg-surface-card rounded-[28px] flex items-center justify-center shadow-lg relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent"></div>
+            <svg class="w-[100px] h-[100px] stroke-primary fill-none stroke-[1.5] relative z-10"><use href="#icon-bolt"></use></svg>
+          </div>
+          <h2 class="step-title text-xl mb-3 text-text-primary font-display">스вай프로 빠른 정리</h2>
+          <p class="step-desc text-text-secondary leading-relaxed mb-8">좌우 스와이프로 파일을 빠르게 분류하세요. 한번의 제스처로 파일의 귀 fate를 결정합니다.</p>
+          <div class="swipe-hints flex justify-between w-full max-w-[280px] mx-auto text-text-muted text-sm">
+            <div class="flex items-center gap-1">
+              <svg class="w-[16px] h-[16px] stroke-current fill-none"><use href="#icon-arrow-left"></use></svg>
+              <span>삭제</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <span>보관</span>
+              <svg class="w-[16px] h-[16px] stroke-accent-warn fill-none stroke-2"><use href="#icon-arrow-right"></use></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: AI -->
+        <div class="onboarding-step hidden" data-step="3">
+          <div class="step-illustration w-[200px] h-[200px] mx-auto mb-8 bg-surface-card rounded-[28px] flex items-center justify-center shadow-lg relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent"></div>
+            <svg class="w-[100px] h-[100px] stroke-primary fill-none stroke-[1.5] relative z-10"><use href="#icon-light-bulb"></use></svg>
+          </div>
+          <h2 class="step-title text-xl mb-3 text-text-primary font-display">AI가 제안하는 구조</h2>
+          <p class="step-desc text-text-secondary leading-relaxed mb-8">당신의 파일 사용 패턴을 학습하여 최적인 폴더 구조를 제안해 드립니다.</p>
+        </div>
+
+        <button class="btn btn-primary w-full max-w-[280px] mx-auto lg:mx-0" id="start-organizing">
+          <span>정리 시작하기</span>
+          <svg class="w-5 h-5 stroke-current fill-none"><use href="#icon-arrow-right"></use></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-surface-card border-t border-surface-secondary z-[100]">
+    <div class="max-w-[600px] mx-auto flex justify-around py-3">
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 active" id="nav-dashboard">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-layers"></use></svg>
+        <span class="text-xs font-medium">홈</span>
+      </button>
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-swipe">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-bolt"></use></svg>
+        <span class="text-xs font-medium">스�ipe</span>
+      </button>
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-ai-suggestion">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-light-bulb"></use></svg>
+        <span class="text-xs font-medium">AI 제안</span>
+      </button>
+      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-settings">
+        <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-cog"></use></svg>
+        <span class="text-xs font-medium">설정</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Dashboard Screen -->
+  <div id="dashboard" class="screen">
+    <header class="p-4 flex items-center justify-between">
+      <div>
+        <p class="text-text-muted text-sm">환영합니다</p>
+        <h1 class="text-xl font-display font-bold">대시보드</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="streak-badge flex items-center gap-2 bg-surface-card px-4 py-2 rounded-full shadow-sm">
+          <svg class="w-5 h-5 stroke-accent-warn fill-none text-orange-500"><use href="#icon-fire"></use></svg>
+          <span class="font-bold text-accent-warn" id="streak-count">7</span>
+          <span class="text-text-muted text-sm">일</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="stats-container p-4 flex flex-col gap-4">
+      <div class="stats-row flex gap-4">
+        <div class="stat-card flex-1 bg-surface-card rounded-[20px] p-5 shadow-sm">
+          <div class="stat-icon w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 stroke-primary fill-none"><use href="#icon-folder"></use></svg>
+          </div>
+          <p class="stat-value text-2xl font-display font-bold text-text-primary" id="files-count">248</p>
+          <p class="stat-label text-text-muted text-sm">정리된 파일</p>
+        </div>
+        <div class="stat-card flex-1 bg-surface-card rounded-[20px] p-5 shadow-sm">
+          <div class="stat-icon w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 stroke-accent fill-none"><use href="#icon-document"></use></svg>
+          </div>
+          <p class="stat-value text-2xl font-display font-bold text-text-primary" id="folders-count">12</p>
+          <p class="stat-label text-text-muted text-sm">관리된 폴더</p>
+        </div>
+      </div>
+
+      <div class="suggestions-card bg-surface-card rounded-[20px] p-5 shadow-md">
+        <div class="suggestions-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-display font-bold">AI 제안</h2>
+          <button class="text-sm text-primary font-medium hover:underline" id="apply-suggestions">적용하기</button>
+        </div>
+        <div class="suggestions-list flex flex-col gap-3" id="suggestions-list"></div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="achievements-section p-4">
+      <div class="section-header flex items-center justify-between mb-4">
+        <h2 class="text-lg font-display font-bold">업적</h2>
+        <div class="flex items-center gap-1">
+          <svg class="w-5 h-5 stroke-amber-500 fill-none text-yellow-400"><use href="#icon-star"></use></svg>
+          <span class="text-sm font-medium text-text-muted">4/8</span>
+        </div>
+      </div>
+      <div class="achievements-grid grid grid-cols-4 gap-3" id="achievements-grid"></div>
+    </div>
+  </div>
+
+  <!-- Swipe Screen -->
+  <div id="swipe" class="screen">
+    <header class="p-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-display font-bold">스와이프 정리</h1>
+        <p class="text-text-muted text-sm" id="swipe-progress">1/10 파일</p>
+      </div>
+      <button class="btn btn-icon btn-secondary" id="swipe-undo">
+        <svg class="w-5 h-5 stroke-current fill-none"><use href="#icon-undo"></use></svg>
+      </button>
+    </header>
+
+    <div class="swipe-container flex flex-col items-center justify-center min-h-[calc(100vh-200px)] p-4">
+      <div class="card-container w-full max-w-[320px] relative" id="card-container">
+        <div class="current-card absolute inset-0 bg-surface-card rounded-[24px] shadow-lg p-6 flex flex-col" id="current-card">
+          <div class="card-header flex items-center justify-between mb-4">
+            <div class="file-icon w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10">
+              <svg class="w-6 h-6 stroke-primary fill-none" id="card-type-icon"><use href="#icon-document"></use></svg>
+            </div>
+            <div class="file-meta text-right">
+              <p class="file-name font-medium text-text-primary" id="card-name">IMG_20240115_123456.jpg</p>
+              <p class="file-size text-text-muted text-sm" id="card-size">3.2 MB</p>
+            </div>
+          </div>
+          <div class="card-body flex-1 flex flex-col items-center justify-center">
+            <div class="card-preview w-24 h-24 rounded-xl bg-surface-secondary flex items-center justify-center mb-4 overflow-hidden">
+              <svg class="w-12 h-12 stroke-text-muted fill-none" id="card-preview"><use href="#icon-photo"></use></svg>
+            </div>
+            <p class="card-folder text-text-muted text-sm" id="card-folder">📷 사진</p>
+            <p class="card-date text-text-muted text-xs mt-1" id="card-date">2024년 1월 15일</p>
+          </div>
+          <div class="card-hints flex justify-between w-full text-text-muted text-sm mt-4">
+            <span>삭제</span>
+            <span>보관</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="swipe-actions flex gap-6 mt-8">
+        <button class="btn btn-icon w-16 h-16 rounded-full bg-surface-card shadow-lg border-2 border-accent-danger/30 hover:border-accent-danger transition-colors" id="swipe-delete">
+          <svg class="w-8 h-8 stroke-accent-danger fill-none"><use href="#icon-x-mark"></use></svg>
+        </button>
+        <button class="btn btn-icon w-16 h-16 rounded-full bg-surface-card shadow-lg border-2 border-accent/30 hover:border-accent transition-colors" id="swipe-keep">
+          <svg class="w-8 h-8 stroke-accent fill-none"><use href="#icon-check"></use></svg>
+        </button>
+      </div>
+
+      <div class="swipe-hints flex justify-between w-full max-w-[300px] text-text-muted text-sm">
+        <div class="swipe-hint flex items-center gap-2">
+          <svg class="w-[18px] h-[18px] stroke-current fill-none"><use href="#icon-arrow-left"></use></svg>
+          <span>삭제</span>
+        </div>
+        <div class="swipe-hint flex items-center gap-2">
+          <span>보관</span>
+          <svg class="w-[18px] h-[18px] stroke-accent-warn fill-none stroke-2"><use href="#icon-arrow-right"></use></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Suggestion Screen -->
+  <div id="ai-suggestion" class="screen">
+    <div class="ai-container max-w-[900px] w-full mx-auto">
+      <div class="ai-header text-center mb-8">
+        <h2 class="ai-title text-3xl mb-3 font-display">AI 구조 제안</h2>
+        <p class="ai-subtitle text-text-secondary text-lg">분석된 파일 패턴을 기반으로 최적화된 폴더 구조를 제안합니다</p>
+      </div>
+
+      <div class="comparison-view grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6 items-start mb-8">
+        <div class="comparison-panel bg-surface-card rounded-[28px] shadow-md p-6">
+          <div class="comparison-header flex items-center gap-3 mb-5 pb-4 border-b border-surface-secondary">
+            <span class="comparison-badge before px-3 py-1 rounded-full text-xs font-bold uppercase bg-red-500/15 text-accent-danger">현재</span>
+            <span>현재 폴더 구조</span>
+          </div>
+          <div class="comparison-tree flex flex-col gap-2" id="before-tree"></div>
+        </div>
+
+        <div class="comparison-arrow hidden md:flex items-center justify-center pt-16">
+          <svg class="w-12 h-12 stroke-primary fill-none animate-pulse-slow"><use href="#icon-arrow-right"></use></svg>
+        </div>
+
+        <div class="comparison-panel bg-surface-card rounded-[28px] shadow-md p-6">
+          <div class="comparison-header flex items-center gap-3 mb-5 pb-4 border-b border-surface-secondary">
+            <span class="comparison-badge after px-3 py-1 rounded-full text-xs font-bold uppercase bg-emerald-500/15 text-accent">제안</span>
+            <span>정리된 구조</span>
+          </div>
+          <div class="comparison-tree flex flex-col gap-2" id="after-tree"></div>
+        </div>
+      </div>
+
+      <div class="ai-actions flex justify-center gap-4">
+        <button class="btn btn-secondary" id="ai-cancel">
+          <svg class="w-5 h-5 stroke-current fill-none"><use href="#icon-x-mark"></use></svg>
+          <span>취소</span>
+        </button>
+        <button class="btn btn-primary" id="ai-apply">
+          <svg class="w-5 h-5 stroke-current fill-none"><use href="#icon-check"></use></svg>
+          <span>구조 적용하기</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Screen -->
+  <div id="settings" class="screen">
+    <div class="settings-container max-w-[600px] w-full mx-auto">
+      <div class="settings-header mb-8">
+        <h2 class="settings-title text-3xl mb-2 font-display">설정</h2>
+        <p class="settings-subtitle text-text-secondary">앱 환경 사용자 지정</p>
+      </div>
+
+      <div class="settings-section bg-surface-card rounded-[28px] shadow-md p-6 mb-5">
+        <h3 class="settings-section-title text-lg mb-5 pb-3 border-b border-surface-secondary font-display">알림</h3>
+        <div class="setting-row flex items-center justify-between py-4 border-b border-surface-secondary">
+          <div class="setting-info flex-1">
+            <div class="setting-name font-medium mb-1">정리 알림</div>
+            <div class="setting-desc text-sm text-text-secondary">매일 일정한 시간에 파일 정리를 안내합니다</div>
+          </div>
+          <div class="toggle active w-14 h-8 bg-surface-secondary rounded-full cursor-pointer transition-all duration-250 relative" id="toggle-notifications"></div>
+        </div>
+        <div class="setting-row flex items-center justify-between py-4 border-b-0">
+          <div class="setting-info flex-1">
+            <div class="setting-name font-medium mb-1">습관 형성 알림</div>
+            <div class="setting-desc text-sm text-text-secondary">정리 습관 형성을 돕는 동기를 부여합니다</div>
+          </div>
+          <div class="toggle w-14 h-8 bg-surface-secondary rounded-full cursor-pointer transition-all duration-250 relative" id="toggle-habits"></div>
+        </div>
+      </div>
+
+      <div class="settings-section bg-surface-card rounded-[28px] shadow-md p-6 mb-5">
+        <h3 class="settings-section-title text-lg mb-5 pb-3 border-b border-surface-secondary font-display">정리 습관</h3>
+        <div class="setting-row flex items-center justify-between py-4 border-b border-surface-secondary">
+          <div class="setting-info flex-1">
+            <div class="setting-name font-medium mb-1">자동 정리</div>
+            <div class="setting-desc text-sm text-text-secondary">자동으로 파일을 제안된 구조로 정리합니다</div>
+          </div>
+          <div class="toggle w-14 h-8 bg-surface-secondary rounded-full cursor-pointer transition-all duration-250 relative" id="toggle-autoOrganize"></div>
+        </div>
+        <div class="setting-row flex items-center justify-between py-4 border-b-0">
+          <div class="setting-info flex-1">
+            <div class="setting-name font-medium mb-1">삭제 확인</div>
+            <div class="setting-desc text-sm text-text-secondary">파일 삭제 시 확인 메시지를 표시합니다</div>
+          </div>
+          <div class="toggle active w-14 h-8 bg-surface-secondary rounded-full cursor-pointer transition-all duration-250 relative" id="toggle-confirmDelete"></div>
+        </div>
+      </div>
+
+      <div class="settings-section bg-surface-card rounded-[28px] shadow-md p-6 mb-5">
+        <h3 class="settings-section-title text-lg mb-5 pb-3 border-b border-surface-secondary font-display">테마</h3>
+        <div class="theme-options flex gap-3">
+          <div class="theme-option light w-12 h-12 rounded-[12px] cursor-pointer border-[3px] border-transparent transition-all duration-250 hover:scale-105 flex items-center justify-center bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0]" data-theme="light">
+            <svg class="w-5 h-5 stroke-text-primary fill-none"><use href="#icon-sun"></use></svg>
+          </div>
+          <div class="theme-option dark w-12 h-12 rounded-[12px] cursor-pointer border-[3px] border-transparent transition-all duration-250 hover:scale-105 flex items-center justify-center bg-gradient-to-br from-[#0f0e17] to-[#252336]" data-theme="dark">
+            <svg class="w-5 h-5 stroke-text-primary fill-none"><use href="#icon-moon"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section bg-surface-card rounded-[28px] shadow-md p-6">
+        <h3 class="settings-section-title text-lg mb-5 pb-3 border-b border-surface-secondary font-display">데이터</h3>
+        <div class="setting-row flex items-center justify-between py-4 border-b border-surface-secondary">
+          <div class="setting-info flex-1">
+            <div class="setting-name font-medium mb-1">데이터 내보내기</div>
+            <div class="setting-desc text-sm text-text-secondary">정리된 파일 구조를 JSON으로 내보냅니다</div>
+          </div>
+          <button class="btn btn-secondary" id="export-data">
+            <svg class="w-5 h-5 stroke-current fill-none"><use href="#icon-download"></use></svg>
+            <span>내보내기</span>
+          </button>
+        </div>
+        <div class="setting-row flex items-center justify-between py-4 border-b-0">
+          <div class="setting-info flex-1">
+            <div class="setting-name font-medium mb-1">데이터 초기화</div>
+            <div class="setting-desc text-sm text-text-secondary">모든 데이터를 초기 상태로 되돌립니다</div>
+          </div>
+          <button class="btn btn-secondary text-accent-danger" id="reset-data">
+            <svg class="w-5 h-5 stroke-current fill-none"><use href="#icon-trash"></use></svg>
+            <span>초기화</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] opacity-0 invisible transition-all duration-250" id="success-modal">
+    <div class="modal bg-surface-card rounded-[28px] p-8 max-w-[400px] w-[90%] text-center scale-90 transition-transform duration-500" style="transform: scale(0.9)">
+      <div class="modal-icon w-20 h-20 mx-auto mb-5 bg-gradient-to-br from-accent to-emerald-500 rounded-full flex items-center justify-center">
+        <svg class="w-10 h-10 stroke-white fill-none"><use href="#icon-check"></use></svg>
+      </div>
+      <h3 class="modal-title text-2xl mb-3 font-display">정리 완료!</h3>
+      <p class="modal-desc text-text-secondary mb-6">파일 정리가 성공적으로 완료되었습니다.</p>
+      <button class="btn btn-primary" id="modal-close">
+        <span>계속하기</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast fixed bottom-8 left-1/2 -translate-x-1/2 translate-y-[100px] bg-surface-card px-6 py-4 rounded-full shadow-lg flex items-center gap-3 z-[500] transition-transform duration-500" id="toast">
+    <div class="toast-icon w-8 h-8 rounded-full flex items-center justify-center bg-amber-500/15 text-accent-warn">
+      <svg class="w-[18px] h-[18px] stroke-current fill-none text-orange-500"><use href="#icon-fire"></use></svg>
+    </div>
+    <span class="toast-message font-medium" id="toast-message">7일 스트릭 달성!</span>
+  </div>
+
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>
