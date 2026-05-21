@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chakmate - 지능형 디지털 자산 관리</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/main.css">
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
     <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -455,6 +452,6 @@
     <span class="toast-message font-medium" id="toast-message">7일 스트릭 달성!</span>
   </div>
 
-  <script type="module" src="./scripts/main.js"></script>
+  <script type="module" src="./scripts/shared/state.js"></script>
 </body>
 </html>

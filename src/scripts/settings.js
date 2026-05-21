@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const state = {
-    theme: localStorage.getItem('chackly_theme') || 'light',
-    settings: JSON.parse(localStorage.getItem('chackly_settings') || '{"notifications":true,"habits":false,"autoOrganize":false,"confirmDelete":true}')
+    theme: AppState.getTheme(),
+    settings: AppState.getSettings()
   };
 
   function initToggles() {
@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         option.classList.remove('border-transparent');
         option.classList.add('border-primary');
+        AppState.setTheme(option.dataset.theme);
         state.theme = option.dataset.theme;
-        localStorage.setItem('chackly_theme', state.theme);
-        document.documentElement.setAttribute('data-theme', state.theme);
       });
     });
 
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       autoOrganize: document.getElementById('toggle-autoOrganize')?.classList.contains('active'),
       confirmDelete: document.getElementById('toggle-confirmDelete')?.classList.contains('active')
     };
-    localStorage.setItem('chackly_settings', JSON.stringify(settings));
+    AppState.setSettings(settings);
   }
 
   document.getElementById('export-data')?.addEventListener('click', () => {

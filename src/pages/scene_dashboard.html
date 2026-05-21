@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>대시보드 - Chakmate</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
     <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -100,21 +97,22 @@
 
   <nav class="fixed bottom-0 left-0 right-0 bg-surface-card border-t border-surface-secondary z-[100]">
     <div class="max-w-[600px] mx-auto flex justify-around py-3">
-      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 active bg-primary/10 text-primary" id="nav-dashboard">
+      <span class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 active bg-primary/10 text-primary">
         <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-layers"></use></svg>
         <span class="text-xs font-medium">홈</span>
-      </button>
-      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-swipe" onclick="window.location.href='scene_swipe.html'">
+      </span>
+      <a href="scene_swipe.html" class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted">
         <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-bolt"></use></svg>
         <span class="text-xs font-medium">스와이프</span>
-      </button>
-      <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted" id="nav-settings" onclick="window.location.href='scene_settings.html'">
+      </a>
+      <a href="scene_settings.html" class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all duration-250 text-text-muted">
         <svg class="w-6 h-6 stroke-current fill-none"><use href="#icon-cog"></use></svg>
         <span class="text-xs font-medium">설정</span>
-      </button>
+      </a>
     </div>
   </nav>
 
+  <script type="module" src="../scripts/shared/state.js"></script>
   <script type="module" src="../scripts/dashboard.js"></script>
 </body>
 </html>

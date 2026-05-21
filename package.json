@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "tauri": "tauri"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@fontsource/noto-sans-kr": "^5.2.9",
+    "@fontsource/outfit": "^5.2.8"
+  },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",
     "autoprefixer": "^10.4.20",

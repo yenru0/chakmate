@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>스와이프 모드 - Chakmate</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased">
@@ -27,10 +24,10 @@
   </svg>
 
   <header class="flex items-center justify-between p-5 bg-surface-card rounded-b-3xl shadow-[0_4px_20px_rgba(30,27,46,0.08)]">
-    <button class="flex items-center gap-2 px-4 py-2 rounded-full text-text-secondary hover:bg-surface-secondary transition-colors" onclick="window.location.href='scene_dashboard.html'">
+    <a href="scene_dashboard.html" class="flex items-center gap-2 px-4 py-2 rounded-full text-text-secondary hover:bg-surface-secondary transition-colors">
       <svg class="w-5 h-5"><use href="#icon-home"></use></svg>
       <span class="text-sm font-medium">홈</span>
-    </button>
+    </a>
     <h1 class="font-display text-lg font-semibold text-text-primary">스와이프 모드</h1>
     <button class="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-primary to-primary-dark rounded-full text-white text-sm font-semibold shadow-md transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none" id="undoBtn" disabled>
       <svg class="w-4 h-4"><use href="#icon-arrow-uturn-left"></use></svg>

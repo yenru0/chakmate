@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const state = {
-    streak: parseInt(localStorage.getItem('chackly_streak') || '7'),
-    filesOrganized: parseInt(localStorage.getItem('chackly_files_organized') || '248'),
-    foldersManaged: parseInt(localStorage.getItem('chackly_folders') || '12')
+    streak: AppState.getStreak(),
+    filesOrganized: AppState.getFilesOrganized(),
+    foldersManaged: AppState.getFoldersManaged()
   };
 
   const suggestions = [

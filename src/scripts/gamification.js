@@ -1,36 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Data Management
-  const STORAGE_KEY = 'chackly_gamification';
-
-  const defaultData = {
-    streak: 12,
-    weeklyProgress: [true, true, true, true, false, false, false],
-    achievements: [
-      { id: 'first_sort', name: '첫 정리', icon: '🏆', unlocked: true, tier: 'gold', requirement: '첫 정리 세션 완료' },
-      { id: 'week_warrior', name: '주간 챌린저', icon: '🌟', unlocked: true, tier: 'gold', requirement: '7일 연속 완료' },
-      { id: 'streak_7', name: '7일 스트릭', icon: '🔥', unlocked: true, tier: 'silver', requirement: '7일 스트릭 유지' },
-      { id: 'diamond', name: '다이아몬드', icon: '💎', unlocked: true, tier: 'gold', requirement: '30일 스트릭 유지' },
-      { id: 'organizer', name: '정리 달인', icon: '📦', unlocked: false, tier: 'silver', requirement: '100개 파일 정리' },
-      { id: 'minimalist', name: '미니멀리스트', icon: '✨', unlocked: false, tier: 'bronze', requirement: '50개 파일 삭제' },
-      { id: 'speed_demon', name: '스피드 데몬', icon: '⚡', unlocked: false, tier: 'gold', requirement: '하루에 50개 파일 정리' },
-      { id: 'collector', name: '수집가', icon: '🗂️', unlocked: false, tier: 'silver', requirement: '5개 커스텀 폴더 생성' }
-    ],
-    habitReminderEnabled: true,
-    lastUpdated: new Date().toISOString()
-  };
-
-  function loadData() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return { ...defaultData, ...JSON.parse(stored) };
-    }
-    return defaultData;
-  }
-
-  function saveData(data) {
-    data.lastUpdated = new Date().toISOString();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }
+  let gamificationData = AppState.getGamificationData();
 
   // UI Elements
   const streakCount = document.getElementById('streakCount');
@@ -173,37 +142,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize page
   function init() {
-    const data = loadData();
+    gamificationData = AppState.getGamificationData();
 
     // Animate streak count
-    animateCount(streakCount, data.streak);
+    animateCount(streakCount, gamificationData.streak);
 
     // Streak icon animation
-    if (data.streak > 0) {
+    if (gamificationData.streak > 0) {
       streakIcon.classList.add('animate');
       setTimeout(() => streakIcon.classList.remove('animate'), 1000);
     }
 
     // Update streak message
-    if (data.streak > 0) {
+    if (gamificationData.streak > 0) {
       streakMessage.textContent = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
     }
 
     // Animate progress bar
-    const completedDays = data.weeklyProgress.filter(Boolean).length;
+    const completedDays = gamificationData.weeklyProgress.filter(Boolean).length;
     setTimeout(() => {
       progressFill.style.width = (completedDays / 7 * 100) + '%';
     }, 300);
     daysCompleted.textContent = completedDays;
 
     // Render week grid
-    renderWeekGrid(data.weeklyProgress);
+    renderWeekGrid(gamificationData.weeklyProgress);
 
     // Render achievements
-    renderAchievements(data.achievements);
+    renderAchievements(gamificationData.achievements);
 
     // Set habit toggle state
-    habitToggle.checked = data.habitReminderEnabled;
+    habitToggle.checked = gamificationData.habitReminderEnabled;
 
     // Random daily tip
     const randomTip = dailyTips[Math.floor(Math.random() * dailyTips.length)];
@@ -212,8 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Habit toggle handler
     habitToggle.addEventListener('change', (e) => {
-      data.habitReminderEnabled = e.target.checked;
-      saveData(data);
+      gamificationData.habitReminderEnabled = e.target.checked;
+      AppState.setGamificationData(gamificationData);
       showToast(e.target.checked ? '🔔' : '🔕', e.target.checked ? 'Reminders enabled!' : 'Reminders disabled');
     });
 
@@ -223,14 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (achievement && !achievement.classList.contains('unlocked')) {
         // Simulate unlock for demo
         const achId = achievement.dataset.id;
-        const achData = data.achievements.find(a => a.id === achId);
+        const achData = gamificationData.achievements.find(a => a.id === achId);
         if (achData) {
           achData.unlocked = true;
-          saveData(data);
+          AppState.setGamificationData(gamificationData);
           animateBadgeUnlock(achId);
           triggerConfetti();
           showToast(achData.icon, `${achData.name} unlocked!`);
-          renderAchievements(data.achievements);
+          renderAchievements(gamificationData.achievements);
         }
       }
     });

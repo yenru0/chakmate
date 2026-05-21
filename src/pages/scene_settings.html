@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>설정 - Chakmate</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
     <symbol id="icon-x-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -34,10 +31,10 @@
 </head>
 <body class="font-sans bg-surface-primary text-text-primary min-h-screen antialiased overflow-x-hidden">
   <header class="flex items-center justify-between p-5 bg-surface-card rounded-b-3xl shadow-[0_4px_20px_rgba(30,27,46,0.08)]">
-    <button class="flex items-center gap-2 px-4 py-2 rounded-full text-text-secondary hover:bg-surface-secondary transition-colors" onclick="window.location.href='scene_dashboard.html'">
+    <a href="scene_dashboard.html" class="flex items-center gap-2 px-4 py-2 rounded-full text-text-secondary hover:bg-surface-secondary transition-colors">
       <svg class="w-5 h-5"><use href="#icon-home"></use></svg>
       <span class="text-sm font-medium">홈으로</span>
-    </button>
+    </a>
     <h1 class="font-display text-lg font-semibold text-text-primary">설정</h1>
     <div class="w-[80px]"></div>
   </header>
@@ -121,6 +118,7 @@
     </div>
   </div>
 
+  <script type="module" src="../scripts/shared/state.js"></script>
   <script type="module" src="../scripts/settings.js"></script>
 </body>
 </html>
