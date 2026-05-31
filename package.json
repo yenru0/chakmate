@@ -10,8 +10,13 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@fontsource/noto-color-emoji": "^5.2.12",
     "@fontsource/noto-sans-kr": "^5.2.9",
-    "@fontsource/outfit": "^5.2.8"
+    "@fontsource/outfit": "^5.2.8",
+    "@tauri-apps/api": "^2.11.0",
+    "@tauri-apps/plugin-dialog": "^2.7.1",
+    "@tauri-apps/plugin-fs": "^2.5.1",
+    "@tauri-apps/plugin-store": "^2.4.3"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",

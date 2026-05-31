@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Chakmate</title>
+</head>
+<body>
+  <script type="module">
+    import { AppState } from './scripts/shared/state.js';
+    (async () => {
+      const complete = await AppState.isOnboardingComplete();
+      location.href = complete ? 'pages/scene_dashboard.html' : 'pages/scene_onboarding.html';
+    })();
+  </script>
+</body>
+</html>

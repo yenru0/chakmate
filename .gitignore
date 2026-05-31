@@ -4,11 +4,6 @@ node_modules/
 # Build output
 dist/
 
-# Tauri
-src-tauri/target/
-src-tauri/gen/schemas
-src-tauri/Cargo.lock
-
 # Environment files
 .env
 .env.*
@@ -34,3 +29,20 @@ Thumbs.db
 
 # Sisyphus session files
 .sisyphus/
+
+# Vite
+.vite/
+
+# TailwindCSS / PostCSS
+tailwind.config.js
+postcss.config.js
+*.config.js
+
+# Tauri
+src-tauri/target/
+src-tauri/gen/schemas
+src-tauri/Cargo.lock
+src-tauri/.tauriignore
+
+# Debug
+*.tsbuildinfo

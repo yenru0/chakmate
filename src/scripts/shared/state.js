@@ -1,40 +1,50 @@
-/**
- * AppState - Shared state management module
- * Handles all localStorage interactions for the Chakmate app
- */
+import { Store } from '@tauri-apps/plugin-store';
+
+let store = null;
+
+async function getStore() {
+  if (!store) {
+    store = await Store.load('chakmate-data.json');
+  }
+  return store;
+}
 
 const AppState = {
-  // ============ Theme ============
-  getTheme() {
-    return localStorage.getItem('chackly_theme') || 'light';
+  async getTheme() {
+    const s = await getStore();
+    return await s.get('theme') || 'light';
   },
 
-  setTheme(theme) {
-    localStorage.setItem('chackly_theme', theme);
+  async setTheme(theme) {
+    const s = await getStore();
+    await s.set('theme', theme);
+    await s.save();
     document.documentElement.setAttribute('data-theme', theme);
   },
 
-  // ============ Settings ============
-  getSettings() {
+  async getSettings() {
+    const s = await getStore();
     const defaults = {
       notifications: true,
       habits: false,
       autoOrganize: false,
       confirmDelete: true
     };
-    try {
-      return { ...defaults, ...JSON.parse(localStorage.getItem('chackly_settings') || '{}') };
-    } catch {
-      return defaults;
+    const stored = await s.get('settings');
+    if (stored) {
+      return { ...defaults, ...stored };
     }
+    return defaults;
   },
 
-  setSettings(settings) {
-    localStorage.setItem('chackly_settings', JSON.stringify(settings));
+  async setSettings(settings) {
+    const s = await getStore();
+    await s.set('settings', settings);
+    await s.save();
   },
 
-  // ============ Gamification ============
-  getGamificationData() {
+  async getGamificationData() {
+    const s = await getStore();
     const defaultData = {
       streak: 12,
       weeklyProgress: [true, true, true, true, false, false, false],
@@ -51,56 +61,84 @@ const AppState = {
       habitReminderEnabled: true,
       lastUpdated: new Date().toISOString()
     };
-    try {
-      const stored = localStorage.getItem('chackly_gamification');
-      if (stored) {
-        return { ...defaultData, ...JSON.parse(stored) };
-      }
-    } catch {
-      // ignore
+    const stored = await s.get('gamification');
+    if (stored) {
+      return { ...defaultData, ...stored };
     }
     return defaultData;
   },
 
-  setGamificationData(data) {
+  async setGamificationData(data) {
+    const s = await getStore();
     data.lastUpdated = new Date().toISOString();
-    localStorage.setItem('chackly_gamification', JSON.stringify(data));
+    await s.set('gamification', data);
+    await s.save();
   },
 
-  // ============ Dashboard Stats ============
-  getStreak() {
-    return parseInt(localStorage.getItem('chackly_streak') || '7');
+  async getStreak() {
+    const s = await getStore();
+    return (await s.get('streak')) || 7;
   },
 
-  setStreak(count) {
-    localStorage.setItem('chackly_streak', count.toString());
+  async setStreak(count) {
+    const s = await getStore();
+    await s.set('streak', count);
+    await s.save();
   },
 
-  getFilesOrganized() {
-    return parseInt(localStorage.getItem('chackly_files_organized') || '248');
+  async getFilesOrganized() {
+    const s = await getStore();
+    return (await s.get('filesOrganized')) || 248;
   },
 
-  setFilesOrganized(count) {
-    localStorage.setItem('chackly_files_organized', count.toString());
+  async setFilesOrganized(count) {
+    const s = await getStore();
+    await s.set('filesOrganized', count);
+    await s.save();
   },
 
-  getFoldersManaged() {
-    return parseInt(localStorage.getItem('chackly_folders') || '12');
+  async getFoldersManaged() {
+    const s = await getStore();
+    return (await s.get('foldersManaged')) || 12;
   },
 
-  setFoldersManaged(count) {
-    localStorage.setItem('chackly_folders', count.toString());
+  async setFoldersManaged(count) {
+    const s = await getStore();
+    await s.set('foldersManaged', count);
+    await s.save();
   },
 
-  // ============ Initialization ============
-  init() {
-    // Apply saved theme on page load
-    const theme = this.getTheme();
+  async getScanPath() {
+    const s = await getStore();
+    return await s.get('scanPath') || null;
+  },
+
+  async setScanPath(path) {
+    const s = await getStore();
+    await s.set('scanPath', path);
+    await s.save();
+  },
+
+  async isOnboardingComplete() {
+    const s = await getStore();
+    return (await s.get('onboardingComplete')) || false;
+  },
+
+  async setOnboardingComplete(complete) {
+    const s = await getStore();
+    await s.set('onboardingComplete', complete);
+    await s.save();
+  },
+
+  async init() {
+    const theme = await this.getTheme();
     document.documentElement.setAttribute('data-theme', theme);
   }
 };
 
-// Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   AppState.init();
 });
+
+window.AppState = AppState;
+export { AppState };

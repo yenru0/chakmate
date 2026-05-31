@@ -1,0 +1,22 @@
+
+<div id="custom-titlebar" class="custom-titlebar" data-tauri-drag-region>
+  <div class="titlebar-left" data-tauri-drag-region>
+    <img src="../assets/logo.svg" alt="Chakmate" class="titlebar-logo" data-tauri-drag-region>
+    <span class="titlebar-title" data-tauri-drag-region>Chakmate</span>
+  </div>
+
+  <div class="titlebar-center" data-tauri-drag-region></div>
+
+  <div class="titlebar-controls">
+    <button id="titlebar-minimize" class="titlebar-btn" aria-label="최소화">
+      <svg width="12" height="12" viewBox="0 0 12 12"><rect y="5" width="12" height="2" fill="currentColor"/></svg>
+    </button>
+    <button id="titlebar-maximize" class="titlebar-btn" aria-label="최대화">
+      <svg id="maximize-icon" width="12" height="12" viewBox="0 0 12 12"><rect x="1" y="1" width="10" height="10" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      <svg id="restore-icon" width="12" height="12" viewBox="0 0 12 12" style="display:none"><path d="M3 1h8v8h-2v2H1V3h2V1zm1 3v5h5V4H4z" fill="currentColor"/></svg>
+    </button>
+    <button id="titlebar-close" class="titlebar-btn titlebar-btn-close" aria-label="닫기">
+      <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+  </div>
+</div>
