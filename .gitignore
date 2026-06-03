@@ -46,3 +46,4 @@ src-tauri/.tauriignore
 
 # Debug
 *.tsbuildinfo
+*.cpuprofile
