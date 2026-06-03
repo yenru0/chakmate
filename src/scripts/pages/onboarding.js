@@ -6,19 +6,27 @@ let selectedPath = null;
 let currentStep = 1;
 const totalSteps = 4;
 
-document.addEventListener('DOMContentLoaded', async () => {
-  alert('1: start');
-  const defaultPath = 'C:\\Users\\Public\\Downloads';
-  alert('2: defaultPath = ' + defaultPath);
-  selectedPath = defaultPath;
+async function init() {
+  try {
+    selectedPath = await downloadDir();
+  } catch {
+    selectedPath = null;
+  }
 
   const nextBtn = document.getElementById('next-btn');
-  alert('3: nextBtn = ' + (nextBtn ? 'found' : 'null'));
+  const goDashboardBtn = document.getElementById('go-dashboard');
   const selectFolderBtn = document.getElementById('select-folder');
   const selectedPathEl = document.getElementById('selected-path');
 
   if (selectedPathEl) {
-    selectedPathEl.textContent = `기본 폴더: ${defaultPath}`;
+    selectedPathEl.textContent = selectedPath
+      ? `기본 폴더: ${selectedPath}`
+      : '선택된 폴더: 없음';
+  }
+
+  function updateGoDashboardBtn() {
+    const show = currentStep === totalSteps && selectedPath !== null;
+    goDashboardBtn.classList.toggle('hidden', !show);
   }
 
   function updateStep(s) {
@@ -37,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     nextBtn.classList.toggle('hidden', s === totalSteps);
-    goDashboardBtn.classList.toggle('hidden', s !== totalSteps);
+    updateGoDashboardBtn();
   }
 
   document.querySelectorAll('.step-dot').forEach(dot => {
@@ -45,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   nextBtn.addEventListener('click', () => {
-    alert('onclick works!');
     if (currentStep < totalSteps) {
       updateStep(currentStep + 1);
     }
@@ -64,6 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           selectedPathEl.textContent = `선택된 폴더: ${selected}`;
         }
         selectFolderBtn.querySelector('span').textContent = '폴더 변경';
+        updateGoDashboardBtn();
       }
     } catch (e) {
       console.error('Folder selection cancelled or failed:', e);
@@ -77,4 +85,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   updateStep(1);
-});
+}
+
+// Module scripts are deferred — DOM may already be ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
