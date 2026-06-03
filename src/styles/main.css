@@ -53,16 +53,13 @@
   background-color: #3b82f6;
 }
 
-/* Onboarding step content visibility */
-.onboarding-step {
-  display: none;
-}
-.onboarding-step.active {
-  display: block;
-}
-
 /* Utility classes */
 .hidden { display: none !important; }
+
+/* Fix: allow responsive display classes to override hidden */
+@media (min-width: 768px) {
+  nav.md\:flex { display: flex !important; }
+}
 
 /* Page Header - Unified pattern for all pages */
     .page-header {
@@ -2117,7 +2114,6 @@
     @media (min-width: 1024px) {
       .page-content {
         max-width: 900px;
-        padding-left: 80px;
         padding-bottom: 40px;
       }
     }
