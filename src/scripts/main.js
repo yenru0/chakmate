@@ -47,12 +47,4 @@ export const DAILY_TIPS = [
   { text: "Consistency achieves perfection. Keep going!", author: "Habit Master" }
 ];
 
-export async function getStats() {
-  return {
-    streak: await AppState.getStreak(),
-    filesOrganized: await AppState.getFilesOrganized(),
-    foldersManaged: await AppState.getFoldersManaged()
-  };
-}
-
 export { AppState };

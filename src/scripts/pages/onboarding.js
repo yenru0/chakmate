@@ -2,6 +2,7 @@ import { AppState } from '../main.js';
 import { open } from '@tauri-apps/plugin-dialog';
 import { downloadDir } from '@tauri-apps/api/path';
 import { invoke } from '@tauri-apps/api/core';
+import { dataLayer } from '../shared/dataLayer.js';
 
 let selectedPath = null;
 let currentStep = 1;
@@ -90,9 +91,19 @@ async function init() {
   });
 
   goDashboardBtn?.addEventListener('click', async () => {
-    await AppState.setScanPath(selectedPath);
-    await AppState.setOnboardingComplete(true);
-    window.location.href = 'scene_dashboard.html';
+    goDashboardBtn.disabled = true;
+    const originalText = goDashboardBtn.textContent;
+    goDashboardBtn.textContent = '준비 중...';
+    try {
+      await dataLayer.setScanPath(selectedPath);
+      await dataLayer.getScan({ force: true });
+      await AppState.setOnboardingComplete(true);
+      window.location.href = 'scene_dashboard.html';
+    } catch (e) {
+      alert(`스캔 실패: ${e.message || e}`);
+      goDashboardBtn.disabled = false;
+      goDashboardBtn.textContent = originalText;
+    }
   });
 
   updateStep(1);

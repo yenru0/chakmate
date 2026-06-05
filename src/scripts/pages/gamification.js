@@ -1,8 +1,10 @@
 import { MOTIVATIONAL_MESSAGES, DAILY_TIPS, AppState } from '../main.js';
+import { dataLayer } from '../shared/dataLayer.js';
+import { renderAchievementCard } from '../shared/achievements.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   let gamificationData = await AppState.getGamificationData();
-  const achievements = gamificationData.achievements;
+  let lastUnlockedIds = new Set(gamificationData.achievements.filter((a) => a.unlocked).map((a) => a.id));
 
   const streakCount = document.getElementById('streakCount');
   const streakIcon = document.getElementById('streakIcon');
@@ -54,16 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }).join('');
   }
 
-  function renderAchievements() {
-    achievementsGrid.innerHTML = achievements.map(a => `
-      <div class="achievement ${a.unlocked ? 'unlocked' : 'locked'}" data-id="${a.id}">
-        <div class="achievement-icon">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"><use href="../assets/icons/icons.svg#icon-${a.icon}"></use></svg>
-        </div>
-        <div class="achievement-name">${a.name}</div>
-        <div class="achievement-tier tier-${a.tier}">${a.tier}</div>
-      </div>
-    `).join('');
+  function renderAchievements(achievements) {
+    achievementsGrid.innerHTML = achievements.map((a) => renderAchievementCard(a, { size: 'sm' })).join('');
   }
 
   function showToast(message) {
@@ -92,14 +86,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  function init() {
+  function render() {
     if (!gamificationData) return;
 
     animateCount(streakCount, gamificationData.streak);
+    const headerStreak = document.getElementById('streak-count');
+    if (headerStreak) headerStreak.textContent = gamificationData.streak || 0;
     streakIcon.innerHTML = `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5"><use href="../assets/icons/icons.svg#icon-${gamificationData.streak > 7 ? 'fire' : 'star'}"></use></svg>`;
     streakMessage.textContent = MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)];
 
-    const completedDays = gamificationData.weeklyProgress.filter(d => d).length;
+    const completedDays = gamificationData.weeklyProgress.filter((d) => d).length;
     const progressPercent = (completedDays / 7) * 100;
     progressFill.style.width = progressPercent + '%';
     daysCompleted.textContent = `${completedDays}/7`;
@@ -107,34 +103,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderWeekGrid(gamificationData.weeklyProgress);
     renderAchievements(gamificationData.achievements);
 
-    habitToggle.checked = gamificationData.habitReminderEnabled;
-
-    const randomTip = DAILY_TIPS[Math.floor(Math.random() * DAILY_TIPS.length)];
-    document.querySelector('.tip-text').textContent = randomTip.text;
-    document.querySelector('.tip-author').textContent = `— ${randomTip.author}`;
-
-    habitToggle.addEventListener('change', async (e) => {
-      gamificationData.habitReminderEnabled = e.target.checked;
-      await AppState.setGamificationData(gamificationData);
-      showToast(e.target.checked ? 'Reminders enabled!' : 'Reminders disabled');
-    });
-
-    achievementsGrid.addEventListener('click', async (e) => {
-      const achievement = e.target.closest('.achievement');
-      if (achievement && !achievement.classList.contains('unlocked')) {
-        const achId = achievement.dataset.id;
-        const achData = gamificationData.achievements.find(a => a.id === achId);
-        if (achData) {
-          achData.unlocked = true;
-          await AppState.setGamificationData(gamificationData);
-          animateBadgeUnlock(achId);
-          triggerConfetti();
-          showToast(`${achData.name} unlocked!`);
-          renderAchievements(gamificationData.achievements);
-        }
-      }
-    });
+    const currentUnlocked = gamificationData.achievements.filter((a) => a.unlocked);
+    const newlyUnlocked = currentUnlocked.filter((a) => !lastUnlockedIds.has(a.id));
+    if (newlyUnlocked.length > 0) {
+      newlyUnlocked.forEach((a) => {
+        animateBadgeUnlock(a.id);
+        showToast(`${a.name} 업적 달성!`);
+      });
+      triggerConfetti();
+    }
+    lastUnlockedIds = new Set(currentUnlocked.map((a) => a.id));
   }
 
-  init();
+  render();
+
+  habitToggle.checked = gamificationData.habitReminderEnabled;
+  habitToggle.addEventListener('change', async (e) => {
+    gamificationData.habitReminderEnabled = e.target.checked;
+    await AppState.setGamificationData(gamificationData);
+    showToast(e.target.checked ? '리마인더 활성화!' : '리마인더 비활성화');
+  });
+
+  const randomTip = DAILY_TIPS[Math.floor(Math.random() * DAILY_TIPS.length)];
+  const tipText = document.querySelector('.tip-text');
+  const tipAuthor = document.querySelector('.tip-author');
+  if (tipText) tipText.textContent = randomTip.text;
+  if (tipAuthor) tipAuthor.textContent = `— ${randomTip.author}`;
+
+  const unsub = dataLayer.subscribe(async () => {
+    gamificationData = await AppState.getGamificationData();
+    render();
+  });
+
+  window.addEventListener('beforeunload', () => unsub());
 });

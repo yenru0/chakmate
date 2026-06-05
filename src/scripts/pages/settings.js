@@ -71,7 +71,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('reset-data')?.addEventListener('click', async () => {
     if (confirm('Reset all data?')) {
-      localStorage.clear();
+      await AppState.resetAll();
+      const { dataLayer } = await import('../shared/dataLayer.js');
+      dataLayer.invalidate();
       location.reload();
     }
   });
