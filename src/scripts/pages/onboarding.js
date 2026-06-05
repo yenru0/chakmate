@@ -1,6 +1,7 @@
 import { AppState } from '../main.js';
 import { open } from '@tauri-apps/plugin-dialog';
 import { downloadDir } from '@tauri-apps/api/path';
+import { invoke } from '@tauri-apps/api/core';
 
 let selectedPath = null;
 let currentStep = 1;
@@ -8,8 +9,9 @@ const totalSteps = 4;
 
 async function init() {
   try {
-    selectedPath = await downloadDir();
-  } catch {
+    const result = await downloadDir();
+    selectedPath = result;
+  } catch (e) {
     selectedPath = null;
   }
 
@@ -24,9 +26,18 @@ async function init() {
       : '선택된 폴더: 없음';
   }
 
-  function updateGoDashboardBtn() {
-    const show = currentStep === totalSteps && selectedPath !== null;
-    goDashboardBtn.classList.toggle('hidden', !show);
+  async function updateGoDashboardBtn() {
+    if (currentStep !== totalSteps || selectedPath === null) {
+      goDashboardBtn.classList.toggle('hidden', true);
+      return;
+    }
+    try {
+      const valid = await invoke('validate_scan_path', { path: selectedPath });
+      goDashboardBtn.classList.toggle('hidden', !valid);
+    } catch (e) {
+      console.error('Path validation failed:', e);
+      goDashboardBtn.classList.toggle('hidden', true);
+    }
   }
 
   function updateStep(s) {
@@ -88,8 +99,5 @@ async function init() {
 }
 
 // Module scripts are deferred — DOM may already be ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+
+document.addEventListener('DOMContentLoaded', init);
