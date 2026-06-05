@@ -3,11 +3,21 @@ fn validate_scan_path(path: String) -> bool {
   std::path::Path::new(&path).is_dir()
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
     .plugin(tauri_plugin_store::Builder::new().build())
-    .plugin(tauri_plugin_log::Builder::default().build())
+    .plugin(
+      tauri_plugin_log::Builder::new()
+        .level(log::LevelFilter::Debug)
+        .targets([
+          tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::Stdout),
+          tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::LogDir {
+            file_name: Some("chakmate".to_string()),
+          }),
+          tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::Webview),
+        ])
+        .build(),
+    )
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_fs::init())
     .invoke_handler(tauri::generate_handler![validate_scan_path])

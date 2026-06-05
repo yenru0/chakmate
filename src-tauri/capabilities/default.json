@@ -22,6 +22,21 @@
     "core:window:allow-start-dragging",
     "store:default",
     "dialog:default",
-    "fs:default"
+    "log:default",
+    "fs:default",
+    "fs:allow-mkdir",
+    "fs:allow-rename",
+    "fs:allow-exists",
+    "fs:allow-read-dir",
+    "fs:allow-stat",
+    {
+      "identifier": "fs:scope",
+      "allow": [
+        { "path": "$HOME/**" },
+        { "path": "$DOWNLOAD/**" },
+        { "path": "$DESKTOP/**" },
+        { "path": "$DOCUMENT/**" }
+      ]
+    }
   ]
 }

@@ -1,5 +1,6 @@
 import { readDir, stat } from '@tauri-apps/plugin-fs';
 import { FILE_TYPES } from '../main.js';
+import { info, error } from './logger.js';
 
 export async function getFileTypeFromName(name) {
   const ext = name.split('.').pop()?.toLowerCase();
@@ -21,46 +22,62 @@ export async function formatFileSize(bytes) {
   return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
 }
 
-export async function scanDirectory(path) {
-  try {
-    const entries = await readDir(path);
-    const files = [];
-    let id = 1;
+export async function scanDirectory(path, options = {}) {
+  const maxDepth = options.maxDepth ?? 10;
+  const files = [];
 
+  async function walk(dir, depth, relPath) {
+    if (depth > maxDepth) return;
+    let entries;
+    try {
+      entries = await readDir(dir);
+      if (depth === 0) info(`[fileScanner] readDir(${dir}) returned ${entries.length} entries`);
+    } catch (e) {
+      error(`[fileScanner] readDir failed: ${dir}: ${e?.message || e}`);
+      throw e;
+    }
     for (const entry of entries) {
+      if (entry.name.startsWith('.')) continue;
+      const absPath = `${dir}/${entry.name}`;
+      const relFile = relPath ? `${relPath}/${entry.name}` : entry.name;
       if (entry.isFile) {
-        const fullPath = `${path}/${entry.name}`;
         try {
-          const fileStat = await stat(fullPath);
+          const fileStat = await stat(absPath);
           const type = await getFileTypeFromName(entry.name);
           files.push({
-            id: id++,
             name: entry.name,
-            path: fullPath,
+            path: relFile,
             type,
             size: await formatFileSize(fileStat.size),
             sizeBytes: fileStat.size,
             date: new Date(fileStat.mtime * 1000).toISOString().split('T')[0],
+            mtime: fileStat.mtime,
           });
         } catch (e) {
           files.push({
-            id: id++,
             name: entry.name,
-            path: fullPath,
+            path: relFile,
             type: await getFileTypeFromName(entry.name),
             size: 'Unknown',
             sizeBytes: 0,
             date: 'Unknown',
+            mtime: 0,
           });
         }
+      } else if (entry.isDirectory) {
+        await walk(absPath, depth + 1, relFile);
       }
     }
-
-    return files;
-  } catch (e) {
-    console.error('Failed to scan directory:', e);
-    return [];
   }
+
+  try {
+    await walk(path, 0, '');
+  } catch (e) {
+    error(`[fileScanner] scanDirectory aborted: ${path}: ${e?.message || e}`);
+    throw e;
+  }
+  info(`[fileScanner] scanDirectory(${path}) total files: ${files.length}`);
+  return files;
 }
 
 export async function buildFileTree(path) {

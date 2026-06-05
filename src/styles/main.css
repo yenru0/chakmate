@@ -2194,3 +2194,93 @@
         padding-bottom: 80px;
       }
     }
+
+    .ach-card {
+      position: relative;
+      aspect-ratio: 1;
+      background: var(--bg-card, white);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 250ms ease;
+      overflow: hidden;
+    }
+    .ach-card:hover {
+      transform: scale(1.05);
+    }
+    .ach-card--locked {
+      opacity: 0.4;
+      filter: grayscale(100%);
+      cursor: default;
+    }
+    .ach-card--locked:hover {
+      transform: none;
+    }
+    .ach-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+    .ach-icon--gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: white;
+    }
+    .ach-icon--silver {
+      background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+      color: white;
+    }
+    .ach-icon--bronze {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      color: white;
+    }
+    .ach-icon--locked {
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--text-muted, #94a3b8);
+    }
+    .ach-icon svg {
+      width: 50%;
+      height: 50%;
+    }
+    .ach-icon--sm {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+    .ach-icon--md {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+    }
+    .ach-name {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: var(--text-secondary, #475569);
+    }
+    .ach-name--sm {
+      bottom: 6px;
+      font-size: 10px;
+    }
+    .ach-name--md {
+      bottom: 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .ach-tier {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: var(--text-muted, #94a3b8);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 10px;
+    }
+    .ach-tier--md {
+      top: calc(50% + 44px);
+    }
