@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const toast = document.getElementById('toast');
   const progressFill = document.getElementById('progressFill');
   const progressText = document.getElementById('progressText');
+  const deleteCountEl = document.getElementById('deleteCount');
+  const keepCountEl = document.getElementById('keepCount');
   const currentFileName = document.getElementById('currentFileName');
 
   function createCard(file) {
@@ -99,11 +101,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function updateProgress() {
     if (!progressFill || !progressText) return;
+    const deleteCount = historyStack.filter((h) => h.action === 'left').length;
+    const keepCount = historyStack.filter((h) => h.action === 'right').length;
     const done = historyStack.length;
     const total = done + files.length;
     const percent = total > 0 ? (done / total) * 100 : 0;
     progressFill.style.width = `${percent}%`;
     progressText.textContent = `${done} / ${total}`;
+    if (deleteCountEl) deleteCountEl.textContent = String(deleteCount);
+    if (keepCountEl) keepCountEl.textContent = String(keepCount);
   }
 
   function updateEmptyState() {
