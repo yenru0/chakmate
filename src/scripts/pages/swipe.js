@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function updateProgress() {
     if (!progressFill || !progressText) return;
-    const total = files.length;
-    const done = currentIndex;
+    const done = historyStack.length;
+    const total = done + files.length;
     const percent = total > 0 ? (done / total) * 100 : 0;
     progressFill.style.width = `${percent}%`;
     progressText.textContent = `${done} / ${total}`;
@@ -204,8 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   function undo() {
     if (historyStack.length === 0) return;
     const last = historyStack.pop();
-    currentIndex--;
-    files.splice(currentIndex, 0, last);
+    files.unshift(last);
     if (undoBtn) undoBtn.disabled = historyStack.length === 0;
     renderStack();
     showToast('Undo', 'arrow-left');
