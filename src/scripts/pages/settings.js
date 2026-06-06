@@ -11,14 +11,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       const key = toggle.id.replace('toggle-', '');
       if (state.settings[key]) {
         toggle.classList.add('active');
-        toggle.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+        toggle.setAttribute('aria-checked', 'true');
       }
 
       toggle.addEventListener('click', () => {
         toggle.classList.toggle('active');
         const isActive = toggle.classList.contains('active');
-        toggle.style.background = isActive ? 'linear-gradient(135deg, #6366f1, #8b5cf6)' : '';
+        toggle.setAttribute('aria-checked', String(isActive));
         saveSettings();
+      });
+
+      toggle.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          toggle.click();
+        }
       });
     });
   }
