@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (success) {
       historyStack.push({ ...file, action: direction, success });
       files.splice(currentIndex, 1);
+      if (undoBtn) undoBtn.disabled = false;
     } else {
       showToast(actionLabel, 'x');
       return;
@@ -206,11 +207,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     const last = historyStack.pop();
     currentIndex--;
     files.splice(currentIndex, 0, last);
+    if (undoBtn) undoBtn.disabled = historyStack.length === 0;
     renderStack();
     showToast('Undo', 'arrow-left');
   }
 
   if (undoBtn) undoBtn.addEventListener('click', undo);
+
+  async function restartQueue() {
+    const scan = await dataLayer.getScan({ force: true });
+    files = scan.files.filter(needsReview);
+    currentIndex = 0;
+    historyStack = [];
+    if (undoBtn) undoBtn.disabled = true;
+    renderStack();
+    updateEmptyState();
+    info(`[swipe] queue restarted: ${files.length} files`);
+  }
+
+  function initActionButtons() {
+    document.getElementById('deleteBtn')?.addEventListener('click', () => swipe('left'));
+    document.getElementById('keepBtn')?.addEventListener('click', () => swipe('right'));
+    document.getElementById('restartBtn')?.addEventListener('click', restartQueue);
+  }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') swipe('left');
@@ -221,24 +240,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   let startX = 0;
   let currentX = 0;
 
-  cardStack?.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-  });
-
-  cardStack?.addEventListener('touchmove', (e) => {
-    currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
+  function applyDrag(diff) {
     const card = cardStack.lastElementChild;
-    if (card) {
-      card.style.transform = `translateX(${diff}px) rotate(${diff * 0.1}deg)`;
-      const overlay = diff < 0 ? '#overlayDelete' : '#overlayKeep';
-      const otherOverlay = diff < 0 ? '#overlayKeep' : '#overlayDelete';
-      card.querySelector(overlay).style.opacity = Math.min(Math.abs(diff) / 100, 1);
-      card.querySelector(otherOverlay).style.opacity = 0;
-    }
-  });
+    if (!card) return;
+    card.style.transform = `translateX(${diff}px) rotate(${diff * 0.1}deg)`;
+    const overlay = diff < 0 ? '#overlayDelete' : '#overlayKeep';
+    const otherOverlay = diff < 0 ? '#overlayKeep' : '#overlayDelete';
+    card.querySelector(overlay).style.opacity = Math.min(Math.abs(diff) / 100, 1);
+    card.querySelector(otherOverlay).style.opacity = 0;
+  }
 
-  cardStack?.addEventListener('touchend', () => {
+  function endDrag() {
     const diff = currentX - startX;
     if (Math.abs(diff) > 100) {
       swipe(diff < 0 ? 'left' : 'right');
@@ -247,8 +259,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     startX = 0;
     currentX = 0;
+  }
+
+  function pointerX(e) {
+    return e.touches ? e.touches[0].clientX : e.clientX;
+  }
+
+  cardStack?.addEventListener('touchstart', (e) => { startX = pointerX(e); });
+  cardStack?.addEventListener('touchmove', (e) => { currentX = pointerX(e); applyDrag(currentX - startX); });
+  cardStack?.addEventListener('touchend', endDrag);
+
+  cardStack?.addEventListener('mousedown', (e) => { startX = pointerX(e); });
+  document.addEventListener('mousemove', (e) => {
+    if (startX === 0) return;
+    currentX = pointerX(e);
+    applyDrag(currentX - startX);
+  });
+  document.addEventListener('mouseup', () => {
+    if (startX === 0) return;
+    endDrag();
   });
 
+  initActionButtons();
   renderStack();
   updateEmptyState();
 });
