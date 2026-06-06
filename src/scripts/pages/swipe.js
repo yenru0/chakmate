@@ -229,6 +229,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('deleteBtn')?.addEventListener('click', () => swipe('left'));
     document.getElementById('keepBtn')?.addEventListener('click', () => swipe('right'));
     document.getElementById('restartBtn')?.addEventListener('click', restartQueue);
+    document.getElementById('saveBtn')?.addEventListener('click', saveProgress);
+  }
+
+  function saveProgress() {
+    showToast('여기까지만 저장됨', 'check');
   }
 
   document.addEventListener('keydown', (e) => {
