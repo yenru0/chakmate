@@ -1,10 +1,25 @@
 import { AppState } from '../main.js';
+import { dataLayer } from '../shared/dataLayer.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const state = {
     theme: await AppState.getTheme(),
     settings: await AppState.getSettings()
   };
+
+  async function initScanPath() {
+    const display = document.getElementById('scanPathDisplay');
+    if (!display) return;
+    try {
+      const scanPath = await dataLayer.getScanPath();
+      if (scanPath) {
+        display.textContent = scanPath;
+        display.title = scanPath;
+      }
+    } catch (e) {
+      console.error('Failed to load scan path:', e);
+    }
+  }
 
   function initToggles() {
     document.querySelectorAll('.toggle').forEach(toggle => {
@@ -87,4 +102,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   initToggles();
   initThemeOptions();
+  initScanPath();
 });
