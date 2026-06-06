@@ -1,5 +1,6 @@
 import { AppState } from '../main.js';
 import { dataLayer } from '../shared/dataLayer.js';
+import { pickScanFolder } from '../shared/folderPicker.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const state = {
@@ -89,6 +90,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     a.download = 'chakmate-export.json';
     a.click();
     URL.revokeObjectURL(url);
+  });
+
+  document.getElementById('changePathBtn')?.addEventListener('click', async () => {
+    try {
+      const selected = await pickScanFolder();
+      if (!selected) return;
+      await dataLayer.setScanPath(selected);
+      const display = document.getElementById('scanPathDisplay');
+      if (display) {
+        display.textContent = selected;
+        display.title = selected;
+      }
+    } catch (e) {
+      console.error('Folder change failed:', e);
+    }
   });
 
   document.getElementById('reset-data')?.addEventListener('click', async () => {
