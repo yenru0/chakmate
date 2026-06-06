@@ -107,10 +107,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function updateEmptyState() {
-    if (!emptyState || !actionButtons) return;
+    if (!emptyState) return;
     const isEmpty = currentIndex >= files.length;
     emptyState.classList.toggle('hidden', !isEmpty);
-    actionButtons.classList.toggle('hidden', !isEmpty);
   }
 
   function updateCurrentFileName() {
